@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fascinate+Inline&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mea+Culpa&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Shippori+Mincho+B1&display=swap');
+
+/* ---------------- CSS Variables ---------------- */
+:root {
+    /* ----- Colors ----- */
+    --color-background: #F0F0F0;
+    --color-text: #000000;
+    
+    /* ----- Fonts ----- */
+    --font-header: "Google Sans", sans-serif;
+    --font-p: "Google Sans", sans-serif;
+
+    --font-size-h1: 10rem;
+    --line-height-h1: 1em;
+
+    --font-size-h2: 5rem;
+    --line-height-h2: 1em;
+    --letter-spacing-h2: .03em;
+
+    --font-size-p: 1em;
+    --line-height-p: 1.5em;
+
+    --font-size-footer: 1rem;
+    --line-height-footer: 1.5em;
+
+    /* ----- Spacing ----- */
+    --padding-xs: .5rem;
+    --padding-small: 1rem;
+    --padding-medium: 2rem;
+    --padding-large: 3rem;
+    --padding-xl: 6rem;
+    --gap: 2rem;
+
+    /* ----- Media Queries ----- */
+
+
+    /* ----- Etc. ----- */
+    scroll-behavior: smooth;
+}
+
+/* ---------------- Body ---------------- */
+body {
+    background-color: var(--color-background);
+    color: var(--text-color);
+    text-align: center;
+}
+
+/* ---------------- Typography ---------------- */
+h1 {
+    font-size: var(--font-size-h1);
+    font-family: var(--font-header);
+}
+
+/* ---------------- Nav Bar ---------------- */
+
+
+/* ---------------- Main ---------------- */
+
+
+/* ---------------- Footer ---------------- */
+
+
