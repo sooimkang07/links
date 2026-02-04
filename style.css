@@ -1,62 +1,523 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fascinate+Inline&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mea+Culpa&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Shippori+Mincho+B1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DotGothic16&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Orbitron:wght@400..900&family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&family=Rajdhani:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Share+Tech+Mono&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Teko:wght@300..700&family=VT323&display=swap');
 
 /* ---------------- CSS Variables ---------------- */
 :root {
-    /* ----- Colors ----- */
-    --color-background: #F0F0F0;
-    --color-text: #000000;
-    
-    /* ----- Fonts ----- */
-    --font-header: "Google Sans", sans-serif;
-    --font-p: "Google Sans", sans-serif;
+	/* ----- Colors ----- */
+	--colorBg: #1f1f1f;
+	--colorText: #f1f1ef;
+	--colorTime: #75beb0;
 
-    --font-size-h1: 10rem;
-    --line-height-h1: 1em;
+	/* ----- Background Gradients ----- */
+	--colorGradient1: radial-gradient(70% 70% at 65% 90%, rgba(215,190,120,.22), transparent 60%);
+	--colorGradient2: radial-gradient(70% 70% at 20% 30%, rgba(90,160,210,.35), transparent 60%);
+	--colorGradient3: radial-gradient(70% 70% at 80% 20%, rgba(230,120,60,.3), transparent 60%);
+	--colorGradient4: radial-gradient(70% 70% at 50% 80%, rgba(120,90,210,.3), transparent 60%);
 
-    --font-size-h2: 5rem;
-    --line-height-h2: 1em;
-    --letter-spacing-h2: .03em;
+	/* ----- Fonts ----- */
+	--fontBase: "Inter", serif;
+	--fontH1: "DotGothic16", serif;
+	--fontP: "Space Mono", serif;
 
-    --font-size-p: 1em;
-    --line-height-p: 1.5em;
+	--fontTime1: "Inter", sans-serif;
+	--fontTime2: "Orbitron", sans-serif;
+	--fontTime3: "VT323", sans-serif;
+	--fontTime4: "Share Tech Mono", sans-serif;
+	--fontTime5: "Rajdhani", sans-serif;
+	--fontTime6: "Teko", sans-serif;
+	--fontTime7: "Roboto", sans-serif;
 
-    --font-size-footer: 1rem;
-    --line-height-footer: 1.5em;
+	/* As I was sleuthing through the class site's Inspect console, I noticed you wrote the h1 font size variable as --size--h1: clamp(2rem, 4.75vw, 3rem);, so I had to assume this would be the best responsive way to fluidly style large texts like my h1 is. So I wanted to use that for my site here.  */
+	/* I referenced this article https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/clamp to understand how to fluidly change my font-size of my h1 and time (the larger text content), which are notoriously hard to make responsive across all breakpoints. */
+	/* From my understanding, clamp() lets the font scale with the viewport, but keeps it from getting too small or too huge, so the 3 values are the min value, a preferred value, and a max value. */
+	--fontSizeH1: clamp(2.5rem, 7vw, 6rem);
+	--fontSizeTime: clamp(1.25rem, 4vw, 3rem);
+	--fontSizeUI: .75rem;
+	--fontSizeFooter: .7rem;
 
-    /* ----- Spacing ----- */
-    --padding-xs: .5rem;
-    --padding-small: 1rem;
-    --padding-medium: 2rem;
-    --padding-large: 3rem;
-    --padding-xl: 6rem;
-    --gap: 2rem;
+	/* ----- Spacing ----- */
+	--paddingXs: .5rem;
+	--paddingSm: 1rem;
+	--paddingMd: 2rem;
+	--paddingLg: 3rem;
+	--paddingXl: 6rem;
+	--gap: 2rem;
 
-    /* ----- Media Queries ----- */
+	/* ----- Buttons ----- */
+	--buttonRadius: 1000rem;
+	--buttonBorder: .0625rem solid rgba(241,241,239,.35);
+	--buttonPadding: var(--paddingXs) var(--paddingSm);
+	--buttonLetterSpacing: .08em;
 
+	/* ----- Etc. ----- */
+	scroll-behavior: smooth;
+	--hoverMove: translateY(-1px);
 
-    /* ----- Etc. ----- */
-    scroll-behavior: smooth;
+	/* ----- Modal/backdrop ----- */
+	--backdrop: rgba(0,0,0,.55);
+	--panelBgColor: rgba(17,17,17,.92);
+	--panelBlur: blur(.5rem);
+	--panelRadius: 1.25rem;
+	--panelEnter: .4s ease;
+	--panelHeightMobile: 80vh;
+	--panelWidthDesktop: 40vw;
+
+	@media (1300px >= width >= 770px) {
+		--panelWidthDesktop: 50vw;
+	}
+
+	/* ----- Glow ----- */
+	--timeGlowSoft: 
+		0 0 .4rem rgba(117,190,176,.6),
+		0 0 .9rem rgba(117,190,176,.35);
+
+	--timeGlowStrong:
+		0 0 .6rem rgba(117,190,176,.8),
+		0 0 1.2rem rgba(117,190,176,.55),
+		0 0 2rem rgba(117,190,176,.25);
 }
+
 
 /* ---------------- Body ---------------- */
+html,
+body { 
+	block-size: 100%; 
+}
+
 body {
-    background-color: var(--color-background);
-    color: var(--text-color);
-    text-align: center;
+	margin: 0;
+	font-family: var(--fontBase);
+	color: var(--colorText);
+	overflow: hidden;
+	background:
+		var(--colorGradient1),
+		var(--colorGradient2),
+		var(--colorGradient3),
+		var(--colorGradient4),
+		var(--colorBg);
 }
 
-/* ---------------- Typography ---------------- */
-h1 {
-    font-size: var(--font-size-h1);
-    font-family: var(--font-header);
+/* ---------------- Button Styling ---------------- */
+header button,
+main a,
+dialog button,
+dialog a {
+	appearance: none;
+	border: var(--buttonBorder);
+	background: transparent;
+	color: var(--colorText);
+	font: inherit;
+	text-transform: uppercase;
+	letter-spacing: var(--buttonLetterSpacing);
+	padding: var(--buttonPadding);
+	border-radius: var(--buttonRadius);
+	cursor: pointer;
+	text-decoration: none;
+	font-size: var(--fontSizeUI);
+	transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
 }
 
-/* ---------------- Nav Bar ---------------- */
+header button:hover,
+main a:hover {
+	transform: var(--hoverMove);
+}
+
+/* ---------------- Header ---------------- */
+header {
+	position: fixed;
+	inset-block-start: 0;
+	inset-inline: 0;
+	block-size: var(--paddingLg);
+	z-index: 60;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+
+	nav { 
+		pointer-events: auto; 
+	}
+
+	#viewToggle { 
+		border-color: rgba(241,241,239,.3); 
+		
+		&:hover { 
+			border-color: rgba(241,241,239,.6); 
+		}	
+
+		&.active { 
+			border-color: var(--colorTime); 
+			background: rgba(117,190,176,.08); 
+		}
+	}
+}
+
+main {
+	position: absolute;
+	inset-block-start: var(--paddingLg);
+	inset-inline: 0;
+	inset-block-end: var(--paddingLg);
+	overflow: auto;
+
+	/* I wanted to hide the ugly scrollbar at the bottom of the screen that the browser defaults to showing with my overflow content (but I understand maybe I need this as an affordance the user can move around, but I'm hoping once I have several more blocks bleeding over the edges, that will be affordance enough? Not sure, totally open to feedback...) */
+	/* I referenced this: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::-webkit-scrollbar */
+	/* ::-webkit-scrollbar CSS pseudo-element affects the style of an element's scrollbar when it has scrollable overflow and setting display: none removes its visibility on the page. */
+	&::-webkit-scrollbar { 
+		display: none; 
+	}
+
+	#viewport {
+		position: relative;
+		width: 300vw;
+		height: 300vh;
+		transform-origin: 0 0;
+	}
+
+	/* ---------------- Canvas View (Default) ---------------- */
+	&:not(.grid) {
+		#viewport {
+			> section:first-of-type,
+			> section:last-of-type {
+				position: absolute;
+			}
+
+			> section:first-of-type {
+				top: 150vh;
+				left: 150vw;
+				transform: translate(-50%, -50%);
+				z-index: 2;
+			}
+
+			> section:last-of-type {
+				top: 0;
+				left: 0;
+				width: 300vw;
+				height: 300vh;
+				z-index: 1;
+
+				> button {
+					position: absolute;
+
+					/* I wanted these somehow randomized on the #canvas and they rearrange upon refresh with all the blocks, but for not I've just manually placed them and will figure out the randomization later post CMS connection. */
+					&:nth-child(1) { top: calc(150vh - 35vh); left: calc(150vw - 30vw); }
+					&:nth-child(2) { top: calc(150vh - 20vh); left: calc(150vw + 15vw); }
+					&:nth-child(3) { top: calc(150vh - 30vh); left: calc(150vw + 45vw); }
+					&:nth-child(4) { top: calc(150vh + 20vh); left: calc(150vw + 30vw); }
+					&:nth-child(5) { top: calc(150vh + 40vh); left: calc(150vw + 5vw); }
+					&:nth-child(6) { top: calc(150vh + 35vh); left: calc(150vw - 20vw); }
+					&:nth-child(7) { top: calc(150vh + 10vh); left: calc(150vw - 50vw); }
+				}
+			}
+		}
+	}
+
+	/* ---------------- Grid View ---------------- */
+	&.grid {
+		display: grid;
+		padding: var(--paddingMd);
+		grid-template-columns: repeat(2, 1fr);
+		gap: var(--gap);
+		justify-content: center;
+		align-content: start;
+
+		@media (width >= 770px) { 
+			grid-template-columns: repeat(3, 1fr); 
+		}
+	
+		@media (width >= 1025px) { 
+			grid-template-columns: repeat(5, 1fr); 
+			padding: var(--paddingLg);
+		}
+
+		#viewport {
+			width: auto;
+			height: auto;
+			transform: none;
+			display: contents;
+		}
+
+		#viewport > section:first-of-type {
+			grid-column: 1 / -1;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: var(--paddingSm);
+			text-align: left;
+
+			@media (width >= 770px) {
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			/* h1 { 
+				font-size: var(--fontSizeTitle); 
+			} */
+		}
+
+		#viewport > section:last-of-type {
+			grid-column: 1 / -1;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			grid-auto-rows: minmax(6rem, 12vw);
+			grid-auto-flow: row dense;
+			gap: var(--gap);
+
+			@media (width >= 770px) { 
+				grid-template-columns: repeat(3, 1fr); 
+			}
+
+			@media (width >= 1025px) { 
+				grid-template-columns: repeat(5, 1fr);
+			}
+
+			> button { 
+				position: static; 
+			}
+		}
+	}
+
+	/* ---------------- Title + Are.na Button ---------------- */
+	#viewport > section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--paddingMd);
+		text-align: center;
+
+		h1 {
+			margin: 0;
+			font-family: var(--fontH1);
+			font-size: var(--fontSizeH1);
+			line-height: .9;
+			text-transform: uppercase;
+		}
+
+		a:hover {
+			border-color: rgba(241,241,239,.85);
+			background: rgba(241,241,239,.08);
+		}
+	}
+
+	/* ---------------- Time Buttons ---------------- */
+	#viewport > section:last-of-type {
+		> button {
+			appearance: none;
+			border: 0;
+			background: transparent;
+			padding: 0;
+			margin: 0;
+
+			color: var(--colorTime);
+			text-shadow: var(--timeGlowSoft);
+			font-size: var(--fontSizeTime);
+
+			cursor: pointer;
+			user-select: none;
+			outline: none;
+
+			transition-property: transform;
+			transition-duration: 0.2s;
+			transition-timing-function: ease;
+			transition-delay: 0s;
+
+			&:hover {
+				animation-name: pulse;
+				animation-duration: 2s;
+				animation-timing-function: ease-in-out;
+				animation-iteration-count: infinite;
+				text-shadow: var(--timeGlowStrong);
+			}
+			
+			/* Again, I manually assigned these for now, but ideally they would be randomly assigned among this collection of 7 (potentially more?) */
+			&:nth-child(1) { font-family: var(--fontTime1); }
+			&:nth-child(2) { font-family: var(--fontTime2); }
+			&:nth-child(3) { font-family: var(--fontTime3); }
+			&:nth-child(4) { font-family: var(--fontTime4); }
+			&:nth-child(5) { font-family: var(--fontTime5); }
+			&:nth-child(6) { font-family: var(--fontTime6); }
+			&:nth-child(7) { font-family: var(--fontTime7); }
+		}
+	}
+}
+
+@keyframes pulse {
+	50% { 
+		transform: scale(1.2); 
+	}
+}
+
+/* ---------------- Dialog Modals ---------------- */
+#modal {
+	position: fixed;
+	inset: 0;
+	z-index: 90;
+	padding: 0;
+	border: 0;
+	margin: 0;
+	width: 100vw;
+	height: 100dvh;
+	max-width: none;
+	max-height: none;
+	background-color: transparent;
+	overflow: hidden;
+
+	&::backdrop { 
+		background-color: var(--backdrop); 
+	}
+
+	> div {
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
+		z-index: 90;
+		block-size: var(--panelHeightMobile);
+		background: var(--panelBgColor);
+		backdrop-filter: var(--panelBlur);
+		transform: translateY(105%);
+		transition: transform var(--panelEnter);
+		border-start-start-radius: var(--panelRadius);
+		border-start-end-radius: var(--panelRadius);
+		container-type: inline-size;
+
+		@media (width >= 770px) {
+			inset-inline: auto 0;
+			inset-block: 0;
+			inline-size: var(--panelWidthDesktop);
+			block-size: 100dvh;
+			transform: translateX(105%);
+			border-radius: 0;
+		}
+	}
+
+	&[open]:not(.closing) > div { 
+		transform: translate(0, 0); 
+	}
+
+	&.closing > div { 
+		transform: translateY(105%); 
+	}
+
+	@media (width >= 770px) {
+		&.closing > div { 
+			transform: translateX(105%); 
+		}
+	}
+
+	> div {
+		display: grid;
+		grid-template-rows: auto 1fr;
+		gap: var(--paddingSm);
+		padding: var(--paddingSm);
+
+		> div:first-child {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--paddingSm);
+
+			#modalTime {
+				margin: 0;
+				color: var(--colorTime);
+				letter-spacing: var(--buttonLetterSpacing);
+				text-transform: uppercase;
+
+				/* I wanted to ensure that regardless of the *hopefully* changing times, the actual width it takes up won't drastically change or shift with the different numbers constantly updating. */
+				/* I referenced this https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-variant-numeric to get this definition "activating the set of figures where numbers are all of the same size, allowing them to be easily aligned like in tables. It corresponds to the OpenType values tnum." */
+				/* From my understading, font-variant-numeric: tabular-nums makes all the numbers the same width so *eventual* time changes won’t cause the layout to shift with different number widths. */
+				font-variant-numeric: tabular-nums;
+			}
+
+			#modalClose:hover { 
+				border-color: rgba(241,241,239,.65); 
+			}
+		}
+
+		> div:last-child {
+			display: flex;
+			flex-direction: column;
+			gap: var(--paddingLg);
+			align-items: center;
+			overflow: auto;
+			padding-block-end: var(--paddingMd);
+			text-align: center;
+			text-wrap: balance;
 
 
-/* ---------------- Main ---------------- */
+			#modalTitle {
+				margin: 0;
+				text-transform: uppercase;
+				letter-spacing: .03em;
+				font-size: 1.05rem;
+			}
 
+			#modalText {
+				margin: 0;
+				color: rgba(241,241,239,.82);
+				line-height: 1.5em;
+				font-family: var(--fontP);
+			}
+
+			#modalLink {
+				text-align: center;
+				align-self: center;
+			}
+
+			#modalLink:hover { 
+				border-color: rgba(241,241,239,.65); 
+			}
+
+			#modalMediaLink {
+				border: none;
+				padding: 0;
+				width: 100%;
+				display: block;
+			}
+
+			#modalImage {
+				display: block;
+				border: none;
+				max-inline-size: 100%;
+				inline-size: 100%;
+				block-size: auto;
+				margin-inline: auto;
+				max-block-size: 45dvh;
+				object-fit: contain;
+			}
+		}
+	}
+}
 
 /* ---------------- Footer ---------------- */
+footer {
+	position: fixed;
+	inset-block-end: 0;
+	inset-inline: 0;
+	block-size: var(--paddingLg);
+	z-index: 60;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-inline: var(--paddingSm);
+	font-size: var(--fontSizeFooter);
+	letter-spacing: var(--buttonLetterSpacing);
+	text-transform: uppercase;
+	background-color: transparent;
+	border: none;
 
+	p { 
+		margin: 0; 
+	}
+
+	a {
+		color: var(--colorText);
+		text-decoration: none;
+		border-block-end-width: .0625rem;
+		border-block-end-style: solid;
+		border-block-end-color: rgba(241,241,239,.35);
+
+		&:hover { 
+			border-block-end-color: rgba(241,241,239,.7); 
+		}
+	}
+}
 
