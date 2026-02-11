@@ -3,15 +3,29 @@
 /* ---------------- CSS Variables ---------------- */
 :root {
 	/* ----- Colors ----- */
-	--colorBg: #1f1f1f;
+	--colorBg: #1a1a1a;
 	--colorText: #f1f1ef;
 	--colorTime: #75beb0;
 
-	/* ----- Background Gradients ----- */
-	--colorGradient1: radial-gradient(70% 70% at 65% 90%, rgba(215,190,120,.22), transparent 60%);
-	--colorGradient2: radial-gradient(70% 70% at 20% 30%, rgba(90,160,210,.35), transparent 60%);
-	--colorGradient3: radial-gradient(70% 70% at 80% 20%, rgba(230,120,60,.3), transparent 60%);
-	--colorGradient4: radial-gradient(70% 70% at 50% 80%, rgba(120,90,210,.3), transparent 60%);
+	/* ----- Background Gradients (DARKENED) ----- */
+	--colorGradient1: radial-gradient(circle at 65% 90%, rgba(215,190,120,.12) 0%, transparent 50%);
+	--colorGradient2: radial-gradient(circle at 20% 30%, rgba(90,160,210,.18) 0%, transparent 50%);
+	--colorGradient3: radial-gradient(circle at 80% 20%, rgba(230,120,60,.15) 0%, transparent 50%);
+	--colorGradient4: radial-gradient(circle at 50% 80%, rgba(120,90,210,.15) 0%, transparent 50%);
+
+	@media (width >= 770px) and (width < 1025px) {
+		--colorGradient1: radial-gradient(circle at 70% 85%, rgba(215,190,120,.12) 0%, transparent 45%);
+		--colorGradient2: radial-gradient(circle at 25% 35%, rgba(90,160,210,.18) 0%, transparent 45%);
+		--colorGradient3: radial-gradient(circle at 75% 25%, rgba(230,120,60,.15) 0%, transparent 45%);
+		--colorGradient4: radial-gradient(circle at 45% 75%, rgba(120,90,210,.15) 0%, transparent 45%);
+	}
+
+	@media (width >= 1025px) {
+		--colorGradient1: radial-gradient(circle at 68% 88%, rgba(215,190,120,.14) 0%, transparent 55%);
+		--colorGradient2: radial-gradient(circle at 22% 32%, rgba(90,160,210,.2) 0%, transparent 55%);
+		--colorGradient3: radial-gradient(circle at 78% 22%, rgba(230,120,60,.16) 0%, transparent 55%);
+		--colorGradient4: radial-gradient(circle at 48% 78%, rgba(120,90,210,.16) 0%, transparent 55%);
+	}
 
 	/* ----- Fonts ----- */
 	--fontBase: "Inter", serif;
@@ -19,20 +33,27 @@
 	--fontP: "Space Mono", serif;
 
 	--fontTime1: "Inter", sans-serif;
-	--fontTime2: "Orbitron", sans-serif;
-	--fontTime3: "VT323", sans-serif;
-	--fontTime4: "Share Tech Mono", sans-serif;
-	--fontTime5: "Rajdhani", sans-serif;
-	--fontTime6: "Teko", sans-serif;
-	--fontTime7: "Roboto", sans-serif;
+	--fontTime2: "Roboto", sans-serif;
+	--fontTime3: "Orbitron", sans-serif;
+	--fontTime4: "VT323", sans-serif;
+	--fontTime5: "Share Tech Mono", sans-serif;
+	--fontTime6: "Space Mono", sans-serif;
+	--fontTime7: "DotGothic16", sans-serif;
+	--fontTime8: "Press Start 2P", sans-serif;
+	--fontTime9: "Pixelify Sans", sans-serif;
+	--fontTime10: "Rajdhani", sans-serif;
+	--fontTime11: "Teko", sans-serif;
+	--fontTime12: "Manrope", sans-serif;
+	--fontTime13: "DM Sans", sans-serif;
 
-	/* As I was sleuthing through the class site's Inspect console, I noticed you wrote the h1 font size variable as --size--h1: clamp(2rem, 4.75vw, 3rem);, so I had to assume this would be the best responsive way to fluidly style large texts like my h1 is. So I wanted to use that for my site here.  */
 	/* I referenced this article https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/clamp to understand how to fluidly change my font-size of my h1 and time (the larger text content), which are notoriously hard to make responsive across all breakpoints. */
 	/* From my understanding, clamp() lets the font scale with the viewport, but keeps it from getting too small or too huge, so the 3 values are the min value, a preferred value, and a max value. */
-	--fontSizeH1: clamp(2.5rem, 7vw, 6rem);
-	--fontSizeTime: clamp(1.25rem, 4vw, 3rem);
+	--fontSizeH1: clamp(2.4rem, 5vw + 1rem, 6.2rem);
+	--fontSizeTime: clamp(1.7rem, 5vw, 3.2rem);
 	--fontSizeUI: .75rem;
 	--fontSizeFooter: .7rem;
+	--fontSizeDescription: clamp(0.95rem, 1vw + 0.55rem, 1.15rem);
+	--fontSizeTextblock: clamp(1.4rem, 1.8vw + 0.8rem, 1.8rem);
 
 	/* ----- Spacing ----- */
 	--paddingXs: .5rem;
@@ -53,7 +74,7 @@
 	--hoverMove: translateY(-1px);
 
 	/* ----- Modal/backdrop ----- */
-	--backdrop: rgba(0,0,0,.55);
+	--backdrop: rgba(0,0,0,.8);
 	--panelBgColor: rgba(17,17,17,.92);
 	--panelBlur: blur(.5rem);
 	--panelRadius: 1.25rem;
@@ -61,12 +82,12 @@
 	--panelHeightMobile: 80vh;
 	--panelWidthDesktop: 40vw;
 
-	@media (1300px >= width >= 770px) {
+	@media (width >= 770px) and (width <= 1300px) {
 		--panelWidthDesktop: 50vw;
 	}
 
 	/* ----- Glow ----- */
-	--timeGlowSoft: 
+	--timeGlowSoft:
 		0 0 .4rem rgba(117,190,176,.6),
 		0 0 .9rem rgba(117,190,176,.35);
 
@@ -80,7 +101,7 @@
 /* ---------------- Body ---------------- */
 html,
 body { 
-	block-size: 100%; 
+	block-size: 100%;
 }
 
 body {
@@ -95,6 +116,20 @@ body {
 		var(--colorGradient4),
 		var(--colorBg);
 }
+
+/* ----- Darkened Overlay ----- */
+body.search-active::before,
+body.panel-active::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	background: rgba(0,0,0,.8);
+	z-index: 55;
+	pointer-events: none;
+	opacity: 1;
+	transition: opacity .3s ease;
+}
+
 
 /* ---------------- Button Styling ---------------- */
 header button,
@@ -121,6 +156,7 @@ main a:hover {
 	transform: var(--hoverMove);
 }
 
+
 /* ---------------- Header ---------------- */
 header {
 	position: fixed;
@@ -128,42 +164,225 @@ header {
 	inset-inline: 0;
 	block-size: var(--paddingLg);
 	z-index: 60;
-	display: flex;
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
-	justify-content: center;
+	padding-inline: var(--paddingSm);
+	padding-block: .8rem;
 	pointer-events: none;
 
-	nav { 
-		pointer-events: auto; 
+	#viewControls {
+		grid-column: 1;
+		justify-self: start;
+		pointer-events: auto;
+		display: flex;
+		align-items: center;
+		gap: var(--paddingXs);
 	}
 
 	#viewToggle { 
-		border-color: rgba(241,241,239,.3); 
+		border-color: rgba(241,241,239,.3);
+		min-block-size: 2.5rem;
 		
 		&:hover { 
-			border-color: rgba(241,241,239,.6); 
+			border-color: rgba(241,241,239,.6);
 		}	
 
 		&.active { 
-			border-color: var(--colorTime); 
-			background: rgba(117,190,176,.08); 
+			border-color: var(--colorTime);
+			background: rgba(117,190,176,.08);
+		}
+	}
+
+	#headerSearch {
+		grid-column: 3;
+		justify-self: end;
+		pointer-events: auto;
+		display: flex;
+		align-items: center;
+		gap: .5rem;
+		transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+		position: relative;
+		z-index: 61;
+
+		/* ----- Search Icon Visible on Mobile ----- */
+		#searchToggle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			inline-size: 2.5rem;
+			block-size: 2.5rem;
+			min-block-size: 2.5rem;
+			padding: 0;
+			border-radius: 50%;
+			flex-shrink: 0;
+			border: var(--buttonBorder);
+			background: transparent;
+			color: rgba(241,241,239,.85);
+			transition: all .15s ease;
+
+			svg {
+				display: block;
+				inline-size: 1.25rem;
+				block-size: 1.25rem;
+				flex-shrink: 0;
+			}
+
+			svg path {
+				fill: currentColor;
+			}
+
+			&:hover {
+				border-color: rgba(241,241,239,.6);
+				background: rgba(241,241,239,.05);
+			}
+		}
+
+		#timeSearchInput {
+			display: none;
+			inline-size: 0;
+			opacity: 0;
+			block-size: 2.5rem;
+			min-block-size: 2.5rem;
+			box-sizing: border-box;
+			padding-inline: var(--paddingSm);
+			border: var(--buttonBorder);
+			border-radius: var(--buttonRadius);
+			background: rgba(241,241,239,.05);
+			color: var(--colorText);
+			font-family: var(--fontP);
+			font-size: var(--fontSizeUI);
+			outline: none;
+			transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+
+			&::placeholder {
+				color: rgba(241,241,239,.4);
+			}
+
+			&:focus {
+				border-color: var(--colorTime);
+				background: rgba(117,190,176,.05);
+			}
+		}
+
+		/* ----- When Search Bar is Clicked into ----- */
+		&.expanded {
+			#timeSearchInput {
+				display: block;
+				inline-size: 12rem;
+				opacity: 1;
+			}
+
+			#searchToggle {
+				display: none;
+			}
+		}
+
+		/* ----- Show Full Search Bar ----- */
+		@media (width >= 770px) {
+			#searchToggle {
+				display: none;
+			}
+
+			#timeSearchInput {
+				display: block;
+				inline-size: 18rem;
+				opacity: 1;
+			}
+
+			&.expanded #timeSearchInput {
+				inline-size: 20rem;
+			}
 		}
 	}
 }
 
+/* ----- Header (Calm Mode) ----- */
+body.calm-mode {
+	header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-inline: var(--paddingSm);
+		padding-block: .8rem;
+		block-size: auto;
+
+		#viewControls {
+			grid-column: auto;
+			justify-self: auto;
+		}
+
+		#headerSearch {
+			grid-column: auto;
+			justify-self: auto;
+		}
+	}
+
+	main {
+		inset-block-start: calc(var(--paddingLg) + 1rem);
+	}
+}
+
+/* ---------------- Header (Chaos Mode) ---------------- */
+body.chaos-mode {
+	header {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		block-size: auto;
+		padding-block: .8rem;
+		padding-inline: var(--paddingSm);
+	}
+
+	header #viewControls {
+		margin-inline: auto;
+	}
+
+	header #headerSearch {
+		display: none;
+	}
+
+	main {
+		inset-block-start: calc(2.5rem + 1.6rem);
+	}
+}
+
+@media (width >= 770px) {
+	body.calm-mode main {
+		inset-block-start: calc(var(--paddingLg) + 1.15rem);
+	}
+}
+
+@media (width >= 1025px) {
+	body.calm-mode main {
+		inset-block-start: calc(var(--paddingLg) + 1.3rem);
+	}
+}
+
+/* ----- Dark Overlay ----- */
+#searchOverlay {
+	position: fixed;
+	inset: 0;
+	background: transparent;
+	z-index: 56;
+	opacity: 1;
+	transition: opacity .3s ease;
+
+	&[hidden] {
+		display: none !important;
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+
+
+/* ---------------- Main ---------------- */
 main {
 	position: absolute;
 	inset-block-start: var(--paddingLg);
 	inset-inline: 0;
 	inset-block-end: var(--paddingLg);
 	overflow: auto;
-
-	/* I wanted to hide the ugly scrollbar at the bottom of the screen that the browser defaults to showing with my overflow content (but I understand maybe I need this as an affordance the user can move around, but I'm hoping once I have several more blocks bleeding over the edges, that will be affordance enough? Not sure, totally open to feedback...) */
-	/* I referenced this: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::-webkit-scrollbar */
-	/* ::-webkit-scrollbar CSS pseudo-element affects the style of an element's scrollbar when it has scrollable overflow and setting display: none removes its visibility on the page. */
-	&::-webkit-scrollbar { 
-		display: none; 
-	}
 
 	#viewport {
 		position: relative;
@@ -172,7 +391,7 @@ main {
 		transform-origin: 0 0;
 	}
 
-	/* ---------------- Canvas View (Default) ---------------- */
+	/* ---------------- Movable Canvas (Chaos Mode)  ---------------- */
 	&:not(.grid) {
 		#viewport {
 			> section:first-of-type,
@@ -185,6 +404,16 @@ main {
 				left: 150vw;
 				transform: translate(-50%, -50%);
 				z-index: 2;
+				max-width: 90vw;
+				padding: var(--paddingSm);
+				
+				@media (width >= 770px) {
+					max-width: 70vw;
+				}
+				
+				@media (width >= 1025px) {
+					max-width: 60vw;
+				}
 			}
 
 			> section:last-of-type {
@@ -196,35 +425,25 @@ main {
 
 				> button {
 					position: absolute;
-
-					/* I wanted these somehow randomized on the #canvas and they rearrange upon refresh with all the blocks, but for not I've just manually placed them and will figure out the randomization later post CMS connection. */
-					&:nth-child(1) { top: calc(150vh - 35vh); left: calc(150vw - 30vw); }
-					&:nth-child(2) { top: calc(150vh - 20vh); left: calc(150vw + 15vw); }
-					&:nth-child(3) { top: calc(150vh - 30vh); left: calc(150vw + 45vw); }
-					&:nth-child(4) { top: calc(150vh + 20vh); left: calc(150vw + 30vw); }
-					&:nth-child(5) { top: calc(150vh + 40vh); left: calc(150vw + 5vw); }
-					&:nth-child(6) { top: calc(150vh + 35vh); left: calc(150vw - 20vw); }
-					&:nth-child(7) { top: calc(150vh + 10vh); left: calc(150vw - 50vw); }
+					/* ----- So this uses CSS custom properties set by JS for random positioning scattered across the canvas ----- */
+					top: var(--random-top);
+					left: var(--random-left);
 				}
 			}
 		}
 	}
 
-	/* ---------------- Grid View ---------------- */
+	/* ---------------- Grid (Calm Mode) ---------------- */
 	&.grid {
-		display: grid;
-		padding: var(--paddingMd);
-		grid-template-columns: repeat(2, 1fr);
-		gap: var(--gap);
-		justify-content: center;
-		align-content: start;
+		display: block;
+		padding: var(--paddingSm);
+		overflow-y: auto;
 
-		@media (width >= 770px) { 
-			grid-template-columns: repeat(3, 1fr); 
+		@media (width >= 770px) {
+			padding: var(--paddingMd);
 		}
-	
+
 		@media (width >= 1025px) { 
-			grid-template-columns: repeat(5, 1fr); 
 			padding: var(--paddingLg);
 		}
 
@@ -232,30 +451,106 @@ main {
 			width: auto;
 			height: auto;
 			transform: none;
-			display: contents;
+			display: block;
 		}
 
 		#viewport > section:first-of-type {
-			grid-column: 1 / -1;
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-			gap: var(--paddingSm);
-			text-align: left;
+			margin-block-end: var(--paddingLg);
 
-			@media (width >= 770px) {
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
+			h1 {
+				margin: 0 0 var(--paddingSm) 0;
+				text-align: start;
+			}
+			
+			> a {
+				align-self: start;
+				white-space: nowrap;
+				display: inline-block;
+				margin-block-end: var(--paddingSm);
 			}
 
-			/* h1 { 
-				font-size: var(--fontSizeTitle); 
-			} */
+			.site-description {
+				text-align: start;
+				max-inline-size: none;
+				margin: 0 0 var(--paddingSm) 0;
+			}
+
+				#timeSearch {
+				display: none;
+			}
+
+			#gridFilters {
+				display: flex;
+				flex-wrap: nowrap;
+				gap: var(--paddingXs);
+				justify-content: flex-start;
+				overflow-x: auto;
+				overflow-y: visible;
+				margin-block-end: var(--paddingSm);
+				padding-block: .75rem;
+				-webkit-overflow-scrolling: touch;
+				width: 100vw;
+				margin-inline: calc(-1 * var(--paddingSm));
+				padding-inline: var(--paddingSm);
+				scrollbar-width: none;
+				-ms-overflow-style: none;
+				
+				&::-webkit-scrollbar {
+					display: none;
+				}
+
+				.filter-btn {
+					white-space: nowrap;
+					flex-shrink: 0;
+				}
+				
+				@media (width >= 770px) {
+					width: auto;
+					margin-inline: 0;
+					padding-inline: 0;
+				}
+			}
+
+			@media (width >= 770px) {
+				display: grid;
+				grid-template-columns: auto 1fr;
+				grid-template-rows: auto auto auto;
+				gap: var(--paddingSm);
+				align-items: start;
+
+				h1 {
+					grid-column: 1 / 2;
+					grid-row: 1;
+					margin: 0;
+				}
+
+				.site-description {
+					grid-column: 1 / 2;
+					grid-row: 2;
+					margin: 0;
+					max-inline-size: 50rem;
+				}
+
+				#gridFilters {
+					grid-column: 1 / 2;
+					grid-row: 3;
+					margin: 0;
+				}
+
+				> a {
+					grid-column: 2 / 3;
+					grid-row: 1;
+					justify-self: end;
+					margin: 0;
+				}
+			}
+
+			@media (width >= 770px) {
+				gap: var(--paddingMd);
+			}
 		}
 
 		#viewport > section:last-of-type {
-			grid-column: 1 / -1;
 			display: grid;
 			grid-template-columns: repeat(2, 1fr);
 			grid-auto-rows: minmax(6rem, 12vw);
@@ -263,42 +558,105 @@ main {
 			gap: var(--gap);
 
 			@media (width >= 770px) { 
-				grid-template-columns: repeat(3, 1fr); 
+				grid-template-columns: repeat(3, 1fr);
 			}
 
-			@media (width >= 1025px) { 
-				grid-template-columns: repeat(5, 1fr);
+			@media (width >= 1200px) { 
+				grid-template-columns: repeat(4, 1fr);
 			}
 
 			> button { 
-				position: static; 
+				position: static;
 			}
 		}
 	}
 
-	/* ---------------- Title + Are.na Button ---------------- */
-	#viewport > section {
+	/* ---------------- H1 + Are.na Button ---------------- */
+	#viewport > section:first-of-type {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: var(--paddingMd);
+		gap: var(--paddingSm);
 		text-align: center;
 
 		h1 {
 			margin: 0;
 			font-family: var(--fontH1);
 			font-size: var(--fontSizeH1);
-			line-height: .9;
+			line-height: 1.1;
 			text-transform: uppercase;
+			
+			.line-break {
+				@media (width >= 1025px) {
+					white-space: nowrap;
+				}
+			}
 		}
 
-		a:hover {
-			border-color: rgba(241,241,239,.85);
-			background: rgba(241,241,239,.08);
+		.site-description {
+			margin: 0;
+			font-family: var(--fontP);
+			font-size: var(--fontSizeDescription);
+			line-height: 1.17;
+			color: rgba(241,241,239,.75);
+			max-width: 55rem;
+			orphans: 3;
+			widows: 3;
+			text-wrap: pretty;
+			
+			@media (width >= 1025px) {
+				max-width: 48rem;
+			}
+		}
+
+		#timeSearch {
+			display: none;
+		}
+
+		#gridFilters {
+			display: none;
+			flex-wrap: wrap;
+			gap: var(--paddingXs);
+			justify-content: center;
+
+			.filter-btn {
+				padding: var(--paddingXs) var(--paddingSm);
+				border: var(--buttonBorder);
+				border-radius: var(--buttonRadius);
+				background: transparent;
+				color: var(--colorText);
+				font-size: var(--fontSizeUI);
+				text-transform: uppercase;
+				letter-spacing: var(--buttonLetterSpacing);
+				cursor: pointer;
+				transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
+
+				&:hover {
+					border-color: rgba(241,241,239,.85);
+					background: rgba(241,241,239,.08);
+					transform: var(--hoverMove);
+				}
+
+				&.active {
+					border-color: var(--colorTime);
+					background: rgba(117,190,176,.08);
+					color: var(--colorTime);
+				}
+			}
+		}
+
+		a {
+			transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
+			
+			&:hover {
+				border-color: rgba(241,241,239,.85);
+				background: rgba(241,241,239,.08);
+				transform: var(--hoverMove);
+			}
 		}
 	}
 
-	/* ---------------- Time Buttons ---------------- */
+	/* ---------------- Time Block Thumbnails ---------------- */
 	#viewport > section:last-of-type {
 		> button {
 			appearance: none;
@@ -310,43 +668,346 @@ main {
 			color: var(--colorTime);
 			text-shadow: var(--timeGlowSoft);
 			font-size: var(--fontSizeTime);
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 
 			cursor: pointer;
 			user-select: none;
 			outline: none;
 
 			transition-property: transform;
-			transition-duration: 0.2s;
+			transition-duration: 1s;
 			transition-timing-function: ease;
-			transition-delay: 0s;
+			transition-delay: 1s;
 
 			&:hover {
 				animation-name: pulse;
-				animation-duration: 2s;
+				animation-duration: 3s;
 				animation-timing-function: ease-in-out;
 				animation-iteration-count: infinite;
 				text-shadow: var(--timeGlowStrong);
 			}
 			
-			/* Again, I manually assigned these for now, but ideally they would be randomly assigned among this collection of 7 (potentially more?) */
-			&:nth-child(1) { font-family: var(--fontTime1); }
-			&:nth-child(2) { font-family: var(--fontTime2); }
-			&:nth-child(3) { font-family: var(--fontTime3); }
-			&:nth-child(4) { font-family: var(--fontTime4); }
-			&:nth-child(5) { font-family: var(--fontTime5); }
-			&:nth-child(6) { font-family: var(--fontTime6); }
-			&:nth-child(7) { font-family: var(--fontTime7); }
+			&[data-font-index="1"] { font-family: var(--fontTime1) }
+			&[data-font-index="2"] { font-family: var(--fontTime2) }
+			&[data-font-index="3"] { font-family: var(--fontTime3) }
+			&[data-font-index="4"] { font-family: var(--fontTime4) }
+			&[data-font-index="5"] { font-family: var(--fontTime5) }
+			&[data-font-index="6"] { font-family: var(--fontTime6) }
+			&[data-font-index="7"] { font-family: var(--fontTime7) }
+			&[data-font-index="8"] { font-family: var(--fontTime8) }
+			&[data-font-index="9"] { font-family: var(--fontTime9) }
+			&[data-font-index="10"] { font-family: var(--fontTime10) }
+			&[data-font-index="11"] { font-family: var(--fontTime11) }
+			&[data-font-index="12"] { font-family: var(--fontTime12) }
+			&[data-font-index="13"] { font-family: var(--fontTime13) }
 		}
 	}
 }
 
+@media (width >= 770px) {
+		main {
+			inset-block-start: calc(var(--paddingLg) + 1.15rem);
+		}
+	}
+
+@media (width >= 1025px) {
+		main {
+			inset-block-start: calc(var(--paddingLg) + 1.3rem);
+		}
+	}
+
 @keyframes pulse {
 	50% { 
-		transform: scale(1.2); 
+		transform: scale(1.08);
 	}
 }
 
-/* ---------------- Dialog Modals ---------------- */
+/* ---------------- Asides (Calm Mode) ---------------- */
+#gridDetail {
+	display: none;
+	position: fixed;
+	top: var(--paddingLg);
+	right: 0;
+	bottom: var(--paddingLg);
+	inline-size: 35vw;
+	min-inline-size: 20rem;
+	max-inline-size: 31.25rem;
+	background: rgba(20,20,20,.55);
+	backdrop-filter: blur(22px) saturate(160%);
+	-webkit-backdrop-filter: blur(22px) saturate(160%);
+	border-radius: var(--panelRadius);
+	border: 1px solid rgba(255,255,255,.18);
+	z-index: 70;
+	padding: 0;
+	overflow: hidden;
+	box-shadow:
+		0 10px 30px rgba(0,0,0,.45),
+		inset 0 1px 0 rgba(255,255,255,.08);
+	
+	transform: translateX(100%);
+	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+	&.active {
+		display: flex;
+		flex-direction: column;
+		transform: translateX(0);
+	}
+
+	.detail-header {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: var(--paddingSm);
+		padding: var(--paddingSm);
+		border-bottom: .0625rem solid rgba(241,241,239,.15);
+		flex-shrink: 0;
+
+		h3 {
+			margin: 0;
+			color: var(--colorTime);
+			letter-spacing: var(--buttonLetterSpacing);
+			text-transform: uppercase;
+			font-variant-numeric: tabular-nums;
+			font-size: .9rem;
+		}
+
+		button {
+			appearance: none;
+			border: var(--buttonBorder);
+			background: transparent;
+			color: var(--colorText);
+			font: inherit;
+			text-transform: uppercase;
+			letter-spacing: var(--buttonLetterSpacing);
+			padding: var(--buttonPadding);
+			border-radius: var(--buttonRadius);
+			cursor: pointer;
+			font-size: var(--fontSizeUI);
+			transition: border-color .15s ease;
+
+			&:hover {
+				border-color: rgba(241,241,239,.65);
+			}
+		}
+	}
+
+	.detail-content {
+		padding: var(--paddingSm);
+		display: flex;
+		flex-direction: column;
+		gap: var(--paddingSm);
+		flex: 1;
+		overflow-y: auto;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		text-align: center;
+		height: 0;
+		
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		h2 {
+			margin: 0;
+			text-transform: uppercase;
+			letter-spacing: .03em;
+			font-size: 1.05rem;
+			flex-shrink: 0;
+			font-family: var(--fontP);
+		}
+
+		p {
+			margin: 0;
+			color: rgba(241,241,239,.82);
+			line-height: 1.3em;
+			font-family: var(--fontP);
+			font-size: var(--fontSizeDescription);
+			flex-shrink: 1;
+			text-wrap: balance;
+			orphans: 3;
+			widows: 3;
+			
+			a {
+				padding: 0.1rem 0.2rem;
+				display: inline;
+			}
+		}
+
+		#detailText:not(.text-block) {
+			font-size: clamp(.62rem, .4vw + .5rem, .78rem);
+			line-height: 1.2;
+		}
+		
+		p.text-block {
+			font-size: var(--fontSizeTextblock);
+			flex: 1;
+		}
+		
+		.detail-links-container {
+			display: flex;
+			flex-direction: column;
+			gap: var(--paddingSm);
+			width: 100%;
+			flex-shrink: 0;
+			margin-block-start: auto;
+		}
+
+		#detailMedia {
+			inline-size: 100%;
+			max-inline-size: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: var(--paddingSm);
+			flex-shrink: 0;
+			overflow: visible;
+			max-block-size: 62vh;
+
+			img, video, iframe {
+				display: block;
+				max-inline-size: 100%;
+				inline-size: 100%;
+				max-block-size: 100%;
+				object-fit: contain;
+				border-radius: .5rem;
+			}
+
+			video {
+				max-block-size: 100%;
+				object-fit: contain;
+			}
+
+			audio {
+				inline-size: 100%;
+				margin-block-start: var(--paddingSm);
+				display: block;
+				flex-shrink: 0;
+			}
+
+			iframe {
+				min-block-size: 18.75rem;
+				border: none;
+			}
+
+			a {
+				display: block;
+				border: none;
+				padding: 0;
+				max-block-size: 100%;
+				max-inline-size: 100%;
+
+				img {
+					transition: opacity .2s ease;
+					max-block-size: 100%;
+					object-fit: contain;
+				}
+
+				&:hover img {
+					opacity: 0.9;
+				}
+			}
+
+			&.has-audio-cover {
+				overflow: visible;
+			}
+
+			&.has-audio-cover a img {
+				max-block-size: 44vh;
+			}
+		}
+
+		a.detail-media {
+			border: none;
+			padding: 0;
+			display: block;
+
+			img {
+				display: block;
+				border-radius: .5rem;
+				max-inline-size: 100%;
+				inline-size: 100%;
+				block-size: auto;
+				object-fit: contain;
+			}
+		}
+
+		a.detail-link {
+			appearance: none;
+			border: var(--buttonBorder);
+			-webkit-backdrop-filter: blur(18px) saturate(160%);
+			color: var(--colorText);
+			font: inherit;
+			text-transform: uppercase;
+			letter-spacing: var(--buttonLetterSpacing);
+			padding: .8rem 1rem;
+			border-radius: var(--buttonRadius);
+			cursor: pointer;
+			text-decoration: none;
+			font-size: var(--fontSizeUI);
+			transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
+			display: inline-block;
+			text-align: center;
+
+			&:hover {
+				border-color: rgba(241,241,239,.85);
+				background: rgba(241,241,239,.08);
+				transform: var(--hoverMove);
+			}
+
+			@media (width >= 770px) {
+				padding: 1rem;
+			}
+		}
+	}
+
+	@media (width < 770px) {
+		width: 100vw;
+		max-width: none;
+		top: auto;
+		bottom: 0;
+		height: 70vh;
+		border-radius: var(--panelRadius) var(--panelRadius) 0 0;
+		transform: translateY(100%);
+
+		&.active {
+			transform: translateY(0);
+		}
+	}
+}
+
+main.grid ~ #gridDetail {
+	&.active {
+		left: 50%;
+		top: 50%;
+		right: auto;
+		bottom: auto;
+		width: min(94vw, 42rem);
+		height: 88vh;
+		max-height: 88vh;
+		transform: translate(-50%, -50%) scale(1);
+		border-radius: var(--panelRadius);
+		box-shadow:
+			0 10px 30px rgba(0,0,0,.45),
+			inset 0 1px 0 rgba(255,255,255,.08);
+
+		@media (width >= 770px) {
+			width: min(85vw, 40rem);
+		}
+		
+		@media (width >= 1025px) {
+			width: min(70vw, 50rem);
+		}
+	}
+}
+
+
+/* ---------------- Dialog Modals (Chaos Mode) ---------------- */
 #modal {
 	position: fixed;
 	inset: 0;
@@ -360,9 +1021,10 @@ main {
 	max-height: none;
 	background-color: transparent;
 	overflow: hidden;
+	pointer-events: none;
 
 	&::backdrop { 
-		background-color: var(--backdrop); 
+		background-color: transparent;
 	}
 
 	> div {
@@ -371,39 +1033,20 @@ main {
 		inset-block-end: 0;
 		z-index: 90;
 		block-size: var(--panelHeightMobile);
-		background: var(--panelBgColor);
-		backdrop-filter: var(--panelBlur);
+		background: rgba(20,20,20,.55);
+		backdrop-filter: blur(22px) saturate(160%);
+		-webkit-backdrop-filter: blur(22px) saturate(160%);
+		border: 1px solid rgba(255,255,255,.18);
+		box-shadow:
+			0 10px 30px rgba(0,0,0,.45),
+			inset 0 1px 0 rgba(255,255,255,.08);
 		transform: translateY(105%);
-		transition: transform var(--panelEnter);
+		transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 		border-start-start-radius: var(--panelRadius);
 		border-start-end-radius: var(--panelRadius);
 		container-type: inline-size;
-
-		@media (width >= 770px) {
-			inset-inline: auto 0;
-			inset-block: 0;
-			inline-size: var(--panelWidthDesktop);
-			block-size: 100dvh;
-			transform: translateX(105%);
-			border-radius: 0;
-		}
-	}
-
-	&[open]:not(.closing) > div { 
-		transform: translate(0, 0); 
-	}
-
-	&.closing > div { 
-		transform: translateY(105%); 
-	}
-
-	@media (width >= 770px) {
-		&.closing > div { 
-			transform: translateX(105%); 
-		}
-	}
-
-	> div {
+		pointer-events: auto;
+		
 		display: grid;
 		grid-template-rows: auto 1fr;
 		gap: var(--paddingSm);
@@ -420,15 +1063,11 @@ main {
 				color: var(--colorTime);
 				letter-spacing: var(--buttonLetterSpacing);
 				text-transform: uppercase;
-
-				/* I wanted to ensure that regardless of the *hopefully* changing times, the actual width it takes up won't drastically change or shift with the different numbers constantly updating. */
-				/* I referenced this https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-variant-numeric to get this definition "activating the set of figures where numbers are all of the same size, allowing them to be easily aligned like in tables. It corresponds to the OpenType values tnum." */
-				/* From my understading, font-variant-numeric: tabular-nums makes all the numbers the same width so *eventual* time changes won’t cause the layout to shift with different number widths. */
 				font-variant-numeric: tabular-nums;
 			}
 
 			#modalClose:hover { 
-				border-color: rgba(241,241,239,.65); 
+				border-color: rgba(241,241,239,.65);
 			}
 		}
 
@@ -437,17 +1076,23 @@ main {
 			flex-direction: column;
 			gap: var(--paddingLg);
 			align-items: center;
-			overflow: auto;
+			overflow: hidden;
+			scrollbar-width: none;
+			-ms-overflow-style: none;
+			
+			&::-webkit-scrollbar {
+				display: none;
+			}
 			padding-block-end: var(--paddingMd);
 			text-align: center;
 			text-wrap: balance;
-
 
 			#modalTitle {
 				margin: 0;
 				text-transform: uppercase;
 				letter-spacing: .03em;
 				font-size: 1.05rem;
+				flex-shrink: 0;
 			}
 
 			#modalText {
@@ -455,21 +1100,115 @@ main {
 				color: rgba(241,241,239,.82);
 				line-height: 1.5em;
 				font-family: var(--fontP);
+				font-size: var(--fontSizeDescription);
+				overflow: hidden;
+				flex-shrink: 1;
+				text-wrap: balance;
+				orphans: 3;
+				widows: 3;
+			}
+			
+			#modalText.text-block {
+				font-size: var(--fontSizeTextblock);
+				overflow: auto;
+				flex: 1;
+				max-height: 60%;
 			}
 
-			#modalLink {
+			#modalLink,
+			#modalLearnMore {
 				text-align: center;
 				align-self: center;
+				transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
+				flex-shrink: 0;
+				padding: 1rem;
+
+				&:hover { 
+					border-color: rgba(241,241,239,.85);
+					background: rgba(241,241,239,.08);
+					transform: var(--hoverMove);
+				}
+			}
+			
+			.modal-links-container {
+				display: flex;
+				gap: var(--paddingSm);
+				width: 100%;
+				flex-shrink: 0;
+				
+				a {
+					flex: 1;
+				}
 			}
 
-			#modalLink:hover { 
-				border-color: rgba(241,241,239,.65); 
+			#modalMedia {
+				inline-size: 100%;
+				max-inline-size: 100%;
+				max-block-size: 68vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: var(--paddingSm);
+				flex-shrink: 0;
+				overflow: visible;
+
+				img, video, iframe {
+					display: block;
+					max-inline-size: 100%;
+					inline-size: 100%;
+					max-block-size: 100%;
+					object-fit: contain;
+					border-radius: .5rem;
+				}
+
+				video {
+					max-block-size: 100%;
+					object-fit: contain;
+				}
+
+				audio {
+					inline-size: 100%;
+					margin-block-start: var(--paddingSm);
+					display: block;
+					flex-shrink: 0;
+				}
+
+				iframe {
+					min-block-size: 25rem;
+					border: none;
+				}
+
+				a {
+					display: block;
+					border: none;
+					padding: 0;
+					max-block-size: 100%;
+					max-inline-size: 100%;
+
+					img {
+						transition: opacity .2s ease;
+						max-block-size: 100%;
+						object-fit: contain;
+					}
+
+					&:hover img {
+						opacity: 0.9;
+					}
+				}
+
+				&.has-audio-cover {
+					overflow: visible;
+				}
+
+				&.has-audio-cover a img {
+					max-block-size: 50vh;
+				}
 			}
 
 			#modalMediaLink {
 				border: none;
 				padding: 0;
-				width: 100%;
+				inline-size: 100%;
 				display: block;
 			}
 
@@ -485,7 +1224,157 @@ main {
 			}
 		}
 	}
+
+	&[open]:not(.closing) > div { 
+		transform: translate(0, 0);
+	}
+
+	&.closing > div { 
+		transform: translateY(105%);
+	}
 }
+
+main:not(.grid) ~ #modal {
+	> div {
+		@media (width >= 770px) {
+			inset-inline: 0 auto;
+			inset-block: 0;
+			inline-size: var(--panelWidthDesktop);
+			block-size: 100dvh;
+			transform: translateX(-105%);
+			border-radius: 0;
+			transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+	}
+
+	&[open]:not(.closing) > div {
+		@media (width >= 770px) {
+			transform: translateX(0);
+		}
+	}
+
+	&.closing > div {
+		@media (width >= 770px) {
+			transform: translateX(-105%);
+		}
+	}
+}
+
+main.grid ~ #modal {
+	&::backdrop {
+		background-color: var(--backdrop);
+	}
+
+	> div {
+		inset-inline: auto;
+		inset-block: auto;
+		left: 50%;
+		top: 50%;
+		right: auto;
+		bottom: auto;
+		inline-size: min(90vw, 30rem);
+		block-size: auto;
+		max-block-size: 85vh;
+		transform: translate(-50%, -50%) scale(0.95);
+		opacity: 0;
+		border-radius: var(--panelRadius);
+		transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+		
+		@media (width >= 770px) {
+			inline-size: min(85vw, 40rem);
+		}
+		
+		@media (width >= 1025px) {
+			inline-size: min(70vw, 50rem);
+		}
+	}
+
+	&[open]:not(.closing) > div {
+		transform: translate(-50%, -50%) scale(1);
+		opacity: 1;
+	}
+
+	&.closing > div {
+		transform: translate(-50%, -50%) scale(0.95);
+		opacity: 0;
+	}
+}
+
+
+
+/* ---------------- Back to Top Button ---------------- */
+#backToTop {
+	position: fixed;
+	bottom: calc(var(--paddingLg) + var(--paddingSm));
+	right: var(--paddingSm);
+	z-index: 70;
+	appearance: none;
+	border: var(--buttonBorder);
+	background: transparent;
+	backdrop-filter: none;
+	color: var(--colorText);
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(1rem);
+	transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.15s ease, background-color 0.15s ease;
+	
+	svg {
+		display: block;
+		stroke: #ffffff;
+		fill: none;
+	}
+	
+	&:hover {
+		border-color: rgba(241,241,239,.85);
+		background: rgba(241,241,239,.08);
+		transform: var(--hoverMove);
+		
+		svg {
+			stroke: #ffffff;
+			fill: rgba(241,241,239,.08);
+		}
+	}
+	
+	&.visible {
+		opacity: 1;
+		pointer-events: auto;
+		transform: translateY(0);
+		
+		&:hover {
+			border-color: rgba(241,241,239,.85);
+			background: rgba(241,241,239,.08);
+			transform: var(--hoverMove);
+			
+			svg {
+				stroke: #ffffff;
+				fill: rgba(241,241,239,.08);
+			}
+		}
+	}
+	
+	display: none;
+	
+	@media (width >= 770px) {
+		right: var(--paddingMd);
+	}
+}
+
+main.grid ~ #backToTop {
+	display: flex;
+
+	@media (width < 770px) {
+		display: none;
+	}
+}
+
+
 
 /* ---------------- Footer ---------------- */
 footer {
@@ -494,9 +1383,10 @@ footer {
 	inset-inline: 0;
 	block-size: var(--paddingLg);
 	z-index: 60;
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
+	column-gap: var(--paddingSm);
 	padding-inline: var(--paddingSm);
 	font-size: var(--fontSizeFooter);
 	letter-spacing: var(--buttonLetterSpacing);
@@ -505,7 +1395,16 @@ footer {
 	border: none;
 
 	p { 
-		margin: 0; 
+		margin: 0;
+	}
+
+	p:first-child {
+		justify-self: start;
+	}
+
+	p:last-child {
+		justify-self: end;
+		text-align: end;
 	}
 
 	a {
@@ -516,8 +1415,192 @@ footer {
 		border-block-end-color: rgba(241,241,239,.35);
 
 		&:hover { 
-			border-block-end-color: rgba(241,241,239,.7); 
+			border-block-end-color: rgba(241,241,239,.7);
+		}
+	}
+	
+	#canvasControls {
+		pointer-events: auto;
+		justify-self: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: .75rem;
+		
+		#dragIndicator {
+			display: none;
+			margin: 0;
+			font-size: var(--fontSizeFooter);
+			text-transform: uppercase;
+			letter-spacing: var(--buttonLetterSpacing);
+			opacity: 1;
+			align-items: center;
+			gap: .5rem;
+			
+			svg {
+				stroke: #ffffff;
+				fill: none;
+			}
+			
+			@media (width >= 1025px) and (hover: hover) and (pointer: fine) {
+				display: flex;
+			}
+		}
+
+		#zoomOut,
+		#zoomIn,
+		#goToNow {
+			display: none;
+		}
+
+		#zoomOut,
+		#zoomIn {
+			appearance: none;
+			border: var(--buttonBorder);
+			background: transparent;
+			color: var(--colorText);
+			font: inherit;
+			cursor: pointer;
+			transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
+			
+			inline-size: 2rem;
+			block-size: 2rem;
+			border-radius: 50%;
+			padding: 0;
+			display: grid;
+			place-items: center;
+			line-height: 1;
+			text-align: center;
+			font-size: 1.6rem;
+			font-weight: 400;
+			
+			&:hover {
+				transform: var(--hoverMove);
+				border-color: rgba(241,241,239,.6);
+			}
+			
+			@media (width >= 1025px) {
+				inline-size: 2.2rem;
+				block-size: 2.2rem;
+				font-size: 1.8rem;
+			}
+		}
+
+		#goToNow {
+			border-color: rgba(117,190,176,.5);
+			color: var(--colorTime);
+
+			&:hover {
+				border-color: var(--colorTime);
+				background: rgba(117,190,176,.08);
+			}
 		}
 	}
 }
 
+body:not(:has(main.grid)) footer #canvasControls {
+	#zoomOut,
+	#zoomIn {
+		display: grid;
+	}
+}
+
+main.grid ~ footer #canvasControls #dragIndicator,
+main.grid ~ footer #canvasControls #zoomOut,
+main.grid ~ footer #canvasControls #zoomIn {
+	display: none;
+}
+
+body.chaos-mode header #headerSearch {
+	display: none;
+}
+
+/* ----- Hide All Scrollbars ----- */
+* {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+ 
+*::-webkit-scrollbar {
+	inline-size: 0;
+	block-size: 0;
+	display: none;
+}
+
+/* ---------------- Print Mode ---------------- */
+@media print {
+	* {
+		background: white;
+		color: black;
+		text-shadow: none;
+		box-shadow: none;
+	}
+
+	header,
+	footer,
+	#modal,
+	#gridDetail,
+	button,
+	nav {
+		display: none;
+	}
+
+	main {
+		position: static;
+		overflow: visible;
+		margin: 0;
+		padding: 2rem;
+	}
+
+	main.grid {
+		display: block;
+	}
+
+	#viewport {
+		transform: none;
+		width: 100%;
+		height: auto;
+	}
+
+	#viewport > section:first-of-type {
+		margin-bottom: 2rem;
+		
+		h1 {
+			font-size: 2rem;
+			page-break-after: avoid;
+		}
+
+		.site-description {
+			font-size: 0.9rem;
+			line-height: 1.6;
+			page-break-after: avoid;
+		}
+
+		a {
+			display: inline;
+			border: none;
+		}
+	}
+
+	#viewport > section:last-of-type {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1rem;
+		
+		button {
+			display: flex;
+			position: static;
+			font-size: 1rem;
+			page-break-inside: avoid;
+			border: 1px solid #ccc;
+			padding: 0.5rem;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+
+	a[href]:after {
+		content: " (" attr(href) ")";
+		font-size: 0.8em;
+	}
+}
