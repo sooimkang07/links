@@ -6,104 +6,105 @@
 
 		<link rel="stylesheet" href="reset.css">
 		<link rel="stylesheet" href="style.css">
+		<script defer src="arena.js"></script>
 		<script defer src="script.js"></script>
 	</head>
 
 	<body>
 		<header>
-			<nav class="header-controls" aria-label="View and search controls">
-				<button id="searchToggle" type="button" aria-expanded="false">Search</button>
-				<button id="viewToggle" type="button" aria-pressed="false">Calm View</button>
+			<nav id="viewControls">
+				<button id="viewToggle" type="button">Calm</button>
 			</nav>
-			<form id="searchForm" role="search" aria-label="Search channel blocks">
-				<label for="searchInput">Search:</label>
-				<input
-					id="searchInput"
-					type="search"
-					name="search"
-					placeholder="Type and press Enter"
-					autocomplete="off"
-				>
-			</form>
+
+			<div id="headerSearch" class="timeSearch" role="search">
+				<button id="searchToggle" type="button" aria-label="Search for a specific time">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30px" height="30px" aria-hidden="true">
+						<path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"/>
+					</svg>
+				</button>
+				<input type="text" id="timeSearchInput" placeholder="Search for a specific time" maxlength="5" inputmode="numeric" autocomplete="off">
+			</div>
 		</header>
+
+		<div id="searchOverlay" hidden></div>
 
 		<main id="canvas">
 			<div id="viewport">
-				<section id="intro">
-					<h1>Nothing Good Happens <br>After Midnight...</h1>
-					<p class="site-description">
-						Every block from the Are.na channel is mapped into Remember, See, Hear, and Read.
-					</p>
-					<a
-						class="channel-link"
-						href="https://www.are.na/sophia-bae-zsvqiaw7cdm/night-life-is-so-fun"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Explore Are.na Channel
-					</a>
+				<section>
+					<h1>Nothing Good Happens <span class="line-break">After&nbsp;Midnight...</span></h1>
+					<p class="site-description">“Nothing Good Happens After Midnight” is a time-based Are.na archive that stretches the hours between 12:00 and 4:00 a.m. into something you experience minute by minute. You never know what you’ll get. Each refresh reshuffles the night, scattering fragments of time into something new. Surrender to the chaos and let the night take you, or resist its pull and stay calm, choosing your minute with intention.</p>
+					<a href="https://www.are.na/sophia-bae-zsvqiaw7cdm/night-life-is-so-fun" target="_blank">Explore Are.na Channel</a>
+					
+					<div id="gridFilters">
+						<button class="filter-btn active" data-filter="all" type="button">All</button>
+						<button class="filter-btn" data-filter="Remember" type="button">Remember</button>
+						<button class="filter-btn" data-filter="See" type="button">See</button>
+						<button class="filter-btn" data-filter="Hear" type="button">Hear</button>
+						<button class="filter-btn" data-filter="Read" type="button">Read</button>
+					</div>
 				</section>
 
-				<section id="timeGrid" aria-live="polite" aria-busy="true"></section>
+				<section id="timeGrid">
+					<!-- Time buttons will be dynamically generated from Are.na blocks -->
+				</section>
 			</div>
 		</main>
 
 		<dialog id="modal">
-			<div class="panel-shell">
-				<div class="panel-header">
+			<div>
+				<div>
 					<p id="modalTime"></p>
 					<button id="modalClose" type="button">Close</button>
 				</div>
 
-				<div class="panel-content">
-					<a href="" target="_blank" rel="noopener noreferrer" id="modalMediaLink">
-						<img src="" alt="" id="modalImage">
-					</a>
-					<div id="modalEmbed"></div>
-					<audio id="modalAudio" controls></audio>
+				<div>
+					<div id="modalMedia"></div>
 					<h2 id="modalTitle"></h2>
-					<p id="modalCategory" class="panel-category"></p>
 					<p id="modalText"></p>
-					<div class="panel-links">
-						<a id="modalSourceLink" target="_blank" rel="noopener noreferrer">Open source</a>
-						<a id="modalLink" target="_blank" rel="noopener noreferrer">Open on Are.na</a>
+					<div class="modal-links-container">
+						<a id="modalLearnMore" target="_blank" style="display: none;">Learn More ↗</a>
+						<a id="modalLink" target="_blank">View on Are.na ↗</a>
 					</div>
 				</div>
 			</div>
 		</dialog>
 
-		<aside id="detailAside" aria-hidden="true">
-			<div class="panel-shell">
-				<div class="panel-header">
-					<p id="asideTime"></p>
-					<button id="asideClose" type="button">Close</button>
-				</div>
-
-				<div class="panel-content">
-					<a href="" target="_blank" rel="noopener noreferrer" id="asideMediaLink">
-						<img src="" alt="" id="asideImage">
-					</a>
-					<div id="asideEmbed"></div>
-					<audio id="asideAudio" controls></audio>
-					<h2 id="asideTitle"></h2>
-					<p id="asideCategory" class="panel-category"></p>
-					<p id="asideText"></p>
-					<div class="panel-links">
-						<a id="asideSourceLink" target="_blank" rel="noopener noreferrer">Open source</a>
-						<a id="asideLink" target="_blank" rel="noopener noreferrer">Open on Are.na</a>
-					</div>
+		<aside id="gridDetail">
+			<div class="detail-header">
+				<h3 id="detailTime"></h3>
+				<button id="detailClose" type="button">Close</button>
+			</div>
+			<div class="detail-content">
+				<div id="detailMedia"></div>
+				<h2 id="detailTitle"></h2>
+				<p id="detailText"></p>
+				<div class="detail-links-container">
+					<a id="detailLearnMore" target="_blank" class="detail-link" style="display: none;">Learn More ↗</a>
+					<a id="detailLink" target="_blank" class="detail-link">View on Are.na ↗</a>
 				</div>
 			</div>
 		</aside>
 
+		<button id="backToTop" type="button" aria-label="Back to top">
+			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f1f1ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M10 15V5M5 10l5-5 5 5"/>
+			</svg>
+		</button>
+
 		<footer>
-			<p>Designed By <a href="https://github.com/sooimkang07" target="_blank" rel="noopener noreferrer">Sooim Kang</a></p>
-			<div class="footer-controls" aria-label="Canvas controls">
-				<button id="dragHint" type="button" disabled>Drag to Explore</button>
-				<button id="zoomOut" type="button" aria-label="Zoom out">Zoom Out</button>
-				<button id="zoomIn" type="button" aria-label="Zoom in">Zoom In</button>
-			</div>
-			<p>Collected By <a href="https://github.com/baes358" target="_blank" rel="noopener noreferrer">Sophia Bae</a></p>
+			<p>Designed By <a href="https://github.com/sooimkang07" target="_blank">Sooim Kang</a></p>
+			<nav id="canvasControls">
+				<p id="dragIndicator">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f1f1ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M12 2v20M2 12h20"/>
+						<path d="m5 9-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3"/>
+					</svg>
+					Drag to explore
+				</p>
+				<button id="zoomOut" type="button" aria-label="Zoom out">−</button>
+				<button id="zoomIn" type="button" aria-label="Zoom in">+</button>
+			</nav>
+			<p>Collected By <a href="https://github.com/baes358" target="_blank">Sophia Bae</a></p>
 		</footer>
 	</body>
 </html>
