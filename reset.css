@@ -54,3 +54,9 @@ meter { appearance: revert }
 
 /* Remove details/summary styles. */
 ::-webkit-details-marker { display: none }
+
+/* Have audio playback re-appear in Chrome */
+audio {
+	block-size: revert;
+	inline-size: 100%;
+}

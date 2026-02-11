@@ -46,6 +46,7 @@
 	--fontTime12: "Manrope", sans-serif;
 	--fontTime13: "DM Sans", sans-serif;
 
+	/* I wanted to make my fonts fully responsive across breakpoints instead of having to manually adjust for each. */
 	/* I referenced this article https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/clamp to understand how to fluidly change my font-size of my h1 and time (the larger text content), which are notoriously hard to make responsive across all breakpoints. */
 	/* From my understanding, clamp() lets the font scale with the viewport, but keeps it from getting too small or too huge, so the 3 values are the min value, a preferred value, and a max value. */
 	--fontSizeH1: clamp(2.4rem, 5vw + 1rem, 6.2rem);
@@ -149,11 +150,10 @@ dialog a {
 	text-decoration: none;
 	font-size: var(--fontSizeUI);
 	transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
-}
 
-header button:hover,
-main a:hover {
-	transform: var(--hoverMove);
+	&:hover {
+		transform: var(--hoverMove);
+	}
 }
 
 
@@ -297,6 +297,7 @@ header {
 	}
 }
 
+
 /* ----- Header (Calm Mode) ----- */
 body.calm-mode {
 	header {
@@ -320,8 +321,17 @@ body.calm-mode {
 
 	main {
 		inset-block-start: calc(var(--paddingLg) + 1rem);
+
+		@media (width >= 770px) {
+			inset-block-start: calc(var(--paddingLg) + 1.15rem);
+		}
+
+		@media (width >= 1025px) {
+			inset-block-start: calc(var(--paddingLg) + 1.3rem);
+		}
 	}
 }
+
 
 /* ---------------- Header (Chaos Mode) ---------------- */
 body.chaos-mode {
@@ -344,18 +354,6 @@ body.chaos-mode {
 
 	main {
 		inset-block-start: calc(2.5rem + 1.6rem);
-	}
-}
-
-@media (width >= 770px) {
-	body.calm-mode main {
-		inset-block-start: calc(var(--paddingLg) + 1.15rem);
-	}
-}
-
-@media (width >= 1025px) {
-	body.calm-mode main {
-		inset-block-start: calc(var(--paddingLg) + 1.3rem);
 	}
 }
 
@@ -383,6 +381,14 @@ main {
 	inset-inline: 0;
 	inset-block-end: var(--paddingLg);
 	overflow: auto;
+
+	@media (width >= 770px) {
+		inset-block-start: calc(var(--paddingLg) + 1.15rem);
+	}
+
+	@media (width >= 1025px) {
+		inset-block-start: calc(var(--paddingLg) + 1.3rem);
+	}
 
 	#viewport {
 		position: relative;
@@ -707,23 +713,12 @@ main {
 	}
 }
 
-@media (width >= 770px) {
-		main {
-			inset-block-start: calc(var(--paddingLg) + 1.15rem);
-		}
-	}
-
-@media (width >= 1025px) {
-		main {
-			inset-block-start: calc(var(--paddingLg) + 1.3rem);
-		}
-	}
-
 @keyframes pulse {
 	50% { 
 		transform: scale(1.08);
 	}
 }
+
 
 /* ---------------- Asides (Calm Mode) ---------------- */
 #gridDetail {
@@ -1301,7 +1296,6 @@ main.grid ~ #modal {
 }
 
 
-
 /* ---------------- Back to Top Button ---------------- */
 #backToTop {
 	position: fixed;
@@ -1373,7 +1367,6 @@ main.grid ~ #backToTop {
 		display: none;
 	}
 }
-
 
 
 /* ---------------- Footer ---------------- */
