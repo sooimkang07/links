@@ -57,6 +57,7 @@ let isPanelDimActive = false
 function syncDimOverlay() {
 	const shouldDim = isSearchUiActive || isPanelDimActive
 	document.body.classList.toggle('search-active', shouldDim)
+	document.body.classList.toggle('panel-active', isPanelDimActive)
 	if (searchOverlay) {
 		searchOverlay.hidden = !shouldDim
 		searchOverlay.style.pointerEvents = shouldDim ? 'auto' : 'none'
@@ -78,6 +79,7 @@ function getArenaBlockKind(blockData) {
 	const sourceUrl = (blockData.source?.url || '').toLowerCase()
 	const attachmentContentType = (blockData.attachment?.content_type || '').toLowerCase()
 	const attachmentUrl = (blockData.attachment?.url || '').toLowerCase()
+	const attachmentFilename = (blockData.attachment?.file_name || '').toLowerCase()
 	const embedType = (blockData.embed?.type || '').toLowerCase()
 
 	// === SEE (VIDEOS) ===
@@ -86,6 +88,7 @@ function getArenaBlockKind(blockData) {
 		attachmentContentType.startsWith('video/') ||
 		videoExtensions.test(sourceUrl) ||
 		videoExtensions.test(attachmentUrl) ||
+		videoExtensions.test(attachmentFilename) ||
 		sourceUrl.includes('youtube.com') ||
 		sourceUrl.includes('youtu.be') ||
 		sourceUrl.includes('vimeo.com') ||
@@ -99,6 +102,7 @@ function getArenaBlockKind(blockData) {
 		attachmentContentType.startsWith('audio/') ||
 		audioExtensions.test(sourceUrl) ||
 		audioExtensions.test(attachmentUrl) ||
+		audioExtensions.test(attachmentFilename) ||
 		sourceUrl.includes('spotify.com') ||
 		sourceUrl.includes('soundcloud.com') ||
 		sourceUrl.includes('bandcamp.com') ||
@@ -180,6 +184,7 @@ function getBlockContent(blockId) {
 	const sourceUrl = blockData.source?.url || ''
 	const attachmentUrl = blockData.attachment?.url || ''
 	const attachmentType = (blockData.attachment?.content_type || '').toLowerCase()
+	const attachmentFilename = (blockData.attachment?.file_name || '').toLowerCase()
 	const blockType = getArenaBlockKind(blockData)
 
 	const content = {
@@ -219,11 +224,17 @@ function getBlockContent(blockId) {
 	else if (blockType === 'Hear') {
 		const audioExtensions = /\.(mp3|wav|ogg|m4a|aac|flac|wma)(\?|$)/i
 
-		if (attachmentType.startsWith('audio/') || audioExtensions.test(attachmentUrl)) {
+		if (attachmentType.startsWith('audio/') || audioExtensions.test(attachmentUrl) || audioExtensions.test(attachmentFilename)) {
 			content.audioSrc = attachmentUrl
 		}
 		if (!content.audioSrc && audioExtensions.test(sourceUrl)) {
 			content.audioSrc = sourceUrl
+		}
+		if (!content.audioSrc && sourceUrl.includes('/audio/')) {
+			content.audioSrc = sourceUrl
+		}
+		if (!content.audioSrc && attachmentUrl) {
+			content.audioSrc = attachmentUrl
 		}
 
 		if (blockData.embed?.html) content.embedHtml = blockData.embed.html
@@ -960,14 +971,18 @@ if (backToTopBtn) {
 /* ---------------- Render Media Content ---------------- */
 function renderMedia(content, container) {
 	container.innerHTML = ''
+	container.classList.remove('has-audio-cover', 'has-audio-only')
 	
 	if (!content) return
 	
 	// For audio with cover image: show clickable thumbnail and audio player below
 	if (content.audioSrc && content.imageSrc) {
+		container.classList.add('has-audio-cover')
+
 		const link = document.createElement('a')
 		link.href = content.mediaHref || content.audioSrc
 		link.target = '_blank'
+		link.rel = 'noopener noreferrer'
 		
 		const img = document.createElement('img')
 		img.src = content.imageSrc
@@ -976,6 +991,7 @@ function renderMedia(content, container) {
 		const audio = document.createElement('audio')
 		audio.src = content.audioSrc
 		audio.controls = true
+		audio.setAttribute('controls', '')
 		audio.preload = 'metadata'
 		
 		link.appendChild(img)
@@ -986,9 +1002,12 @@ function renderMedia(content, container) {
 	
 	// For audio without cover image: show audio player
 	if (content.audioSrc) {
+		container.classList.add('has-audio-only')
+
 		const audio = document.createElement('audio')
 		audio.src = content.audioSrc
 		audio.controls = true
+		audio.setAttribute('controls', '')
 		audio.preload = 'metadata'
 		container.appendChild(audio)
 		return

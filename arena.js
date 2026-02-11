@@ -142,12 +142,14 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents`, (json) => {
 		const sourceUrl = (blockData.source?.url || '').toLowerCase()
 		const attachmentType = (blockData.attachment?.content_type || '').toLowerCase()
 		const attachmentUrl = (blockData.attachment?.url || '').toLowerCase()
+		const attachmentFilename = (blockData.attachment?.file_name || '').toLowerCase()
 		const embedType = (blockData.embed?.type || '').toLowerCase()
 
 		const isVideo = (
 			attachmentType.startsWith('video/') ||
 			/\.(mp4|mov|avi|webm|mkv|flv|wmv|m4v)(\?|$)/i.test(sourceUrl) ||
 			/\.(mp4|mov|avi|webm|mkv|flv|wmv|m4v)(\?|$)/i.test(attachmentUrl) ||
+			/\.(mp4|mov|avi|webm|mkv|flv|wmv|m4v)(\?|$)/i.test(attachmentFilename) ||
 			sourceUrl.includes('youtube.com') ||
 			sourceUrl.includes('youtu.be') ||
 			sourceUrl.includes('vimeo.com') ||
@@ -159,6 +161,7 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents`, (json) => {
 			attachmentType.startsWith('audio/') ||
 			/\.(mp3|wav|ogg|m4a|aac|flac|wma)(\?|$)/i.test(sourceUrl) ||
 			/\.(mp3|wav|ogg|m4a|aac|flac|wma)(\?|$)/i.test(attachmentUrl) ||
+			/\.(mp3|wav|ogg|m4a|aac|flac|wma)(\?|$)/i.test(attachmentFilename) ||
 			sourceUrl.includes('spotify.com') ||
 			sourceUrl.includes('soundcloud.com') ||
 			sourceUrl.includes('bandcamp.com') ||
