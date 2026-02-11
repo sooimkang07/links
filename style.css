@@ -392,8 +392,8 @@ main {
 
 	#viewport {
 		position: relative;
-		width: 300vw;
-		height: 300vh;
+		inline-size: 300vw;
+		block-size: 300vh;
 		transform-origin: 0 0;
 	}
 
@@ -425,8 +425,8 @@ main {
 			> section:last-of-type {
 				top: 0;
 				left: 0;
-				width: 300vw;
-				height: 300vh;
+				inline-size: 300vw;
+				block-size: 300vh;
 				z-index: 1;
 
 				> button {
@@ -454,8 +454,8 @@ main {
 		}
 
 		#viewport {
-			width: auto;
-			height: auto;
+			inline-size: auto;
+			block-size: auto;
 			transform: none;
 			display: block;
 		}
@@ -802,7 +802,7 @@ main {
 		scrollbar-width: none;
 		-ms-overflow-style: none;
 		text-align: center;
-		height: 0;
+		block-size: 0;
 		
 		&::-webkit-scrollbar {
 			display: none;
@@ -962,11 +962,11 @@ main {
 	}
 
 	@media (width < 770px) {
-		width: 100vw;
+		inline-size: 100vw;
 		max-width: none;
 		top: auto;
 		bottom: 0;
-		height: 70vh;
+		block-size: 70vh;
 		border-radius: var(--panelRadius) var(--panelRadius) 0 0;
 		transform: translateY(100%);
 
@@ -982,9 +982,9 @@ main.grid ~ #gridDetail {
 		top: 50%;
 		right: auto;
 		bottom: auto;
-		width: min(94vw, 42rem);
-		height: 88vh;
-		max-height: 88vh;
+		inline-size: min(94vw, 42rem);
+		block-size: 88vh;
+		max-block-size: 88vh;
 		transform: translate(-50%, -50%) scale(1);
 		border-radius: var(--panelRadius);
 		box-shadow:
@@ -1010,10 +1010,10 @@ main.grid ~ #gridDetail {
 	padding: 0;
 	border: 0;
 	margin: 0;
-	width: 100vw;
-	height: 100dvh;
-	max-width: none;
-	max-height: none;
+	inline-size: 100vw;
+	block-size: 100dvh;
+	max-inline-size: none;
+	max-block-size: none;
 	background-color: transparent;
 	overflow: hidden;
 	pointer-events: none;
@@ -1071,7 +1071,7 @@ main.grid ~ #gridDetail {
 			flex-direction: column;
 			gap: var(--paddingLg);
 			align-items: center;
-			overflow: hidden;
+			overflow: auto;
 			scrollbar-width: none;
 			-ms-overflow-style: none;
 			
@@ -1107,7 +1107,7 @@ main.grid ~ #gridDetail {
 				font-size: var(--fontSizeTextblock);
 				overflow: auto;
 				flex: 1;
-				max-height: 60%;
+				max-block-size: 90%;
 			}
 
 			#modalLink,
@@ -1115,8 +1115,9 @@ main.grid ~ #gridDetail {
 				text-align: center;
 				align-self: center;
 				transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
-				flex-shrink: 0;
+				/* flex-shrink: 0; */
 				padding: 1rem;
+				inline-size: 100%;
 
 				&:hover { 
 					border-color: rgba(241,241,239,.85);
@@ -1127,9 +1128,10 @@ main.grid ~ #gridDetail {
 			
 			.modal-links-container {
 				display: flex;
+				flex-direction: column;
 				gap: var(--paddingSm);
-				width: 100%;
-				flex-shrink: 0;
+				inline-size: 100%;
+				/* flex-shrink: 0; */
 				
 				a {
 					flex: 1;
@@ -1139,7 +1141,7 @@ main.grid ~ #gridDetail {
 			#modalMedia {
 				inline-size: 100%;
 				max-inline-size: 100%;
-				max-block-size: 68vh;
+				block-size: 70%;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -1307,8 +1309,8 @@ main.grid ~ #modal {
 	background: transparent;
 	backdrop-filter: none;
 	color: var(--colorText);
-	width: 3rem;
-	height: 3rem;
+	inline-size: 3rem;
+	block-size: 3rem;
 	border-radius: 50%;
 	cursor: pointer;
 	display: flex;
@@ -1551,8 +1553,8 @@ body.chaos-mode header #headerSearch {
 
 	#viewport {
 		transform: none;
-		width: 100%;
-		height: auto;
+		block-size: 100%;
+		inline-size: auto;
 	}
 
 	#viewport > section:first-of-type {
