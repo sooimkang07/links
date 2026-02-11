@@ -1,86 +1,61 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DotGothic16&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Orbitron:wght@400..900&family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&family=Rajdhani:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Share+Tech+Mono&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Teko:wght@300..700&family=VT323&display=swap');
 
-/* ---------------- CSS Variables ---------------- */
 :root {
-	/* ----- Colors ----- */
 	--colorBg: #1f1f1f;
 	--colorText: #f1f1ef;
 	--colorTime: #75beb0;
+	--colorPanel: rgba(17, 17, 17, 0.92);
+	--colorBorder: rgba(241, 241, 239, 0.35);
+	--bodyOverlay: rgba(0, 0, 0, 0.55);
 
-	/* ----- Background Gradients ----- */
-	--colorGradient1: radial-gradient(70% 70% at 65% 90%, rgba(215,190,120,.22), transparent 60%);
-	--colorGradient2: radial-gradient(70% 70% at 20% 30%, rgba(90,160,210,.35), transparent 60%);
-	--colorGradient3: radial-gradient(70% 70% at 80% 20%, rgba(230,120,60,.3), transparent 60%);
-	--colorGradient4: radial-gradient(70% 70% at 50% 80%, rgba(120,90,210,.3), transparent 60%);
+	--gradient1: radial-gradient(70% 70% at 65% 90%, rgba(215, 190, 120, 0.22), transparent 60%);
+	--gradient2: radial-gradient(70% 70% at 20% 30%, rgba(90, 160, 210, 0.35), transparent 60%);
+	--gradient3: radial-gradient(70% 70% at 80% 20%, rgba(230, 120, 60, 0.3), transparent 60%);
+	--gradient4: radial-gradient(70% 70% at 50% 80%, rgba(120, 90, 210, 0.3), transparent 60%);
 
-	/* ----- Fonts ----- */
-	--fontBase: "Inter", serif;
-	--fontH1: "DotGothic16", serif;
-	--fontP: "Space Mono", serif;
-
+	--fontBase: "Inter", sans-serif;
+	--fontHeading: "DotGothic16", sans-serif;
+	--fontBody: "Space Mono", monospace;
 	--fontTime1: "Inter", sans-serif;
 	--fontTime2: "Orbitron", sans-serif;
-	--fontTime3: "VT323", sans-serif;
-	--fontTime4: "Share Tech Mono", sans-serif;
+	--fontTime3: "VT323", monospace;
+	--fontTime4: "Share Tech Mono", monospace;
 	--fontTime5: "Rajdhani", sans-serif;
 	--fontTime6: "Teko", sans-serif;
 	--fontTime7: "Roboto", sans-serif;
 
-	/* As I was sleuthing through the class site's Inspect console, I noticed you wrote the h1 font size variable as --size--h1: clamp(2rem, 4.75vw, 3rem);, so I had to assume this would be the best responsive way to fluidly style large texts like my h1 is. So I wanted to use that for my site here.  */
-	/* I referenced this article https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/clamp to understand how to fluidly change my font-size of my h1 and time (the larger text content), which are notoriously hard to make responsive across all breakpoints. */
-	/* From my understanding, clamp() lets the font scale with the viewport, but keeps it from getting too small or too huge, so the 3 values are the min value, a preferred value, and a max value. */
-	--fontSizeH1: clamp(2.5rem, 7vw, 6rem);
-	--fontSizeTime: clamp(1.25rem, 4vw, 3rem);
-	--fontSizeUI: .75rem;
-	--fontSizeFooter: .7rem;
+	--headerHeight: 7.25rem;
+	--footerHeight: 3.35rem;
 
-	/* ----- Spacing ----- */
-	--paddingXs: .5rem;
-	--paddingSm: 1rem;
-	--paddingMd: 2rem;
-	--paddingLg: 3rem;
-	--paddingXl: 6rem;
-	--gap: 2rem;
+	--fontSizeH1: clamp(2.4rem, 7vw, 6rem);
+	--fontSizeTime: clamp(1.2rem, 3.8vw, 2.85rem);
+	--fontSizeUI: 0.75rem;
+	--fontSizeFooter: 0.7rem;
 
-	/* ----- Buttons ----- */
-	--buttonRadius: 1000rem;
-	--buttonBorder: .0625rem solid rgba(241,241,239,.35);
-	--buttonPadding: var(--paddingXs) var(--paddingSm);
-	--buttonLetterSpacing: .08em;
+	--radiusRound: 1000rem;
+	--radiusCard: 0.95rem;
+	--radiusPanel: 1.2rem;
 
-	/* ----- Etc. ----- */
-	scroll-behavior: smooth;
+	--spaceXs: 0.45rem;
+	--spaceSm: 0.8rem;
+	--spaceMd: 1.25rem;
+	--spaceLg: 2rem;
+
+	--letterSpacing: 0.08em;
 	--hoverMove: translateY(-1px);
-
-	/* ----- Modal/backdrop ----- */
-	--backdrop: rgba(0,0,0,.55);
-	--panelBgColor: rgba(17,17,17,.92);
-	--panelBlur: blur(.5rem);
-	--panelRadius: 1.25rem;
-	--panelEnter: .4s ease;
-	--panelHeightMobile: 80vh;
-	--panelWidthDesktop: 40vw;
-
-	@media (1300px >= width >= 770px) {
-		--panelWidthDesktop: 50vw;
-	}
-
-	/* ----- Glow ----- */
-	--timeGlowSoft: 
-		0 0 .4rem rgba(117,190,176,.6),
-		0 0 .9rem rgba(117,190,176,.35);
-
+	--panelEnter: 0.42s ease;
+	--timeGlowSoft:
+		0 0 0.4rem rgba(117, 190, 176, 0.6),
+		0 0 0.9rem rgba(117, 190, 176, 0.35);
 	--timeGlowStrong:
-		0 0 .6rem rgba(117,190,176,.8),
-		0 0 1.2rem rgba(117,190,176,.55),
-		0 0 2rem rgba(117,190,176,.25);
+		0 0 0.6rem rgba(117, 190, 176, 0.8),
+		0 0 1.2rem rgba(117, 190, 176, 0.55),
+		0 0 2rem rgba(117, 190, 176, 0.25);
 }
 
-
-/* ---------------- Body ---------------- */
 html,
-body { 
-	block-size: 100%; 
+body {
+	block-size: 100%;
 }
 
 body {
@@ -89,268 +64,348 @@ body {
 	color: var(--colorText);
 	overflow: hidden;
 	background:
-		var(--colorGradient1),
-		var(--colorGradient2),
-		var(--colorGradient3),
-		var(--colorGradient4),
+		var(--gradient1),
+		var(--gradient2),
+		var(--gradient3),
+		var(--gradient4),
 		var(--colorBg);
+	position: relative;
 }
 
-/* ---------------- Button Styling ---------------- */
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	background: var(--bodyOverlay);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.25s ease;
+	z-index: 45;
+}
+
+body.has-body-overlay::before {
+	opacity: 1;
+}
+
+button,
+a,
+input {
+	font: inherit;
+	color: inherit;
+}
+
 header button,
+footer button,
 main a,
 dialog button,
-dialog a {
+dialog a,
+aside button,
+aside a {
 	appearance: none;
-	border: var(--buttonBorder);
+	border: 0.0625rem solid var(--colorBorder);
 	background: transparent;
 	color: var(--colorText);
-	font: inherit;
 	text-transform: uppercase;
-	letter-spacing: var(--buttonLetterSpacing);
-	padding: var(--buttonPadding);
-	border-radius: var(--buttonRadius);
+	letter-spacing: var(--letterSpacing);
+	padding: 0.52rem 0.95rem;
+	border-radius: var(--radiusRound);
 	cursor: pointer;
 	text-decoration: none;
 	font-size: var(--fontSizeUI);
-	transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
+	min-height: 2.35rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
 }
 
 header button:hover,
-main a:hover {
+main a:hover,
+footer button:hover {
 	transform: var(--hoverMove);
 }
 
-/* ---------------- Header ---------------- */
+button:disabled {
+	cursor: default;
+	opacity: 0.45;
+	transform: none;
+}
+
 header {
 	position: fixed;
 	inset-block-start: 0;
 	inset-inline: 0;
-	block-size: var(--paddingLg);
-	z-index: 60;
+	z-index: 80;
+	padding: 0.7rem 1rem 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.55rem;
+	pointer-events: none;
+}
+
+.header-controls {
+	pointer-events: auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	gap: 0.7rem;
+}
+
+#viewToggle.active {
+	border-color: var(--colorTime);
+	background: rgba(117, 190, 176, 0.08);
+}
+
+#searchForm {
 	pointer-events: none;
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	border: 0.0625rem solid var(--colorBorder);
+	border-radius: var(--radiusRound);
+	padding: 0.45rem 0.7rem;
+	background: rgba(18, 18, 18, 0.85);
+	backdrop-filter: blur(0.28rem);
+	transform: translateY(-8px);
+	opacity: 0;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
 
-	nav { 
-		pointer-events: auto; 
-	}
+#searchForm.open {
+	pointer-events: auto;
+	opacity: 1;
+	transform: translateY(0);
+}
 
-	#viewToggle { 
-		border-color: rgba(241,241,239,.3); 
-		
-		&:hover { 
-			border-color: rgba(241,241,239,.6); 
-		}	
+#searchForm label {
+	font-size: var(--fontSizeUI);
+	text-transform: uppercase;
+	letter-spacing: var(--letterSpacing);
+	color: rgba(241, 241, 239, 0.8);
+}
 
-		&.active { 
-			border-color: var(--colorTime); 
-			background: rgba(117,190,176,.08); 
-		}
-	}
+#searchInput {
+	min-width: min(26rem, 60vw);
+	font-size: 0.86rem;
+	line-height: 1;
+	padding: 0.35rem 0;
+	background: transparent;
+	border: 0;
+	outline: 0;
+	color: var(--colorText);
+}
+
+#searchInput::placeholder {
+	color: rgba(241, 241, 239, 0.55);
 }
 
 main {
 	position: absolute;
-	inset-block-start: var(--paddingLg);
+	inset-block-start: var(--headerHeight);
 	inset-inline: 0;
-	inset-block-end: var(--paddingLg);
+	inset-block-end: var(--footerHeight);
 	overflow: auto;
-
-	/* I wanted to hide the ugly scrollbar at the bottom of the screen that the browser defaults to showing with my overflow content (but I understand maybe I need this as an affordance the user can move around, but I'm hoping once I have several more blocks bleeding over the edges, that will be affordance enough? Not sure, totally open to feedback...) */
-	/* I referenced this: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::-webkit-scrollbar */
-	/* ::-webkit-scrollbar CSS pseudo-element affects the style of an element's scrollbar when it has scrollable overflow and setting display: none removes its visibility on the page. */
-	&::-webkit-scrollbar { 
-		display: none; 
-	}
-
-	#viewport {
-		position: relative;
-		width: 300vw;
-		height: 300vh;
-		transform-origin: 0 0;
-	}
-
-	/* ---------------- Canvas View (Default) ---------------- */
-	&:not(.grid) {
-		#viewport {
-			> section:first-of-type,
-			> section:last-of-type {
-				position: absolute;
-			}
-
-			> section:first-of-type {
-				top: 150vh;
-				left: 150vw;
-				transform: translate(-50%, -50%);
-				z-index: 2;
-			}
-
-			> section:last-of-type {
-				top: 0;
-				left: 0;
-				width: 300vw;
-				height: 300vh;
-				z-index: 1;
-
-				> button {
-					position: absolute;
-
-					/* I wanted these somehow randomized on the #canvas and they rearrange upon refresh with all the blocks, but for not I've just manually placed them and will figure out the randomization later post CMS connection. */
-					&:nth-child(1) { top: calc(150vh - 35vh); left: calc(150vw - 30vw); }
-					&:nth-child(2) { top: calc(150vh - 20vh); left: calc(150vw + 15vw); }
-					&:nth-child(3) { top: calc(150vh - 30vh); left: calc(150vw + 45vw); }
-					&:nth-child(4) { top: calc(150vh + 20vh); left: calc(150vw + 30vw); }
-					&:nth-child(5) { top: calc(150vh + 40vh); left: calc(150vw + 5vw); }
-					&:nth-child(6) { top: calc(150vh + 35vh); left: calc(150vw - 20vw); }
-					&:nth-child(7) { top: calc(150vh + 10vh); left: calc(150vw - 50vw); }
-				}
-			}
-		}
-	}
-
-	/* ---------------- Grid View ---------------- */
-	&.grid {
-		display: grid;
-		padding: var(--paddingMd);
-		grid-template-columns: repeat(2, 1fr);
-		gap: var(--gap);
-		justify-content: center;
-		align-content: start;
-
-		@media (width >= 770px) { 
-			grid-template-columns: repeat(3, 1fr); 
-		}
-	
-		@media (width >= 1025px) { 
-			grid-template-columns: repeat(5, 1fr); 
-			padding: var(--paddingLg);
-		}
-
-		#viewport {
-			width: auto;
-			height: auto;
-			transform: none;
-			display: contents;
-		}
-
-		#viewport > section:first-of-type {
-			grid-column: 1 / -1;
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-			gap: var(--paddingSm);
-			text-align: left;
-
-			@media (width >= 770px) {
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
-			}
-
-			/* h1 { 
-				font-size: var(--fontSizeTitle); 
-			} */
-		}
-
-		#viewport > section:last-of-type {
-			grid-column: 1 / -1;
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			grid-auto-rows: minmax(6rem, 12vw);
-			grid-auto-flow: row dense;
-			gap: var(--gap);
-
-			@media (width >= 770px) { 
-				grid-template-columns: repeat(3, 1fr); 
-			}
-
-			@media (width >= 1025px) { 
-				grid-template-columns: repeat(5, 1fr);
-			}
-
-			> button { 
-				position: static; 
-			}
-		}
-	}
-
-	/* ---------------- Title + Are.na Button ---------------- */
-	#viewport > section {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--paddingMd);
-		text-align: center;
-
-		h1 {
-			margin: 0;
-			font-family: var(--fontH1);
-			font-size: var(--fontSizeH1);
-			line-height: .9;
-			text-transform: uppercase;
-		}
-
-		a:hover {
-			border-color: rgba(241,241,239,.85);
-			background: rgba(241,241,239,.08);
-		}
-	}
-
-	/* ---------------- Time Buttons ---------------- */
-	#viewport > section:last-of-type {
-		> button {
-			appearance: none;
-			border: 0;
-			background: transparent;
-			padding: 0;
-			margin: 0;
-
-			color: var(--colorTime);
-			text-shadow: var(--timeGlowSoft);
-			font-size: var(--fontSizeTime);
-
-			cursor: pointer;
-			user-select: none;
-			outline: none;
-
-			transition-property: transform;
-			transition-duration: 0.2s;
-			transition-timing-function: ease;
-			transition-delay: 0s;
-
-			&:hover {
-				animation-name: pulse;
-				animation-duration: 2s;
-				animation-timing-function: ease-in-out;
-				animation-iteration-count: infinite;
-				text-shadow: var(--timeGlowStrong);
-			}
-			
-			/* Again, I manually assigned these for now, but ideally they would be randomly assigned among this collection of 7 (potentially more?) */
-			&:nth-child(1) { font-family: var(--fontTime1); }
-			&:nth-child(2) { font-family: var(--fontTime2); }
-			&:nth-child(3) { font-family: var(--fontTime3); }
-			&:nth-child(4) { font-family: var(--fontTime4); }
-			&:nth-child(5) { font-family: var(--fontTime5); }
-			&:nth-child(6) { font-family: var(--fontTime6); }
-			&:nth-child(7) { font-family: var(--fontTime7); }
-		}
-	}
 }
 
-@keyframes pulse {
-	50% { 
-		transform: scale(1.2); 
-	}
+main::-webkit-scrollbar {
+	display: none;
 }
 
-/* ---------------- Dialog Modals ---------------- */
+#viewport {
+	position: relative;
+	width: 300vw;
+	height: 300vh;
+	transform-origin: 0 0;
+}
+
+#intro {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.1rem;
+	text-align: center;
+	max-width: min(46rem, 84vw);
+	z-index: 4;
+}
+
+#intro h1 {
+	margin: 0;
+	font-family: var(--fontHeading);
+	font-size: var(--fontSizeH1);
+	line-height: 0.92;
+	text-transform: uppercase;
+}
+
+.site-description {
+	margin: 0;
+	font-family: var(--fontBody);
+	max-width: 40ch;
+	color: rgba(241, 241, 239, 0.84);
+	line-height: 1.45;
+}
+
+main:not(.grid) #intro {
+	position: absolute;
+	inset-inline-start: 150vw;
+	inset-block-start: 150vh;
+	transform: translate(-50%, -50%);
+}
+
+main:not(.grid) #timeGrid {
+	position: absolute;
+	inset: 0;
+	width: 300vw;
+	height: 300vh;
+}
+
+main.grid {
+	padding: 1.4rem;
+}
+
+main.grid #viewport {
+	width: auto;
+	height: auto;
+	transform: none;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 1.3rem;
+}
+
+main.grid #intro {
+	position: static;
+	transform: none;
+	align-items: flex-start;
+	text-align: left;
+	max-width: 100%;
+}
+
+main.grid #timeGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	gap: 1rem;
+}
+
+.content-block {
+	outline: none;
+}
+
+main:not(.grid) .content-block {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	border: 0;
+	background: transparent;
+	padding: 0;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.2rem;
+	color: var(--colorTime);
+	text-shadow: var(--timeGlowSoft);
+}
+
+main:not(.grid) .content-block:hover {
+	text-shadow: var(--timeGlowStrong);
+}
+
+main:not(.grid) .content-block .time-value {
+	font-size: var(--fontSizeTime);
+	font-variant-numeric: tabular-nums;
+	line-height: 1;
+}
+
+main:not(.grid) .content-block .time-label {
+	font-size: 0.62rem;
+	text-transform: uppercase;
+	letter-spacing: var(--letterSpacing);
+}
+
+main:not(.grid) .content-block .block-thumb,
+main:not(.grid) .content-block .block-title {
+	display: none;
+}
+
+main.grid .content-block {
+	position: static;
+	transform: none;
+	border: 0.0625rem solid var(--colorBorder);
+	border-radius: var(--radiusCard);
+	padding: 0.72rem;
+	display: grid;
+	gap: 0.58rem;
+	text-align: left;
+	align-content: start;
+	background: rgba(14, 14, 14, 0.5);
+}
+
+main.grid .content-block:hover {
+	border-color: rgba(241, 241, 239, 0.65);
+	background: rgba(24, 24, 24, 0.68);
+}
+
+main.grid .content-block .time-value {
+	font-size: 0.79rem;
+	font-variant-numeric: tabular-nums;
+	color: var(--colorTime);
+}
+
+main.grid .content-block .time-label {
+	display: inline-flex;
+	width: fit-content;
+	font-size: 0.62rem;
+	text-transform: uppercase;
+	letter-spacing: var(--letterSpacing);
+	border: 0.0625rem solid rgba(117, 190, 176, 0.45);
+	border-radius: var(--radiusRound);
+	padding: 0.2rem 0.52rem;
+	color: var(--colorTime);
+}
+
+.block-thumb {
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: 0.65rem;
+	background: rgba(255, 255, 255, 0.04);
+}
+
+.block-title {
+	font-size: 0.86rem;
+	line-height: 1.35;
+	color: rgba(241, 241, 239, 0.9);
+}
+
+.content-block[data-font="1"] .time-value { font-family: var(--fontTime1); }
+.content-block[data-font="2"] .time-value { font-family: var(--fontTime2); }
+.content-block[data-font="3"] .time-value { font-family: var(--fontTime3); }
+.content-block[data-font="4"] .time-value { font-family: var(--fontTime4); }
+.content-block[data-font="5"] .time-value { font-family: var(--fontTime5); }
+.content-block[data-font="6"] .time-value { font-family: var(--fontTime6); }
+.content-block[data-font="7"] .time-value { font-family: var(--fontTime7); }
+
+.content-block.search-dim {
+	opacity: 0.2;
+	filter: grayscale(0.5);
+}
+
+.content-block.search-match .time-value {
+	animation: searchResultPulse 4.4s ease-in-out infinite;
+}
+
+@keyframes searchResultPulse {
+	50% { transform: scale(1.09); }
+}
+
+.status-message {
+	margin: 0;
+	color: rgba(241, 241, 239, 0.85);
+	font-size: 0.9rem;
+	padding: 1.2rem;
+}
+
 #modal {
 	position: fixed;
 	inset: 0;
-	z-index: 90;
 	padding: 0;
 	border: 0;
 	margin: 0;
@@ -358,166 +413,241 @@ main {
 	height: 100dvh;
 	max-width: none;
 	max-height: none;
-	background-color: transparent;
+	background: transparent;
 	overflow: hidden;
-
-	&::backdrop { 
-		background-color: var(--backdrop); 
-	}
-
-	> div {
-		position: absolute;
-		inset-inline: 0;
-		inset-block-end: 0;
-		z-index: 90;
-		block-size: var(--panelHeightMobile);
-		background: var(--panelBgColor);
-		backdrop-filter: var(--panelBlur);
-		transform: translateY(105%);
-		transition: transform var(--panelEnter);
-		border-start-start-radius: var(--panelRadius);
-		border-start-end-radius: var(--panelRadius);
-		container-type: inline-size;
-
-		@media (width >= 770px) {
-			inset-inline: auto 0;
-			inset-block: 0;
-			inline-size: var(--panelWidthDesktop);
-			block-size: 100dvh;
-			transform: translateX(105%);
-			border-radius: 0;
-		}
-	}
-
-	&[open]:not(.closing) > div { 
-		transform: translate(0, 0); 
-	}
-
-	&.closing > div { 
-		transform: translateY(105%); 
-	}
-
-	@media (width >= 770px) {
-		&.closing > div { 
-			transform: translateX(105%); 
-		}
-	}
-
-	> div {
-		display: grid;
-		grid-template-rows: auto 1fr;
-		gap: var(--paddingSm);
-		padding: var(--paddingSm);
-
-		> div:first-child {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: var(--paddingSm);
-
-			#modalTime {
-				margin: 0;
-				color: var(--colorTime);
-				letter-spacing: var(--buttonLetterSpacing);
-				text-transform: uppercase;
-
-				/* I wanted to ensure that regardless of the *hopefully* changing times, the actual width it takes up won't drastically change or shift with the different numbers constantly updating. */
-				/* I referenced this https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/font-variant-numeric to get this definition "activating the set of figures where numbers are all of the same size, allowing them to be easily aligned like in tables. It corresponds to the OpenType values tnum." */
-				/* From my understading, font-variant-numeric: tabular-nums makes all the numbers the same width so *eventual* time changes won’t cause the layout to shift with different number widths. */
-				font-variant-numeric: tabular-nums;
-			}
-
-			#modalClose:hover { 
-				border-color: rgba(241,241,239,.65); 
-			}
-		}
-
-		> div:last-child {
-			display: flex;
-			flex-direction: column;
-			gap: var(--paddingLg);
-			align-items: center;
-			overflow: auto;
-			padding-block-end: var(--paddingMd);
-			text-align: center;
-			text-wrap: balance;
-
-
-			#modalTitle {
-				margin: 0;
-				text-transform: uppercase;
-				letter-spacing: .03em;
-				font-size: 1.05rem;
-			}
-
-			#modalText {
-				margin: 0;
-				color: rgba(241,241,239,.82);
-				line-height: 1.5em;
-				font-family: var(--fontP);
-			}
-
-			#modalLink {
-				text-align: center;
-				align-self: center;
-			}
-
-			#modalLink:hover { 
-				border-color: rgba(241,241,239,.65); 
-			}
-
-			#modalMediaLink {
-				border: none;
-				padding: 0;
-				width: 100%;
-				display: block;
-			}
-
-			#modalImage {
-				display: block;
-				border: none;
-				max-inline-size: 100%;
-				inline-size: 100%;
-				block-size: auto;
-				margin-inline: auto;
-				max-block-size: 45dvh;
-				object-fit: contain;
-			}
-		}
-	}
+	z-index: 90;
 }
 
-/* ---------------- Footer ---------------- */
+#modal::backdrop {
+	background: transparent;
+}
+
+#modal > .panel-shell {
+	position: absolute;
+	inset-inline: auto 0;
+	inset-block: 0;
+	inline-size: min(42rem, 95vw);
+	height: 100dvh;
+	transform: translateX(105%);
+	transition: transform var(--panelEnter);
+}
+
+#modal[open]:not(.closing) > .panel-shell {
+	transform: translateX(0);
+}
+
+#modal.closing > .panel-shell {
+	transform: translateX(105%);
+}
+
+#detailAside {
+	position: fixed;
+	inset-inline: auto 0;
+	inset-block: 0;
+	inline-size: min(42rem, 95vw);
+	height: 100dvh;
+	transform: translateX(105%);
+	transition: transform var(--panelEnter);
+	z-index: 89;
+}
+
+#detailAside.open {
+	transform: translateX(0);
+}
+
+#detailAside .panel-shell {
+	height: 100%;
+}
+
+.panel-shell {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: 0.9rem;
+	padding: 0.9rem;
+	background: var(--colorPanel);
+	backdrop-filter: blur(0.55rem);
+}
+
+.panel-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.7rem;
+}
+
+.panel-header p {
+	margin: 0;
+	color: var(--colorTime);
+	letter-spacing: var(--letterSpacing);
+	text-transform: uppercase;
+	font-variant-numeric: tabular-nums;
+}
+
+.panel-content {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	overflow: auto;
+	padding-block-end: 0.8rem;
+	text-align: left;
+}
+
+#modalMediaLink,
+#asideMediaLink {
+	border: 0;
+	padding: 0;
+	width: 100%;
+}
+
+#modalImage,
+#asideImage {
+	display: block;
+	width: 100%;
+	max-height: 44dvh;
+	object-fit: contain;
+	border-radius: 0.7rem;
+	background: rgba(255, 255, 255, 0.03);
+}
+
+#modalAudio,
+#asideAudio {
+	width: 100%;
+	margin-block-start: -0.2rem;
+}
+
+#modalEmbed iframe,
+#asideEmbed iframe {
+	width: 100%;
+	min-height: 16rem;
+	border: 0;
+	border-radius: 0.7rem;
+}
+
+#modalTitle,
+#asideTitle {
+	margin: 0;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	font-size: 1.04rem;
+}
+
+.panel-category {
+	margin: 0;
+	width: fit-content;
+	border: 0.0625rem solid rgba(117, 190, 176, 0.45);
+	border-radius: var(--radiusRound);
+	padding: 0.2rem 0.62rem;
+	text-transform: uppercase;
+	letter-spacing: var(--letterSpacing);
+	color: var(--colorTime);
+	font-size: 0.62rem;
+}
+
+#modalText,
+#asideText {
+	margin: 0;
+	font-family: var(--fontBody);
+	line-height: 1.45;
+	color: rgba(241, 241, 239, 0.86);
+	white-space: pre-wrap;
+}
+
+.panel-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem;
+}
+
+#modalEmbed[hidden],
+#asideEmbed[hidden],
+#modalAudio[hidden],
+#asideAudio[hidden],
+#modalImage[hidden],
+#asideImage[hidden],
+#modalMediaLink[hidden],
+#asideMediaLink[hidden],
+#modalSourceLink[hidden],
+#asideSourceLink[hidden],
+#modalLink[hidden],
+#asideLink[hidden] {
+	display: none;
+}
+
 footer {
 	position: fixed;
 	inset-block-end: 0;
 	inset-inline: 0;
-	block-size: var(--paddingLg);
-	z-index: 60;
-	display: flex;
-	justify-content: space-between;
+	height: var(--footerHeight);
+	z-index: 70;
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
-	padding-inline: var(--paddingSm);
+	padding: 0 0.95rem;
+	gap: 0.7rem;
 	font-size: var(--fontSizeFooter);
-	letter-spacing: var(--buttonLetterSpacing);
+	letter-spacing: var(--letterSpacing);
 	text-transform: uppercase;
-	background-color: transparent;
-	border: none;
+}
 
-	p { 
-		margin: 0; 
+footer p {
+	margin: 0;
+}
+
+footer p:first-child {
+	justify-self: start;
+}
+
+footer p:last-child {
+	justify-self: end;
+}
+
+footer a {
+	color: var(--colorText);
+	text-decoration: none;
+	border-block-end: 0.0625rem solid var(--colorBorder);
+}
+
+footer a:hover {
+	border-block-end-color: rgba(241, 241, 239, 0.72);
+}
+
+.footer-controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem;
+}
+
+@media (max-width: 1024px) {
+	:root {
+		--headerHeight: 7.8rem;
+	}
+}
+
+@media (max-width: 820px) {
+	:root {
+		--footerHeight: 5.9rem;
 	}
 
-	a {
-		color: var(--colorText);
-		text-decoration: none;
-		border-block-end-width: .0625rem;
-		border-block-end-style: solid;
-		border-block-end-color: rgba(241,241,239,.35);
+	#searchInput {
+		min-width: min(18rem, 66vw);
+	}
 
-		&:hover { 
-			border-block-end-color: rgba(241,241,239,.7); 
-		}
+	footer {
+		grid-template-columns: 1fr;
+		height: var(--footerHeight);
+		justify-items: center;
+		align-content: center;
+		padding-block: 0.45rem;
+	}
+
+	footer p {
+		display: none;
+	}
+
+	#modal > .panel-shell,
+	#detailAside {
+		inline-size: 100vw;
 	}
 }
 

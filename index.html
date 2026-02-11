@@ -11,54 +11,99 @@
 
 	<body>
 		<header>
-			<nav>
-				<button id="viewToggle" type="button">Grid View</button>
+			<nav class="header-controls" aria-label="View and search controls">
+				<button id="searchToggle" type="button" aria-expanded="false">Search</button>
+				<button id="viewToggle" type="button" aria-pressed="false">Calm View</button>
 			</nav>
+			<form id="searchForm" role="search" aria-label="Search channel blocks">
+				<label for="searchInput">Search:</label>
+				<input
+					id="searchInput"
+					type="search"
+					name="search"
+					placeholder="Type and press Enter"
+					autocomplete="off"
+				>
+			</form>
 		</header>
 
 		<main id="canvas">
 			<div id="viewport">
-				<section>
+				<section id="intro">
 					<h1>Nothing Good Happens <br>After Midnight...</h1>
-					<a href="https://www.are.na/sophia-bae-zsvqiaw7cdm/night-life-is-so-fun" target="_blank">Explore Are.na Channel</a>
+					<p class="site-description">
+						Every block from the Are.na channel is mapped into Remember, See, Hear, and Read.
+					</p>
+					<a
+						class="channel-link"
+						href="https://www.are.na/sophia-bae-zsvqiaw7cdm/night-life-is-so-fun"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Explore Are.na Channel
+					</a>
 				</section>
 
-				<section id="timeGrid">
-					<!-- So I wasn't sure how I wanted to format the time yet [especially because my ultimate goal is to have these be live times of different time zones around the world that are currently between midnight and 6 a.m. at the exact moment the user is on the site] so I went on a deep rabbit hole to figure out the most flexible selector for JS that wouldn't have to be something similar to this format (":", "") like we learned in class because maybe later I'd want to add A.M. to some but not others and/or spell some out? I wanted to give myself the flexibility especially with not knowing how the live clocks addition would affect this (if that's even possible for me to execute).  -->
-					<!-- So I eventually found this page: https://developer.mozilla.org/en-US/docs/Web/HTML/How_to/Use_data_attributes to figure out to put data-block= in my button element.  -->
-					<!-- From my understanding, when the data-block= on each time button is clicked, the JS grabs button.dataset.block and uses that as the key to find the right content and then fills and opens the modal so the logic is tied to the ID, not the specific text -->
-					<button class="time" type="button" data-block="0112">01:12</button>
-					<button class="time" type="button" data-block="0247">02:47</button>
-					<button class="time" type="button" data-block="0305">03:05</button>
-					<button class="time" type="button" data-block="0033">00:33</button>
-					<button class="time" type="button" data-block="0418">04:18</button>
-					<button class="time" type="button" data-block="0541">05:41</button>
-					<button class="time" type="button" data-block="0159">01:59</button>
-				</section>
+				<section id="timeGrid" aria-live="polite" aria-busy="true"></section>
 			</div>
 		</main>
 
 		<dialog id="modal">
-			<div>
-				<div>
+			<div class="panel-shell">
+				<div class="panel-header">
 					<p id="modalTime"></p>
 					<button id="modalClose" type="button">Close</button>
 				</div>
 
-				<div>
-					<a href="" target="_blank" id="modalMediaLink">
+				<div class="panel-content">
+					<a href="" target="_blank" rel="noopener noreferrer" id="modalMediaLink">
 						<img src="" alt="" id="modalImage">
 					</a>
+					<div id="modalEmbed"></div>
+					<audio id="modalAudio" controls></audio>
 					<h2 id="modalTitle"></h2>
+					<p id="modalCategory" class="panel-category"></p>
 					<p id="modalText"></p>
-					<a id="modalLink" target="_blank">Open on Are.na</a>
+					<div class="panel-links">
+						<a id="modalSourceLink" target="_blank" rel="noopener noreferrer">Open source</a>
+						<a id="modalLink" target="_blank" rel="noopener noreferrer">Open on Are.na</a>
+					</div>
 				</div>
 			</div>
 		</dialog>
 
+		<aside id="detailAside" aria-hidden="true">
+			<div class="panel-shell">
+				<div class="panel-header">
+					<p id="asideTime"></p>
+					<button id="asideClose" type="button">Close</button>
+				</div>
+
+				<div class="panel-content">
+					<a href="" target="_blank" rel="noopener noreferrer" id="asideMediaLink">
+						<img src="" alt="" id="asideImage">
+					</a>
+					<div id="asideEmbed"></div>
+					<audio id="asideAudio" controls></audio>
+					<h2 id="asideTitle"></h2>
+					<p id="asideCategory" class="panel-category"></p>
+					<p id="asideText"></p>
+					<div class="panel-links">
+						<a id="asideSourceLink" target="_blank" rel="noopener noreferrer">Open source</a>
+						<a id="asideLink" target="_blank" rel="noopener noreferrer">Open on Are.na</a>
+					</div>
+				</div>
+			</div>
+		</aside>
+
 		<footer>
-			<p>Designed By <a href="https://github.com/sooimkang07" target="_blank">Sooim Kang</a></p>
-			<p>Collected By <a href="https://github.com/baes358" target="_blank">Sophia Bae</a></p>
+			<p>Designed By <a href="https://github.com/sooimkang07" target="_blank" rel="noopener noreferrer">Sooim Kang</a></p>
+			<div class="footer-controls" aria-label="Canvas controls">
+				<button id="dragHint" type="button" disabled>Drag to Explore</button>
+				<button id="zoomOut" type="button" aria-label="Zoom out">Zoom Out</button>
+				<button id="zoomIn" type="button" aria-label="Zoom in">Zoom In</button>
+			</div>
+			<p>Collected By <a href="https://github.com/baes358" target="_blank" rel="noopener noreferrer">Sophia Bae</a></p>
 		</footer>
 	</body>
 </html>
