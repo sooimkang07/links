@@ -11,7 +11,7 @@
 		<script defer src="script.js"></script>
 	</head>
 
-	<body>
+	<body class="calm-mode">
 		<header>
 			<nav id="viewControls">
 				<button id="viewToggle" type="button">Calm</button>
@@ -31,15 +31,16 @@
 
 		<div id="searchOverlay" hidden></div>
 
-		<main id="canvas">
+		<main id="canvas" class="grid">
 			<div id="viewport">
 				<section>
 					<h1>Nothing Good Happens <span class="line-break">After&nbsp;Midnight...</span></h1>
-					<p class="site-description">“Nothing Good Happens After Midnight” is a time-based Are.na archive that stretches the hours between 12:00 and 4:00 a.m. into something you experience minute by minute. You never know what you’ll get. Each refresh reshuffles the night, scattering fragments of time into something new. Surrender to the chaos and let the night take you, or resist its pull and stay calm, choosing your minute with intention.</p>
+					<p class="site-description">“Nothing Good Happens After Midnight” is a time-based Are.na archive that stretches the hours between 12:00 and 4:00 a.m. into something you experience minute by minute. You never know what you’ll get. Each refresh reshuffles the night, scattering fragments of time into something new. Stay calm and choose your minute with intention.</p>
 					<a href="https://www.are.na/sophia-bae-zsvqiaw7cdm/night-life-is-so-fun" target="_blank">Explore Are.na Channel</a>
 					
 					<!-------- Filter Buttons (Only visible in Calm mode) -------->
 					<div id="gridFilters">
+						<button id="refreshBlocks" class="filter-btn" type="button">Refresh</button>
 						<button class="filter-btn active" data-filter="all" type="button">All</button>
 						<button class="filter-btn" data-filter="Remember" type="button">Remember</button>
 						<button class="filter-btn" data-filter="See" type="button">See</button>

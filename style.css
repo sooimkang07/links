@@ -96,6 +96,10 @@
 		0 0 .6rem rgba(117,190,176,.8),
 		0 0 1.2rem rgba(117,190,176,.55),
 		0 0 2rem rgba(117,190,176,.25);
+
+	/* ----- Calm hover tuning ----- */
+	--timeHoverScale: 1.14;
+	--timePulseDuration: 2.2s;
 }
 
 
@@ -119,7 +123,6 @@ body {
 }
 
 /* ----- Darkened Overlay ----- */
-body.search-active::before,
 body.panel-active::before {
 	content: '';
 	position: fixed;
@@ -194,109 +197,11 @@ header {
 		}
 	}
 
+	/* ----- Search UI styles disabled in calm-only cleanup ----- */
 	#headerSearch {
-		grid-column: 3;
-		justify-self: end;
-		pointer-events: auto;
-		display: flex;
-		align-items: center;
-		gap: .5rem;
-		transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
-		position: relative;
-		z-index: 61;
-
-		/* ----- Search Icon Visible on Mobile ----- */
-		#searchToggle {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			inline-size: 2.5rem;
-			block-size: 2.5rem;
-			min-block-size: 2.5rem;
-			padding: 0;
-			border-radius: 50%;
-			flex-shrink: 0;
-			border: var(--buttonBorder);
-			background: transparent;
-			color: rgba(241,241,239,.85);
-			transition: all .15s ease;
-
-			svg {
-				display: block;
-				inline-size: 1.25rem;
-				block-size: 1.25rem;
-				flex-shrink: 0;
-			}
-
-			svg path {
-				fill: currentColor;
-			}
-
-			&:hover {
-				border-color: rgba(241,241,239,.6);
-				background: rgba(241,241,239,.05);
-			}
-		}
-
-		#timeSearchInput {
-			display: none;
-			inline-size: 0;
-			opacity: 0;
-			block-size: 2.5rem;
-			min-block-size: 2.5rem;
-			box-sizing: border-box;
-			padding-inline: var(--paddingSm);
-			border: var(--buttonBorder);
-			border-radius: var(--buttonRadius);
-			background: rgba(241,241,239,.05);
-			color: var(--colorText);
-			font-family: var(--fontP);
-			font-size: var(--fontSizeUI);
-			outline: none;
-			transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
-
-			&::placeholder {
-				color: rgba(241,241,239,.4);
-			}
-
-			&:focus {
-				border-color: var(--colorTime);
-				background: rgba(117,190,176,.05);
-			}
-		}
-
-		/* ----- When Search Bar is Clicked into ----- */
-		&.expanded {
-			#timeSearchInput {
-				display: block;
-				inline-size: 12rem;
-				opacity: 1;
-			}
-
-			#searchToggle {
-				display: none;
-			}
-		}
-
-		/* ----- Show Full Search Bar ----- */
-		@media (width >= 770px) {
-			#searchToggle {
-				display: none;
-			}
-
-			#timeSearchInput {
-				display: block;
-				inline-size: 18rem;
-				opacity: 1;
-			}
-
-			&.expanded #timeSearchInput {
-				inline-size: 20rem;
-			}
-		}
+		display: none;
 	}
 }
-
 
 /* ----- Header (Calm Mode) ----- */
 body.calm-mode {
@@ -313,10 +218,6 @@ body.calm-mode {
 			justify-self: auto;
 		}
 
-		#headerSearch {
-			grid-column: auto;
-			justify-self: auto;
-		}
 	}
 
 	main {
@@ -346,10 +247,6 @@ body.chaos-mode {
 
 	header #viewControls {
 		margin-inline: auto;
-	}
-
-	header #headerSearch {
-		display: none;
 	}
 
 	main {
@@ -649,6 +546,11 @@ main {
 					color: var(--colorTime);
 				}
 			}
+
+			#refreshBlocks {
+				border-color: rgba(117,190,176,.4);
+				color: var(--colorTime);
+			}
 		}
 
 		a {
@@ -690,7 +592,7 @@ main {
 
 			&:hover {
 				animation-name: pulse;
-				animation-duration: 3s;
+				animation-duration: var(--timePulseDuration);
 				animation-timing-function: ease-in-out;
 				animation-iteration-count: infinite;
 				text-shadow: var(--timeGlowStrong);
@@ -715,7 +617,7 @@ main {
 
 @keyframes pulse {
 	50% { 
-		transform: scale(1.08);
+		transform: scale(var(--timeHoverScale));
 	}
 }
 
@@ -992,11 +894,11 @@ main.grid ~ #gridDetail {
 			inset 0 1px 0 rgba(255,255,255,.08);
 
 		@media (width >= 770px) {
-			width: min(85vw, 40rem);
+			inline-size: min(85vw, 40rem);
 		}
 		
 		@media (width >= 1025px) {
-			width: min(70vw, 50rem);
+			inline-size: min(70vw, 50rem);
 		}
 	}
 }
@@ -1506,8 +1408,20 @@ main.grid ~ footer #canvasControls #zoomIn {
 	display: none;
 }
 
-body.chaos-mode header #headerSearch {
+/* ----- Calm-only cleanup ----- */
+#modal {
 	display: none;
+}
+
+footer #canvasControls #dragIndicator,
+footer #canvasControls #zoomOut,
+footer #canvasControls #zoomIn {
+	display: none;
+}
+
+#viewToggle {
+	cursor: default;
+	pointer-events: none;
 }
 
 /* ----- Hide All Scrollbars ----- */
