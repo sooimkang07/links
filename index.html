@@ -18,7 +18,7 @@
 			</nav>
 
 			<!-------- Search bar (Only visible in Calm mode) -------->
-			<div id="headerSearch" class="timeSearch" role="search">
+			<section id="headerSearch" class="timeSearch" role="search">
 				<!-- Took Michael's feedback from Binding project and learned up about aria-label: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label for screen readers rather than what I did previously with adding the label into html as a span class and hiding it through css styling.   -->
 				<button id="searchToggle" type="button" aria-label="Search for a specific time">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30px" height="30px" aria-hidden="true">
@@ -26,69 +26,69 @@
 					</svg>
 				</button>
 				<input type="text" id="timeSearchInput" placeholder="Search for a specific time" maxlength="5" inputmode="numeric" autocomplete="off">
-			</div>
+			</section>
 		</header>
 
-		<div id="searchOverlay" hidden></div>
+		<aside id="searchOverlay" hidden></aside>
 
 		<main id="canvas" class="grid">
-			<div id="viewport">
+			<section id="viewport">
 				<section>
 					<h1>Nothing Good Happens <span class="line-break">After&nbsp;Midnight...</span></h1>
 					<p class="site-description">“Nothing Good Happens After Midnight” is a time-based Are.na archive that stretches the hours between 12:00 and 4:00 a.m. into something you experience minute by minute. You never know what you’ll get. Each refresh reshuffles the night, scattering fragments of time into something new. Stay calm and choose your minute with intention.</p>
 					<a href="https://www.are.na/sophia-bae-zsvqiaw7cdm/night-life-is-so-fun" target="_blank">Explore Are.na Channel</a>
 					
 					<!-------- Filter Buttons (Only visible in Calm mode) -------->
-					<div id="gridFilters">
-						<button id="refreshBlocks" class="filter-btn" type="button">Refresh</button>
+					<nav id="gridFilters">
+						<button id="refreshBlocks" class="filter-btn" type="button">Chaos</button>
 						<button class="filter-btn active" data-filter="all" type="button">All</button>
 						<button class="filter-btn" data-filter="Remember" type="button">Remember</button>
 						<button class="filter-btn" data-filter="See" type="button">See</button>
 						<button class="filter-btn" data-filter="Hear" type="button">Hear</button>
 						<button class="filter-btn" data-filter="Read" type="button">Read</button>
-					</div>
+					</nav>
 				</section>
 				
 				<!-------- JS displays content blocks here -------->
 				<section id="timeGrid"></section>
-			</div>
+			</section>
 		</main>
 
 		<!-------- Modals (Chaos)-------->
 		<dialog id="modal">
-			<div>
-				<div>
+			<article>
+				<header>
 					<p id="modalTime"></p>
 					<button id="modalClose" type="button">Close</button>
-				</div>
+				</header>
 
-				<div>
-					<div id="modalMedia"></div>
+				<section>
+					<figure id="modalMedia"></figure>
 					<h2 id="modalTitle"></h2>
 					<p id="modalText"></p>
-					<div class="modal-links-container">
+					<nav class="modal-links-container">
 						<a id="modalLearnMore" target="_blank" >Learn More ↗</a>
 						<a id="modalLink" target="_blank">View on Are.na ↗</a>
-					</div>
-				</div>
-			</div>
+					</nav>
+				</section>
+			</article>
 		</dialog>
 
 		<!-------- Asides (Calm) -------->
 		<aside id="gridDetail">
-			<div class="detail-header">
+			<header class="detail-header">
 				<h3 id="detailTime"></h3>
 				<button id="detailClose" type="button">Close</button>
-			</div>
-			<div class="detail-content">
-				<div id="detailMedia"></div>
+			</header>
+			<section class="detail-content">
+				<figure id="detailMedia"></figure>
 				<h2 id="detailTitle"></h2>
 				<p id="detailText"></p>
-				<div class="detail-links-container">
+				<nav class="detail-links-container">
 					<a id="detailLearnMore" target="_blank" class="detail-link">Learn More ↗</a>
 					<a id="detailLink" target="_blank" class="detail-link">View on Are.na ↗</a>
-				</div>
-			</div>
+				</nav>
+			</section>
 		</aside>
 
 		<!-------- Back to Top Button -------->

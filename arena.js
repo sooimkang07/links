@@ -134,18 +134,19 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents`, (json) => {
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
 	// From my understanding, this makes a copy of the blocks array using [...blocks], then sorts it randomly by using Math.random() - 0.5 which gives random positive or negative numbers so the sort order becomes totally scrambled, and stores the shuffled result in shuffledBlocks.
-	const shuffledBlocks = [...blocks].sort(() => Math.random() - 0.5)
+	let renderTimeBlocks = () => {
+		const shuffledBlocks = [...blocks].sort(() => Math.random() - 0.5)
 
-	// I needed to make sure shuffledBlocks isn't empty before I start dividing by its length to avoid a scary math error.
-	// I first referenced the class site's loops section to understand early returns. Then, I Googled "how to prevent divide by zero javascript" and the Google AI Overview mentioned "check array length before math operations", so I looked that up on MDN and then confirmed with Claude:
-		// https://typography-interaction-2526.github.io/topic/javascript/#some-miscellaneous-js-tips
-		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else
-		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return
-	// From my understanding, this checks if shuffledBlocks.length is 0, and if it is it logs an error and stops the whole function with return so it doesn't try to use on an empty array later.
-	if (shuffledBlocks.length === 0) {
-		console.error('No blocks available for time mapping')
-		return
-	}
+		// I needed to make sure shuffledBlocks isn't empty before I start dividing by its length to avoid a scary math error.
+		// I first referenced the class site's loops section to understand early returns. Then, I Googled "how to prevent divide by zero javascript" and the Google AI Overview mentioned "check array length before math operations", so I looked that up on MDN and then confirmed with Claude:
+			// https://typography-interaction-2526.github.io/topic/javascript/#some-miscellaneous-js-tips
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return
+		// From my understanding, this checks if shuffledBlocks.length is 0, and if it is it logs an error and stops the whole function with return so it doesn't try to use on an empty array later.
+		if (shuffledBlocks.length === 0) {
+			console.error('No blocks available for time mapping')
+			return
+		}
 	
 	// I wanted to my randomly placed time buttons to not overlap too much and become unreadable especially over the h1 and site-description (specifically targeted later).
 	// I Googled "how to track taken positions in grid javascript" and the Google AI Overview mentioned "using Set data structure", so I looked that up on MDN then asked Claude to help me set up a grid system with a Set to track occupied cells and a function to check if a new position is available before placing a button, and another function to mark cells as occupied after placing a button:
@@ -153,6 +154,7 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents`, (json) => {
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
 	// From my understanding, GRID_SIZE is set to 20 which divides my screen into coarse chunks, and occupiedCells starts as an empty Set that will store string coordinates of grid cells that already have buttons near them.
+	/* Chaos-only positioning helpers are disabled in calm-only mode.
 	const GRID_SIZE = 20
 	const occupiedCells = new Set()
 
@@ -224,6 +226,7 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents`, (json) => {
 		// From my understanding, this compares top > 120 && top < 180 to create a vertical band and left > 120 && left < 180 to create a horizontal band, and where they overlap is the protected center rectangle.
 		return (top > 120 && top < 180 && left > 120 && left < 180)
 	}
+	*/
 
 	// I needed to categorize each Arena block into my four custom types (Remember/See/Hear/Read) so the filter buttons and modal can sort and display them correctly.
 	// I first referenced the class recording on if statements for conditionals. Then, I Googled "how to check if string contains text javascript" and the Google AI Overview mentioned "includes method and startsWith method", so I looked those up on MDN along with regular expressions and then asked Claude to break that down for me and help me write a function that determines if it's a video, audio, PDF, or just text/link/image based on the various type and URL fields in the block data:
@@ -323,42 +326,7 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents`, (json) => {
 		const fontIndex = Math.floor(Math.random() * 13) + 1
 		const blockType = getBlockType(blockData)
 
-		// I wanted to keep generating random positions until I find one that's not in the center zone and doesn't overlap with existing buttons, but also have a bailout so it doesn't loop forever.
-		// I first referenced the class site's loops section but didn't find do-while examples, so I Googled "how to keep trying random position until valid javascript" and the Google AI Overview mentioned "do-while loop with validation", so I looked that up on MDN and then confirmed my format with Claude:
-			// https://typography-interaction-2526.github.io/topic/javascript/#loops
-			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/do...while
-			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_NOT
-		// From my understanding, 
-			// the do-while loop generates randomTop (30 to 270) and randomLeft (30 to 270) using Math.random(), 
-			// counts attempts each time, and if attempts hits 150 maxAttempts it gives up and breaks out if the current position isn't in the center, 
-			// then the while condition checks if the position isInCenterZone OR if it's not isPositionValid (using ! to negate), and if either is true it loops again.
-		let randomTop
-		let randomLeft
-		let attempts = 0
-		const maxAttempts = 150
-		
-		do {
-			randomTop = 30 + Math.random() * 240
-			randomLeft = 30 + Math.random() * 240
-			attempts++
-			
-			if (attempts >= maxAttempts) {
-				if (!isInCenterZone(randomTop, randomLeft)) {
-					break
-				}
-			}
-		} while (
-			isInCenterZone(randomTop, randomLeft) ||
-			!isPositionValid(randomTop, randomLeft)
-		)
-
-		// I wanted to immediately reserve this position after the loop finds a valid spot so the next button knows this area is taken.
-		// I first referenced the class site's section about functions. Then, I Googled "how to call function in javascript" and the Google AI Overview mentioned "function invocation with parentheses", so I looked that up on MDN and confirmed with Claude that this is the right way to call my markCellOccupied function with the randomTop and randomLeft arguments to reserve the area for this button:
-			// https://typography-interaction-2526.github.io/topic/javascript/#some-miscellaneous-js-tips
-			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#calling_functions
-		// From my understanding, this calls the markCellOccupied function I wrote earlier and passes in the randomTop and randomLeft that just got validated, which marks those coordinates and nearby cells as occupied in the occupiedCells Set.
-		markCellOccupied(randomTop, randomLeft)
+		// Random scatter positioning logic from chaos mode has been removed in calm-only mode.
 
 		// I wanted to build the actual clickable button element with all its data attributes and styling so it can be added to my page and work with the modal/filters.
 		// I first referenced the class site's section about adding/removing classes but realized I needed to create elements from scratch, so I Googled "how to create button element with javascript" and the Google AI Overview mentioned "document.createElement and dataset properties", so I looked those up on MDN along with CSS custom propertie and then confirmed with Claude that this is the right way to create a button, set its class and type, store all the relevant block and time info in data attributes, set the visible text to the timeString, and use CSS custom properties to position it randomly on the grid:
@@ -370,33 +338,28 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents`, (json) => {
 		// From my understanding, this 
 			// creates a new button element, 
 			// sets its className to 'time', sets type to 'button', 
-			// stores blockData.id in dataset.block, stores timeString in dataset.time, stores fontIndex in dataset.fontIndex, stores the random positions in dataset.top and dataset.left, stores blockType in dataset.type for filtering, 
+			// stores blockData.id in dataset.block, stores timeString in dataset.time, stores fontIndex in dataset.fontIndex, stores blockType in dataset.type for filtering, 
 			// puts timeString as the visible button text, 
-			// and sets CSS custom properties --random-top and --random-left using the randomTop and randomLeft values with vh/vw units.
+			// and keeps the button metadata for filtering and detail views.
 		let timeButton = document.createElement('button')
 		timeButton.className = 'time'
 		timeButton.type = 'button'
 		timeButton.dataset.block = blockData.id
 		timeButton.dataset.time = timeString
 		timeButton.dataset.fontIndex = fontIndex
-		timeButton.dataset.top = randomTop
-		timeButton.dataset.left = randomLeft
 		timeButton.dataset.type = blockType // Store block type for filtering
 		timeButton.textContent = timeString
-		timeButton.style.setProperty('--random-top', `${randomTop}vh`)
-		timeButton.style.setProperty('--random-left', `${randomLeft}vw`)
 
 		// I wanted to save all the button and block info in a global array so my other files (like script.js) can access this data to power the modal and filters without refetching.
 		// I Googled "how to add object to array javascript" and the Google AI Overview mentioned "array.push method", so I looked that up on MDN and then asked Claude to break down how to use it to store an object with all the relevant info about this button and its corresponding Arena block into the window.arenaBlocks array:
 			// https://typography-interaction-2526.github.io/week/18/#meet-json
 			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push
 			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects
-		// From my understanding, this pushes a new object into the window.arenaBlocks array containing id (from blockData.id), time (the timeString), fontIndex, position (object with top and left properties), and data (the entire blockData object from Arena), so each button's full info is accessible globally.
+		// From my understanding, this pushes a new object into the window.arenaBlocks array containing id (from blockData.id), time (the timeString), fontIndex, and data (the entire blockData object from Arena), so each button's full info is accessible globally.
 		window.arenaBlocks.push({
 			id: blockData.id,
 			time: timeString,
 			fontIndex: fontIndex,
-			position: { top: randomTop, left: randomLeft },
 			data: blockData
 		})
 
@@ -443,5 +406,12 @@ fetchJson(`https://api.are.na/v3/channels/${channelSlug}/contents`, (json) => {
 		// https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent
 		// https://developer.mozilla.org/en-US/docs/Web/API/Window
 	// From my understanding, this creates a new CustomEvent named 'arenaBlocksLoaded' (with no extra data), then calls window.dispatchEvent to broadcast that event to the whole page, so any script listening for 'arenaBlocksLoaded' (using addEventListener) will be notified and can run their initialization code.
-	window.dispatchEvent(new CustomEvent('arenaBlocksLoaded'))
+		window.dispatchEvent(new CustomEvent('arenaBlocksLoaded'))
+	}
+
+	window.randomizeCalmBlocks = () => {
+		renderTimeBlocks()
+	}
+
+	renderTimeBlocks()
 })

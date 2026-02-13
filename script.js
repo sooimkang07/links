@@ -5,9 +5,7 @@
 
 /* ---------------- Variable Setups ---------------- */
 let stage = document.querySelector('#canvas')
-let viewport = document.querySelector('#viewport')
 
-let toggle = document.querySelector('#viewToggle')
 let filterButtons = document.querySelectorAll('#gridFilters .filter-btn[data-filter]')
 let refreshBlocksBtn = document.querySelector('#refreshBlocks')
 
@@ -15,8 +13,6 @@ let timeSearchInput = document.querySelector('#timeSearchInput')
 let searchToggle = document.querySelector('#searchToggle')
 let headerSearch = document.querySelector('#headerSearch')
 let searchOverlay = document.querySelector('#searchOverlay')
-
-let dialog = document.querySelector('#modal')
 
 let gridDetail = document.querySelector('#gridDetail')
 let detailClose = document.querySelector('#detailClose')
@@ -32,21 +28,9 @@ let activeFilters = new Set(['all'])
 let isPanelDimActive = false
 
 /* ---------------- Calm Mode ---------------- */
-function setCalmView() {
+function initializeCalmLayout() {
 	if (stage) stage.classList.add('grid')
 	document.body.classList.add('calm-mode')
-	document.body.classList.remove('chaos-mode')
-
-	if (toggle) {
-		toggle.textContent = 'Calm'
-		toggle.classList.add('active')
-		toggle.disabled = true
-		toggle.setAttribute('aria-disabled', 'true')
-	}
-
-	if (dialog && dialog.open) {
-		dialog.close()
-	}
 }
 
 /* ---------------- Background Overlay ---------------- */
@@ -350,9 +334,12 @@ function bindFilterButtons() {
 }
 
 if (refreshBlocksBtn) {
+	refreshBlocksBtn.textContent = 'Chaos'
 	refreshBlocksBtn.addEventListener('click', () => {
 		closeGridDetail()
-		window.location.reload()
+		if (typeof window.randomizeCalmBlocks === 'function') {
+			window.randomizeCalmBlocks()
+		}
 	})
 }
 
@@ -371,6 +358,8 @@ function bindTimeButtons() {
 	timeButtons = Array.from(document.querySelectorAll('#timeGrid button'))
 
 	timeButtons.forEach((btn) => {
+		if (btn.dataset.listenerAttached === 'true') return
+		btn.dataset.listenerAttached = 'true'
 		btn.addEventListener('click', () => openDetail(btn.dataset.block))
 	})
 }
@@ -383,7 +372,7 @@ window.addEventListener('arenaBlocksLoaded', () => {
 })
 
 /* ---------------- Initial Load ---------------- */
-setCalmView()
+initializeCalmLayout()
 bindFilterButtons()
 setPanelDimState(false)
 
@@ -464,9 +453,9 @@ function renderMedia(content, container) {
 	}
 
 	if (content.embedHtml) {
-		const embedDiv = document.createElement('div')
-		embedDiv.innerHTML = content.embedHtml
-		container.appendChild(embedDiv)
+		const embedSection = document.createElement('section')
+		embedSection.innerHTML = content.embedHtml
+		container.appendChild(embedSection)
 		return
 	}
 

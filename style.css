@@ -100,6 +100,15 @@
 	/* ----- Calm hover tuning ----- */
 	--timeHoverScale: 1.14;
 	--timePulseDuration: 2.2s;
+
+	/* ----- Liquid Glass ----- */
+	--glassTint: rgba(255,255,255,.08);
+	--glassTintStrong: rgba(255,255,255,.14);
+	--glassBorder: .0625rem solid rgba(255,255,255,.28);
+	--glassHighlight: inset 0 .0625rem 0 rgba(255,255,255,.35);
+	--glassShadow: 0 .5rem 1.5rem rgba(0,0,0,.28);
+	--glassBlurStrong: blur(1.25rem) saturate(165%);
+	--mediaFrameBlockSize: clamp(14rem, 42vh, 20rem);
 }
 
 
@@ -141,8 +150,8 @@ main a,
 dialog button,
 dialog a {
 	appearance: none;
-	border: var(--buttonBorder);
-	background: transparent;
+	border: var(--glassBorder);
+	background: var(--glassTint);
 	color: var(--colorText);
 	font: inherit;
 	text-transform: uppercase;
@@ -152,10 +161,14 @@ dialog a {
 	cursor: pointer;
 	text-decoration: none;
 	font-size: var(--fontSizeUI);
+	backdrop-filter: var(--glassBlurStrong);
+	-webkit-backdrop-filter: var(--glassBlurStrong);
+	box-shadow: var(--glassShadow), var(--glassHighlight);
 	transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
 
 	&:hover {
 		transform: var(--hoverMove);
+		background: var(--glassTintStrong);
 	}
 }
 
@@ -184,7 +197,7 @@ header {
 	}
 
 	#viewToggle { 
-		border-color: rgba(241,241,239,.3);
+		border-color: rgba(255,255,255,.36);
 		min-block-size: 2.5rem;
 		
 		&:hover { 
@@ -524,19 +537,22 @@ main {
 
 			.filter-btn {
 				padding: var(--paddingXs) var(--paddingSm);
-				border: var(--buttonBorder);
+				border: var(--glassBorder);
 				border-radius: var(--buttonRadius);
-				background: transparent;
+				background: var(--glassTint);
 				color: var(--colorText);
 				font-size: var(--fontSizeUI);
 				text-transform: uppercase;
 				letter-spacing: var(--buttonLetterSpacing);
 				cursor: pointer;
+				backdrop-filter: var(--glassBlurStrong);
+				-webkit-backdrop-filter: var(--glassBlurStrong);
+				box-shadow: var(--glassShadow), var(--glassHighlight);
 				transition: transform .15s ease, border-color .15s ease, background-color .15s ease;
 
 				&:hover {
 					border-color: rgba(241,241,239,.85);
-					background: rgba(241,241,239,.08);
+					background: var(--glassTintStrong);
 					transform: var(--hoverMove);
 				}
 
@@ -548,8 +564,11 @@ main {
 			}
 
 			#refreshBlocks {
-				border-color: rgba(117,190,176,.4);
-				color: var(--colorTime);
+				border-color: rgba(117,190,176,.55);
+				color: var(--colorText);
+				background:
+					linear-gradient(145deg, rgba(117,190,176,.3), rgba(117,190,176,.08)),
+					var(--glassTint);
 			}
 		}
 
@@ -568,10 +587,14 @@ main {
 	#viewport > section:last-of-type {
 		> button {
 			appearance: none;
-			border: 0;
-			background: transparent;
-			padding: 0;
+			border: var(--glassBorder);
+			background: var(--glassTint);
+			padding: var(--paddingXs) var(--paddingSm);
 			margin: 0;
+			border-radius: 1.2rem;
+			backdrop-filter: var(--glassBlurStrong);
+			-webkit-backdrop-filter: var(--glassBlurStrong);
+			box-shadow: var(--glassShadow), var(--glassHighlight);
 
 			color: var(--colorTime);
 			text-shadow: var(--timeGlowSoft);
@@ -632,17 +655,17 @@ main {
 	inline-size: 35vw;
 	min-inline-size: 20rem;
 	max-inline-size: 31.25rem;
-	background: rgba(20,20,20,.55);
-	backdrop-filter: blur(22px) saturate(160%);
-	-webkit-backdrop-filter: blur(22px) saturate(160%);
+	background:
+		linear-gradient(165deg, rgba(255,255,255,.16), rgba(255,255,255,.04)),
+		rgba(20,20,20,.42);
+	backdrop-filter: var(--glassBlurStrong);
+	-webkit-backdrop-filter: var(--glassBlurStrong);
 	border-radius: var(--panelRadius);
-	border: 1px solid rgba(255,255,255,.18);
+	border: var(--glassBorder);
 	z-index: 70;
 	padding: 0;
 	overflow: hidden;
-	box-shadow:
-		0 10px 30px rgba(0,0,0,.45),
-		inset 0 1px 0 rgba(255,255,255,.08);
+	box-shadow: var(--glassShadow), var(--glassHighlight);
 	
 	transform: translateX(100%);
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -676,8 +699,8 @@ main {
 
 		button {
 			appearance: none;
-			border: var(--buttonBorder);
-			background: transparent;
+			border: var(--glassBorder);
+			background: var(--glassTint);
 			color: var(--colorText);
 			font: inherit;
 			text-transform: uppercase;
@@ -686,6 +709,9 @@ main {
 			border-radius: var(--buttonRadius);
 			cursor: pointer;
 			font-size: var(--fontSizeUI);
+			backdrop-filter: var(--glassBlurStrong);
+			-webkit-backdrop-filter: var(--glassBlurStrong);
+			box-shadow: var(--glassShadow), var(--glassHighlight);
 			transition: border-color .15s ease;
 
 			&:hover {
@@ -764,13 +790,15 @@ main {
 			gap: var(--paddingSm);
 			flex-shrink: 0;
 			overflow: visible;
-			max-block-size: 62vh;
+			block-size: var(--mediaFrameBlockSize);
+			min-block-size: var(--mediaFrameBlockSize);
+			max-block-size: var(--mediaFrameBlockSize);
 
 			img, video, iframe {
 				display: block;
 				max-inline-size: 100%;
 				inline-size: 100%;
-				max-block-size: 100%;
+				block-size: 100%;
 				object-fit: contain;
 				border-radius: .5rem;
 			}
@@ -782,13 +810,20 @@ main {
 
 			audio {
 				inline-size: 100%;
+				block-size: auto;
 				margin-block-start: var(--paddingSm);
 				display: block;
 				flex-shrink: 0;
+				border: var(--glassBorder);
+				border-radius: .9rem;
+				background: var(--glassTintStrong);
+				backdrop-filter: var(--glassBlurStrong);
+				-webkit-backdrop-filter: var(--glassBlurStrong);
+				box-shadow: var(--glassShadow), var(--glassHighlight);
 			}
 
 			iframe {
-				min-block-size: 18.75rem;
+				min-block-size: 100%;
 				border: none;
 			}
 
@@ -796,12 +831,12 @@ main {
 				display: block;
 				border: none;
 				padding: 0;
-				max-block-size: 100%;
+				block-size: 100%;
 				max-inline-size: 100%;
 
 				img {
 					transition: opacity .2s ease;
-					max-block-size: 100%;
+					block-size: 100%;
 					object-fit: contain;
 				}
 
@@ -815,7 +850,7 @@ main {
 			}
 
 			&.has-audio-cover a img {
-				max-block-size: 44vh;
+				block-size: 100%;
 			}
 		}
 
@@ -836,8 +871,11 @@ main {
 
 		a.detail-link {
 			appearance: none;
-			border: var(--buttonBorder);
+			border: var(--glassBorder);
 			-webkit-backdrop-filter: blur(18px) saturate(160%);
+			backdrop-filter: var(--glassBlurStrong);
+			background: var(--glassTint);
+			box-shadow: var(--glassShadow), var(--glassHighlight);
 			color: var(--colorText);
 			font: inherit;
 			text-transform: uppercase;
@@ -853,7 +891,7 @@ main {
 
 			&:hover {
 				border-color: rgba(241,241,239,.85);
-				background: rgba(241,241,239,.08);
+				background: var(--glassTintStrong);
 				transform: var(--hoverMove);
 			}
 
@@ -924,19 +962,19 @@ main.grid ~ #gridDetail {
 		background-color: transparent;
 	}
 
-	> div {
+	> article {
 		position: absolute;
 		inset-inline: 0;
 		inset-block-end: 0;
 		z-index: 90;
 		block-size: var(--panelHeightMobile);
-		background: rgba(20,20,20,.55);
-		backdrop-filter: blur(22px) saturate(160%);
-		-webkit-backdrop-filter: blur(22px) saturate(160%);
-		border: 1px solid rgba(255,255,255,.18);
-		box-shadow:
-			0 10px 30px rgba(0,0,0,.45),
-			inset 0 1px 0 rgba(255,255,255,.08);
+		background:
+			linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.04)),
+			rgba(20,20,20,.42);
+		backdrop-filter: var(--glassBlurStrong);
+		-webkit-backdrop-filter: var(--glassBlurStrong);
+		border: var(--glassBorder);
+		box-shadow: var(--glassShadow), var(--glassHighlight);
 		transform: translateY(105%);
 		transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 		border-start-start-radius: var(--panelRadius);
@@ -949,7 +987,7 @@ main.grid ~ #gridDetail {
 		gap: var(--paddingSm);
 		padding: var(--paddingSm);
 
-		> div:first-child {
+		> header {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -968,7 +1006,7 @@ main.grid ~ #gridDetail {
 			}
 		}
 
-		> div:last-child {
+		> section {
 			display: flex;
 			flex-direction: column;
 			gap: var(--paddingLg);
@@ -1043,7 +1081,9 @@ main.grid ~ #gridDetail {
 			#modalMedia {
 				inline-size: 100%;
 				max-inline-size: 100%;
-				block-size: 70%;
+				block-size: var(--mediaFrameBlockSize);
+				min-block-size: var(--mediaFrameBlockSize);
+				max-block-size: var(--mediaFrameBlockSize);
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -1055,7 +1095,7 @@ main.grid ~ #gridDetail {
 					display: block;
 					max-inline-size: 100%;
 					inline-size: 100%;
-					max-block-size: 100%;
+					block-size: 100%;
 					object-fit: contain;
 					border-radius: .5rem;
 				}
@@ -1067,13 +1107,20 @@ main.grid ~ #gridDetail {
 
 				audio {
 					inline-size: 100%;
+					block-size: auto;
 					margin-block-start: var(--paddingSm);
 					display: block;
 					flex-shrink: 0;
+					border: var(--glassBorder);
+					border-radius: .9rem;
+					background: var(--glassTintStrong);
+					backdrop-filter: var(--glassBlurStrong);
+					-webkit-backdrop-filter: var(--glassBlurStrong);
+					box-shadow: var(--glassShadow), var(--glassHighlight);
 				}
 
 				iframe {
-					min-block-size: 25rem;
+					min-block-size: 100%;
 					border: none;
 				}
 
@@ -1081,12 +1128,12 @@ main.grid ~ #gridDetail {
 					display: block;
 					border: none;
 					padding: 0;
-					max-block-size: 100%;
+					block-size: 100%;
 					max-inline-size: 100%;
 
 					img {
 						transition: opacity .2s ease;
-						max-block-size: 100%;
+						block-size: 100%;
 						object-fit: contain;
 					}
 
@@ -1100,7 +1147,7 @@ main.grid ~ #gridDetail {
 				}
 
 				&.has-audio-cover a img {
-					max-block-size: 50vh;
+					block-size: 100%;
 				}
 			}
 
@@ -1124,17 +1171,17 @@ main.grid ~ #gridDetail {
 		}
 	}
 
-	&[open]:not(.closing) > div { 
+	&[open]:not(.closing) > article { 
 		transform: translate(0, 0);
 	}
 
-	&.closing > div { 
+	&.closing > article { 
 		transform: translateY(105%);
 	}
 }
 
 main:not(.grid) ~ #modal {
-	> div {
+	> article {
 		@media (width >= 770px) {
 			inset-inline: 0 auto;
 			inset-block: 0;
@@ -1146,13 +1193,13 @@ main:not(.grid) ~ #modal {
 		}
 	}
 
-	&[open]:not(.closing) > div {
+	&[open]:not(.closing) > article {
 		@media (width >= 770px) {
 			transform: translateX(0);
 		}
 	}
 
-	&.closing > div {
+	&.closing > article {
 		@media (width >= 770px) {
 			transform: translateX(-105%);
 		}
@@ -1164,7 +1211,7 @@ main.grid ~ #modal {
 		background-color: var(--backdrop);
 	}
 
-	> div {
+	> article {
 		inset-inline: auto;
 		inset-block: auto;
 		left: 50%;
@@ -1188,12 +1235,12 @@ main.grid ~ #modal {
 		}
 	}
 
-	&[open]:not(.closing) > div {
+	&[open]:not(.closing) > article {
 		transform: translate(-50%, -50%) scale(1);
 		opacity: 1;
 	}
 
-	&.closing > div {
+	&.closing > article {
 		transform: translate(-50%, -50%) scale(0.95);
 		opacity: 0;
 	}
@@ -1207,9 +1254,8 @@ main.grid ~ #modal {
 	right: var(--paddingSm);
 	z-index: 70;
 	appearance: none;
-	border: var(--buttonBorder);
-	background: transparent;
-	backdrop-filter: none;
+	border: var(--glassBorder);
+	background: var(--glassTint);
 	color: var(--colorText);
 	inline-size: 3rem;
 	block-size: 3rem;
@@ -1222,6 +1268,9 @@ main.grid ~ #modal {
 	pointer-events: none;
 	transform: translateY(1rem);
 	transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.15s ease, background-color 0.15s ease;
+	backdrop-filter: var(--glassBlurStrong);
+	-webkit-backdrop-filter: var(--glassBlurStrong);
+	box-shadow: var(--glassShadow), var(--glassHighlight);
 	
 	svg {
 		display: block;
@@ -1231,7 +1280,7 @@ main.grid ~ #modal {
 	
 	&:hover {
 		border-color: rgba(241,241,239,.85);
-		background: rgba(241,241,239,.08);
+		background: var(--glassTintStrong);
 		transform: var(--hoverMove);
 		
 		svg {
@@ -1247,7 +1296,7 @@ main.grid ~ #modal {
 		
 		&:hover {
 			border-color: rgba(241,241,239,.85);
-			background: rgba(241,241,239,.08);
+			background: var(--glassTintStrong);
 			transform: var(--hoverMove);
 			
 			svg {
@@ -1422,6 +1471,25 @@ footer #canvasControls #zoomIn {
 #viewToggle {
 	cursor: default;
 	pointer-events: none;
+}
+
+#detailMedia audio::-webkit-media-controls-panel,
+#modalMedia audio::-webkit-media-controls-panel {
+	background: transparent;
+}
+
+#detailMedia audio::-webkit-media-controls-current-time-display,
+#detailMedia audio::-webkit-media-controls-time-remaining-display,
+#modalMedia audio::-webkit-media-controls-current-time-display,
+#modalMedia audio::-webkit-media-controls-time-remaining-display {
+	color: var(--colorText);
+}
+
+#detailMedia audio::-webkit-media-controls-play-button,
+#detailMedia audio::-webkit-media-controls-mute-button,
+#modalMedia audio::-webkit-media-controls-play-button,
+#modalMedia audio::-webkit-media-controls-mute-button {
+	filter: saturate(0) brightness(1.2);
 }
 
 /* ----- Hide All Scrollbars ----- */
