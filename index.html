@@ -6,11 +6,10 @@
 		<link rel="stylesheet" href="reset.css">
 		<link rel="stylesheet" href="style.css">
 		<script defer src="arena.js"></script>
-		<script defer src="script.js"></script>
 	</head>
 
 	<body>
-		<!-- ---------------- Countdown ---------------- -->
+		<!------------------ Countdown ------------------>
 		<time id="countdownTime">
 			<p>11:59:55 PM</p>
 			<p>11:59:56 PM</p>
@@ -20,7 +19,7 @@
 			<p>12:00:00 AM</p>
 		</time>
 		
-		<!-- ---------------- Header ---------------- -->
+		<!------------------ Header ------------------>
 		<header>
 			<nav>
 				<a href="https://www.are.na/sophia-bae-zsvqiaw7cdm/night-life-is-so-fun" target="_blank">
@@ -30,15 +29,15 @@
 			</nav>
 		</header>
 
-		<!-- ---------------- Main ---------------- -->
-		<main id="canvas" class="grid">
+		<!------------------ Main ------------------>
+		<main class="grid">
 			<section>
-				<h1>Nothing Good Happens <span class="line-break">After&nbsp;Midnight...</span></h1>
+				<h1 id ="top">Nothing Good Happens <span class="line-break">After&nbsp;Midnight...</span></h1>
 				<p>"Nothing Good Happens After Midnight" is a time-based Are.na archive stretching 12:00–4:00 a.m. into something you experience minute by minute. You never know what you'll get. Surrender to the chaos or move with intention, each moment surfacing fragments of what you remember, see, hear, or read as the night unfolds.</p>
 						
-				<!-- ---------------- Filter Buttons ---------------- -->
+				<!------------------ Filter Buttons ------------------>
 				<nav id="gridFilters">
-					<button id="chaosToggle" class="filter-btn btn" type="button">Calm</button>
+					<button id="chaosToggle" class="filter-btn btn" type="button" data-chaos="true"></button>
 					<button class="filter-btn btn active" data-filter="all" type="button">All</button>
 					<button class="filter-btn btn" data-filter="Remember" type="button">Remember</button>
 					<button class="filter-btn btn" data-filter="See" type="button">See</button>
@@ -50,7 +49,7 @@
 			<section id="timeGrid"></section>
 		</main>
 
-		<!-- ---------------- Dialog ---------------- -->
+		<!------------------ Dialog ------------------>
 		<dialog id="gridDetail">
 			<header>
 				<h3 id="detailTime"></h3>
@@ -67,14 +66,14 @@
 			</article>
 		</dialog>
 
-		<!-- ---------------- Back To Top Button ---------------- -->
-		<button id="backToTop" class="btn" type="button" aria-label="Back to top">
+		<!------------------ Back To Top Button ------------------>
+		<a id="backToTop" href="#top" class="btn" aria-label="Back to top">
 			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f1f1ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 				<path d="M10 15V5M5 10l5-5 5 5"/>
 			</svg>
-		</button>
+		</a>
 
-		<!-- ---------------- Footer ---------------- -->
+		<!------------------ Footer ------------------>
 		<footer>
 			<p>Designed By <a href="https://github.com/sooimkang07" target="_blank">Sooim&nbsp;Kang</a></p>
 			<p>Collected By <a href="https://github.com/baes358" target="_blank">Sophia&nbsp;Bae</a></p>

@@ -120,7 +120,7 @@ body {
 	margin: 0;
 	font-family: var(--fontBase);
 	color: var(--colorText);
-	overflow: hidden;
+	/* overflow: hidden; */
 	background-color: var(--colorBg);
 	background-image: var(--colorGradient1), var(--colorGradient2), var(--colorGradient3), var(--colorGradient4);
 }
@@ -129,64 +129,104 @@ body {
 #countdownTime {
 	position: fixed;
 	inset: 0;
-	z-index: 9999;
+	z-index: 10000;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-family: var(--fontH1);
-	font-size: var(--fontSizeH1);
+	font-size: calc(var(--fontSizeH1) * 1.25);
 	color: var(--colorTime);
 	text-shadow: var(--timeGlowStrong);
-	font-variant-numeric: tabular-nums;
+	font-variant-numeric: tabular-nums; /* so that all the numbers take up the same width, preventing layout shifts as the time changes */
 	letter-spacing: .05em;
 	background-color: var(--colorBg);
 	background-image: var(--colorGradient1), var(--colorGradient2), var(--colorGradient3), var(--colorGradient4);
 	transition-property: opacity;
 	transition-duration: .2s;
 	transition-timing-function: var(--easingDefault);
-	
+
 	p {
 		position: absolute;
 		opacity: 0;
 		margin: 0;
-		transform: scale(1);
-		transition-property: opacity;
-		transition-duration: 0s;
-		transition-timing-function: var(--easingDefault);
-		
-		&.active {
-			opacity: 1;
+		animation-name: countdownFrame;
+		animation-duration: 1s;
+		animation-fill-mode: forwards;
+		animation-timing-function: step-end;
+
+		&:nth-child(1) { 
+			animation-delay: 0s; 
+		}
+
+		&:nth-child(2) { 
+			animation-delay: 1s; 
+		}
+
+		&:nth-child(3) { 
+			animation-delay: 2s; 
 		}
 		
-		&.done {
-			opacity: 0;
-			transition-duration: 0s;
+		&:nth-child(4) { 
+			animation-delay: 3s; 
 		}
-		
-		&:last-child.active {
+
+		&:nth-child(5) { 
+			animation-delay: 4s; 
+		}
+
+		&:last-child {
 			animation-name: countdownPulse;
-			animation-duration: 3s;
-			animation-fill-mode: forwards;
-			animation-timing-function: var(--easingCubic);
+			animation-delay: 5s;
+			animation-duration: 1.5s;
+			animation-fill-mode: both;
 		}
 	}
-	
+
 	&.hidden {
 		opacity: 0;
 		pointer-events: none;
 	}
-	
+
 	&.gone {
 		display: none;
 	}
 }
 
+@keyframes countdownFrame {
+	0% { 
+		opacity: 1; 
+	}
+
+	99% { 
+		opacity: 1; 
+	}
+
+	100% { 
+		opacity: 0; 
+	}
+}
+
 @keyframes countdownPulse {
-	0%   { opacity: 1; transform: scale(1); }
-	40%  { opacity: 1; transform: scale(1); }
-	65%  { opacity: 1; transform: scale(1.15); }
-	85%  { opacity: 1; transform: scale(1); }
-	100% { opacity: 1; transform: scale(1); }
+	0% { 
+		opacity: 0; 
+		transform: scale(1); 
+	}
+
+	0% { 
+		opacity: 1; 
+		transform: scale(1); 
+		animation-timing-function: ease-in-out; 
+	}
+
+	50% { 
+		transform: scale(1.15); 
+		animation-timing-function: ease-in-out; 
+	}
+
+	100% { 
+		opacity: 1; 
+		transform: scale(1); 
+	}
 }
 
 /* ---------------- Header/Footer Styling ---------------- */
@@ -198,12 +238,13 @@ footer {
 	flex-direction: row;
 	align-items: center;
 	padding-inline: var(--spaceSm);
-	block-size: var(--spaceMd);
+	block-size: var(--spaceLg);
 	font-size: var(--fontSizeFooter);
 	letter-spacing: .1em;
 	text-transform: uppercase;
 	color: var(--colorText);
 	z-index: 60;
+	background-color: transparent;
 	
 	a {
 		text-decoration: none;
@@ -216,15 +257,20 @@ footer {
 		}
 	}
 	
-	@media (width >= 770px) {
+	/* @media (width >= 770px) {
 		block-size: var(--spaceLg);
-	}
+	} */
 }
 
 /* ---------------- Header ---------------- */
 header {
 	inset-block-start: 0;
 	justify-content: center;
+	transition: transform var(--transitionMedium) var(--easingDefault);
+
+	&.hidden-up {
+		transform: translateY(-100%);
+	}
 	
 	nav {
 		a {
@@ -266,6 +312,11 @@ footer {
 	inset-block-end: 0;
 	justify-content: space-between;
 	background-color: transparent;
+	transition: transform var(--transitionMedium) var(--easingDefault);
+
+	&.hidden-down {
+		transform: translateY(100%);
+	}
 	
 	p {
 		&:first-child {
@@ -324,16 +375,15 @@ header button,
 /* ---------------- Main ---------------- */
 main {
 	position: absolute;
-	inset-block: var(--spaceMd);
-	inset-inline: 0;
+	inset: 0;
 	display: block;
-	padding: var(--spaceSm);
+	padding: var(--spaceLg) var(--spaceSm);
 	overflow-x: hidden;
 	overflow-y: auto;
+	scroll-behavior: smooth;
 	
 	@media (width >= 770px) {
-		padding: var(--spaceMd);
-		inset-block: var(--spaceLg);
+		padding: var(--spaceLg) var(--spaceMd);
 	}
 	
 	@media (width >= 1025px) {
@@ -356,6 +406,7 @@ main {
 				line-height: 1.1;
 				text-align: start;
 				text-transform: uppercase;
+				scroll-margin-top: var(--spaceLg);
 				
 				.line-break {
 					@media (width >= 1025px) {
@@ -393,6 +444,8 @@ main {
 				overflow-x: auto;
 				overflow-y: visible;
 				background-color: transparent;
+				margin-inline: calc(var(--spaceSm) * -1);
+				padding-inline: var(--spaceSm);
 				
 				.filter-btn {
 					white-space: nowrap;
@@ -463,19 +516,57 @@ main {
 					text-shadow: var(--timeGlowStrong);
 				}
 				
-				&[data-font-index="1"] { font-family: var(--fontTime1); }
-				&[data-font-index="2"] { font-family: var(--fontTime2); }
-				&[data-font-index="3"] { font-family: var(--fontTime3); }
-				&[data-font-index="4"] { font-family: var(--fontTime4); }
-				&[data-font-index="5"] { font-family: var(--fontTime5); }
-				&[data-font-index="6"] { font-family: var(--fontTime6); }
-				&[data-font-index="7"] { font-family: var(--fontTime7); }
-				&[data-font-index="8"] { font-family: var(--fontTime8); }
-				&[data-font-index="9"] { font-family: var(--fontTime9); }
-				&[data-font-index="10"] { font-family: var(--fontTime10); }
-				&[data-font-index="11"] { font-family: var(--fontTime11); }
-				&[data-font-index="12"] { font-family: var(--fontTime12); }
-				&[data-font-index="13"] { font-family: var(--fontTime13); }
+				&[data-font-index="1"] { 
+					font-family: var(--fontTime1); 
+				}
+
+				&[data-font-index="2"] { 
+					font-family: var(--fontTime2); 
+				}
+
+				&[data-font-index="3"] { 
+					font-family: var(--fontTime3); 
+				}
+
+				&[data-font-index="4"] { 
+					font-family: var(--fontTime4); 
+				}
+
+				&[data-font-index="5"] { 
+					font-family: var(--fontTime5); 
+				}
+
+				&[data-font-index="6"] { 
+					font-family: var(--fontTime6); 
+				}
+
+				&[data-font-index="7"] { 
+					font-family: var(--fontTime7); 
+				}
+
+				&[data-font-index="8"] { 
+					font-family: var(--fontTime8); 
+				}
+
+				&[data-font-index="9"] { 
+					font-family: var(--fontTime9); 
+				}
+
+				&[data-font-index="10"] { 
+					font-family: var(--fontTime10); 
+				}
+
+				&[data-font-index="11"] { 
+					font-family: var(--fontTime11); 
+				}
+
+				&[data-font-index="12"] { 
+					font-family: var(--fontTime12); 
+				}
+
+				&[data-font-index="13"] { 
+					font-family: var(--fontTime13); 
+				}
 				
 				&.hidden {
 					display: none;
@@ -489,6 +580,12 @@ main {
 	50% {
 		transform: scale(var(--timeHoverScale));
 	}
+}
+
+/* ---------------- Chaos Toggle Label ---------------- */
+#chaosToggle {
+	&[data-chaos="true"]::after  { content: 'Calm'; }
+	&[data-chaos="false"]::after { content: 'Chaos'; }
 }
 
 /* ---------------- Active Filters Buttons ---------------- */
@@ -581,19 +678,57 @@ dialog {
 			text-transform: uppercase;
 			font-variant-numeric: tabular-nums;
 			
-			&[data-font-index="1"] { font-family: var(--fontTime1); }
-			&[data-font-index="2"] { font-family: var(--fontTime2); }
-			&[data-font-index="3"] { font-family: var(--fontTime3); }
-			&[data-font-index="4"] { font-family: var(--fontTime4); }
-			&[data-font-index="5"] { font-family: var(--fontTime5); }
-			&[data-font-index="6"] { font-family: var(--fontTime6); }
-			&[data-font-index="7"] { font-family: var(--fontTime7); }
-			&[data-font-index="8"] { font-family: var(--fontTime8); }
-			&[data-font-index="9"] { font-family: var(--fontTime9); }
-			&[data-font-index="10"] { font-family: var(--fontTime10); }
-			&[data-font-index="11"] { font-family: var(--fontTime11); }
-			&[data-font-index="12"] { font-family: var(--fontTime12); }
-			&[data-font-index="13"] { font-family: var(--fontTime13); }
+			&[data-font-index="1"] { 
+				font-family: var(--fontTime1); 
+			}
+
+			&[data-font-index="2"] { 
+				font-family: var(--fontTime2); 
+			}
+
+			&[data-font-index="3"] { 
+				font-family: var(--fontTime3); 
+			}
+
+			&[data-font-index="4"] { 
+				font-family: var(--fontTime4); 
+			}
+
+			&[data-font-index="5"] { 
+				font-family: var(--fontTime5); 
+			}
+
+			&[data-font-index="6"] { 
+				font-family: var(--fontTime6); 
+			}
+
+			&[data-font-index="7"] { 
+				font-family: var(--fontTime7); 
+			}
+
+			&[data-font-index="8"] { 
+				font-family: var(--fontTime8); 
+			}
+
+			&[data-font-index="9"] { 
+				font-family: var(--fontTime9); 
+			}
+
+			&[data-font-index="10"] { 
+				font-family: var(--fontTime10); 
+			}
+
+			&[data-font-index="11"] { 
+				font-family: var(--fontTime11); 
+			}
+
+			&[data-font-index="12"] { 
+				font-family: var(--fontTime12);
+			}
+
+			&[data-font-index="13"] { 
+				font-family: var(--fontTime13); 
+			}
 		}
 	}
 	
@@ -688,14 +823,14 @@ dialog {
 			video {
 				display: block;
 				inline-size: 100%;
-				block-size: 60vh;
+				block-size: 50vh;
 				object-fit: contain;
 				border-radius: var(--radiusMedia);
 			}
 			
 			> div {
 				inline-size: 100%;
-				block-size: 60vh;
+				block-size: 50vh;
 				
 				iframe {
 					inline-size: 100%;
@@ -706,7 +841,7 @@ dialog {
 			iframe {
 				display: block;
 				inline-size: 100%;
-				min-block-size: 60vh;
+				min-block-size: 50vh;
 				object-fit: contain;
 				border-width: 0;
 				border-style: none;
@@ -721,21 +856,6 @@ dialog {
 			&.has-audio-cover {
 				img {
 					max-block-size: 44vh;
-				}
-			}
-			
-			&.has-learn-more {
-				img,
-				video {
-					block-size: 50vh;
-				}
-				
-				> div {
-					block-size: 50vh;
-				}
-				
-				iframe {
-					min-block-size: 50vh;
 				}
 			}
 		}
@@ -775,6 +895,7 @@ dialog {
 	}
 	
 	&.visible {
+		display: flex;
 		opacity: 1;
 		pointer-events: auto;
 		transform: translateY(0);
