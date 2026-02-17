@@ -621,7 +621,7 @@ dialog {
 	border-color: rgba(255, 255, 255, .12);
 	border-radius: var(--radiusPanel);
 	background-color: rgba(30, 30, 30, var(--opacityOverlay));
-	overflow: hidden;
+	overflow: auto;
 	backdrop-filter: blur(var(--blurXlarge)) saturate(180%);
 	-webkit-backdrop-filter: blur(var(--blurXlarge)) saturate(180%);
 	box-shadow: 0 .5rem 2rem rgba(0, 0, 0, .4), inset 0 var(--borderThin) 0 rgba(255, 255, 255, .1);
@@ -744,8 +744,9 @@ dialog {
 		padding: var(--spaceSm);
 		block-size: 0;
 		flex: 1;
-		overflow: hidden;
+		overflow: auto;
 		text-align: center;
+		padding-block-end: 6rem;
 		
 		h2 {
 			margin: 0;
