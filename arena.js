@@ -47,7 +47,7 @@ if (countdownTime) {
 	setTimeout(() => {
 		countdownTime.classList.add('hidden')
 		setTimeout(() => countdownTime.classList.add('gone'), 100) // Remove from layout after fade.
-	}, 7000)
+	}, 5000)
 }
 
 

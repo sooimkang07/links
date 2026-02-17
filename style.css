@@ -152,8 +152,8 @@ time {
 		margin: 0;
 		animation-name: countdownFrame;
 		animation-duration: 1s;
-		animation-fill-mode: forwards;
-		animation-timing-function: step-end;
+		animation-fill-mode: both;
+		animation-timing-function: linear;
 
 		&:nth-child(1) { 
 			animation-delay: 0s; 
@@ -167,17 +167,17 @@ time {
 			animation-delay: 2s; 
 		}
 		
-		&:nth-child(4) { 
+		/* &:nth-child(4) { 
 			animation-delay: 3s; 
 		}
 
 		&:nth-child(5) { 
 			animation-delay: 4s; 
-		}
+		} */
 
 		&:last-child {
 			animation-name: countdownPulse;
-			animation-delay: 5s;
+			animation-delay: 3s;
 			animation-duration: 1.5s;
 			animation-fill-mode: both;
 		}
@@ -195,7 +195,11 @@ time {
 
 @keyframes countdownFrame {
 	0% { 
-		opacity: 1; 
+		opacity: 0; 
+	}
+
+	1% {
+		opacity: 1;
 	}
 
 	99% { 
