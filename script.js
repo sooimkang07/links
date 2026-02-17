@@ -22,6 +22,40 @@ let isChaosMode = true
 let originalOrder = []
 
 
+/* ---------------- Countdown ---------------- */
+// I wanted to show a full-screen countdown from 11:59:55 PM to 12:00:00 AM on every page load.
+// I first referenced the class site about adding/removing a class to learn how to set up a basic variable. Then, I Googled "how to step through elements one at a time javascript" and the Google AI Overview mentioned "setInterval with an index counter", so I looked that up on MDN and then put it all together with Claude:
+	// https://developer.mozilla.org/en-US/docs/Web/API/setInterval
+	// https://developer.mozilla.org/en-US/docs/Web/API/clearInterval
+// From my understanding, this steps through each p one at a time using a counter, removes .active and adds .done to the outgoing frame so it disappears instantly, then adds .active to the next frame and because both happen in the same JS tick, there's no gap between times. Once the last frame is reached, it clears the interval, waits 3s for the pulse to finish, then adds .hidden to fade the overlay out and .gone to remove it from layout.
+let countdownTime = document.querySelector('#countdownTime')
+
+if (countdownTime) {
+	let frames = Array.from(countdownTime.querySelectorAll('p'))
+	let current = 0
+
+	frames[0].classList.add('active')
+
+	let interval = setInterval(() => {
+		frames[current].classList.remove('active')
+		frames[current].classList.add('done')
+		current++
+
+		if (current < frames.length) {
+			frames[current].classList.add('active')
+		}
+
+		if (current === frames.length - 1) {
+			clearInterval(interval)
+			setTimeout(() => {
+				countdownTime.classList.add('hidden')
+				setTimeout(() => countdownTime.classList.add('gone'), 200)
+			}, 3000)
+		}
+	}, 1000)
+}
+
+
 /* ---------------- Get Block Type ---------------- */
 // I needed to categorize what type of content each Arena block is (Remember/See/Hear/Read) so the filters can sort them and the modal can display them correctly later once I reference them based from their filter buttons.
 // I first referenced the class recording on if statements for conditionals. Then, I Googled "how to check if string contains text javascript" and the Google AI Overview mentioned "includes method and startsWith method", so I looked those up on MDN:
@@ -51,7 +85,7 @@ let getArenaBlockKind = (blockData) => {
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
 // From my understanding, this searches window.arenaBlocks for the block with matching ID, extracts all the URLs and content from the block data, determines the block type, builds a content object with all possible media fields, then pulls only the relevant fields based on whether it's an image/video/audio/PDF/text/link and returns that organized content object.
 let getBlockContent = (blockId) => {
-	let block = window.arenaBlocks && window.arenaBlocks.find((entry) => String(entry.id) == String(blockId))
+	let block = window.arenaBlocks.find((entry) => String(entry.id) == String(blockId))
 	if (!block) return null
 
 	let blockData = block.data || {}
@@ -71,6 +105,7 @@ let getBlockContent = (blockId) => {
 
 	let content = {
 		time: block.time,
+		fontIndex: block.fontIndex,
 		title: blockData.title || blockData.generated_title || 'Untitled',
 		text: '',
 		href: `https://www.are.na/block/${blockData.id}`,
@@ -80,7 +115,8 @@ let getBlockContent = (blockId) => {
 		audioSrc: null,
 		pdfSrc: null,
 		embedHtml: null,
-		mediaType: blockType.toLowerCase()
+		mediaType: blockType.toLowerCase(),
+		learnMoreUrl: (blockData.type == 'Link' && sourceUrl) ? sourceUrl : null
 	}
 
 	if (blockType == 'Remember') {
@@ -129,7 +165,7 @@ let getBlockContent = (blockId) => {
 	// https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
 	// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
 	// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
-// From my understanding, this clears the container, then checks the content object to determine what type of media it has and creates the appropriate HTML elements with proper attributes, then appends them to the container.
+// From my understanding, this empties the media container, figures out what kind of content the block has, builds the right HTML element for it (image, video, audio, embed, or PDF), and drops it in.
 let renderMedia = (content, container) => {
 	container.innerHTML = ''
 	container.classList.remove('has-audio-cover', 'has-audio-only')
@@ -138,17 +174,13 @@ let renderMedia = (content, container) => {
 
 	if (content.audioSrc && content.imageSrc) {
 		container.classList.add('has-audio-cover')
-		let link = document.createElement('a')
-		link.href = content.mediaHref || content.audioSrc
-		link.target = '_blank'
 		let img = document.createElement('img')
 		img.src = content.imageSrc
 		img.alt = content.title
 		let audio = document.createElement('audio')
 		audio.src = content.audioSrc
 		audio.controls = true
-		link.appendChild(img)
-		container.appendChild(link)
+		container.appendChild(img)
 		container.appendChild(audio)
 		return
 	}
@@ -185,20 +217,16 @@ let renderMedia = (content, container) => {
 	}
 
 	if (content.imageSrc) {
-		let link = document.createElement('a')
-		link.href = content.mediaHref || content.imageSrc
-		link.target = '_blank'
 		let img = document.createElement('img')
 		img.src = content.imageSrc
 		img.alt = content.title
-		link.appendChild(img)
-		container.appendChild(link)
+		container.appendChild(img)
 	}
 }
 
 
 /* ---------------- Open Detail Modal ---------------- */
-// I needed to open the modal dialog with the block's content when a user clicks a time button, filling in all the modal fields with the correct data and media.
+// I needed to open the modal dialog with the block's content when you click a time button, filling it in with the correct data and media.
 // I first referenced the class site's section about opening a modal. Then, I Googled "how to open html dialog element" and the Google AI Overview mentioned "showModal method", so I looked that up on MDN and then confirmed my function was written correctly with Claude:
 	// https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal
 // From my understanding, this gets the block content using the blockId, fills the modal's time/title/text fields with that content, shows or hides the "Learn More" link depending on whether it's a Link type, calls renderMedia to display any images/videos/audio in the modal, then opens the modal using showModal().
@@ -206,23 +234,26 @@ let openDetail = (blockId) => {
 	let content = getBlockContent(blockId)
 	if (!content || !gridDetail) return
 
-	if (detailTime) detailTime.textContent = content.time || ''
+	if (detailTime) {
+		detailTime.textContent = content.time || ''
+		detailTime.dataset.fontIndex = content.fontIndex || '1'
+	}
 
 	if (content.text) {
-		if (detailTitle) detailTitle.style.display = 'none'
+		if (detailTitle) detailTitle.classList.add('hidden')
 		if (detailText) {
 			detailText.innerHTML = content.text
-			detailText.style.display = 'block'
+			detailText.classList.remove('hidden')
 			detailText.classList.add('text-block')
 		}
 	} else {
 		if (detailTitle) {
-			detailTitle.style.display = 'block'
+			detailTitle.classList.remove('hidden')
 			detailTitle.textContent = content.title
 		}
 		if (detailText) {
 			detailText.innerHTML = ''
-			detailText.style.display = 'none'
+			detailText.classList.add('hidden')
 			detailText.classList.remove('text-block')
 		}
 	}
@@ -230,9 +261,14 @@ let openDetail = (blockId) => {
 	if (detailLink) detailLink.href = content.href
 
 	if (detailLearnMore) {
-		let showLearnMore = content.mediaType == 'link' && content.mediaHref
-		detailLearnMore.style.display = showLearnMore ? 'inline-block' : 'none'
-		if (showLearnMore) detailLearnMore.href = content.mediaHref
+		if (content.learnMoreUrl) {
+			detailLearnMore.classList.remove('hidden')
+			detailLearnMore.href = content.learnMoreUrl
+			if (detailMedia) detailMedia.classList.add('has-learn-more')
+		} else {
+			detailLearnMore.classList.add('hidden')
+			if (detailMedia) detailMedia.classList.remove('has-learn-more')
+		}
 	}
 
 	if (detailMedia) renderMedia(content, detailMedia)
@@ -254,10 +290,10 @@ if (detailClose) {
 
 
 /* ---------------- Apply Filter ---------------- */
-// I needed to handle filter button clicks to show/hide time buttons based on which filters are active.
-// I Googled "how to toggle item in set javascript" and the Google AI Overview mentioned "has/add/delete methods", so I looked those up on MDN, and then I confirmed my function structure with Claude:
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
-// From my understanding, this updates the activeFilters Set (clearing it and adding 'all' if All is clicked, otherwise toggling individual filters on/off), updates which filter buttons have the 'active' class, then shows/hides time buttons based on whether their type matches any active filter.
+// I wanted to handle filter button clicks to show/hide time buttons based on which filters are active.
+// I Googled "javascript set add remove check item" and the Google AI Overview mentioned "has/add/delete methods", so I looked those up on MDN:
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+// From my understanding, this tracks which filters are active in a Set, clears it and adds 'all' if All is clicked, otherwise toggles that filter on or off, then updates the active class on filter buttons and shows or hides time buttons to match.
 let applyFilter = (filterType) => {
 	if (filterType == 'all') {
 		activeFilters.clear()
@@ -278,22 +314,20 @@ let applyFilter = (filterType) => {
 
 	timeButtons.forEach((btn) => {
 		let blockType = btn.dataset.type || 'Read'
-		btn.style.display = (activeFilters.has('all') || activeFilters.has(blockType)) ? '' : 'none'
+		btn.classList.toggle('hidden', !activeFilters.has('all') && !activeFilters.has(blockType))
 	})
 }
 
 
 /* ---------------- Bind Filter Buttons ---------------- */
-// I needed to attach click event listeners to all the filter buttons so they trigger the applyFilter function when clicked, and prevent duplicate listeners if the function runs multiple times.
-// I first referenced the class site's section about forEach loops. Then, I Googled "how to prevent duplicate event listeners javascript" and the Google AI Overview mentioned "checking for flag in dataset", so I looked that up on MDN:
+// I needed to attach click event listeners to all the filter buttons so they trigger the applyFilter function when clicked.
+// I first referenced the class site's section about forEach loops. Then, I Googled "how to add event listener to multiple buttons javascript ES6+" and the Google AI Overview mentioned "querySelectorAll with forEach", so I looked those up on MDN:
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 	// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset
-// From my understanding, this queries all filter buttons, loops through them with forEach, checks if each button already has a listener attached (via dataset flag), and if not, marks it as attached and adds a click listener that calls applyFilter with that button's filter value.
+// From my understanding, this queries all filter buttons and loops through them with forEach, adding a click listener to each one that calls applyFilter with that button's filter value.
 let bindFilterButtons = () => {
 	filterButtons = document.querySelectorAll('#gridFilters .filter-btn[data-filter]')
 	filterButtons.forEach((btn) => {
-		if (btn.dataset.listenerAttached == 'true') return
-		btn.dataset.listenerAttached = 'true'
 		btn.addEventListener('click', () => applyFilter(btn.dataset.filter))
 	})
 }
@@ -304,7 +338,7 @@ let bindFilterButtons = () => {
 // I first referenced the class site's section about arrays and loops. Then, I Googled "how to shuffle array javascript" and the Google AI Overview mentioned "sort with Math.random", so I looked that up on MDN:
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-// From my understanding, this toggles isChaosMode boolean, updates the button text to match the new mode, gets the time grid container, and either shuffles all buttons randomly (chaos mode) or restores them to chronological order (calm mode) by manipulating the DOM children array.
+// From my understanding, this flips between chaos and calm mode, updates the button label, then either scrambles all the time buttons into a random order or puts them back in chronological order.
 let toggleChaos = () => {
 	isChaosMode = !isChaosMode
 	chaosToggle.textContent = isChaosMode ? 'Calm' : 'Chaos'
@@ -346,8 +380,8 @@ let bindTimeButtons = () => {
 
 
 /* ---------------- Back to Top Button ---------------- */
-// I needed to show/hide the back-to-top button based on scroll position - visible when scrolled down past the header section, hidden when at the top.
-// I first referenced the class site's section about IntersectionObserver. Then, I Googled "how to detect element visibility javascript" and the Google AI Overview mentioned "IntersectionObserver API", so I looked that up on MDN and confirmed my function with Claude:
+// I wanted to show/hide the back-to-top button based on scroll position, only visible when scrolled down past the header section.
+// I first referenced the class site's section about "Watching for Scrolling". Then, I Googled "how to detect element visibility javascript" and the Google AI Overview mentioned "IntersectionObserver API", so I looked that up on MDN and confirmed my function with Claude:
 	// https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
 	// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver
 // From my understanding, this sets up variables for the button and header section, then creates an IntersectionObserver that watches the header - when the header is intersecting (visible in viewport) it removes the 'visible' class from the button to hide it, and when the header is not intersecting (scrolled past) it adds the 'visible' class to show the button.
@@ -400,9 +434,3 @@ window.addEventListener('arenaBlocksLoaded', () => {
 		shuffled.forEach(btn => timeGrid.appendChild(btn))
 	}
 })
-
-
-/* ---------------- Initial Setup ---------------- */
-// I needed to run initial setup functions when the page loads.
-// From my understanding, this calls bindFilterButtons to set up the filter button listeners early so they're ready when blocks load.
-bindFilterButtons()

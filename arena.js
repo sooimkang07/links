@@ -7,7 +7,7 @@ let myUsername = 'sooim-kang-07'
 	// https://typography-interaction-2526.github.io/week/18/#meet-json
 	// https://developer.mozilla.org/en-US/docs/Web/API/Window
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
-// From my understanding, window.arenaBlocks starts as an empty array [] and gets filled up later with all 240 time buttons and their associated Arena block info.
+// From my understanding, window.arenaBlocks starts as an empty array [] and gets filled up later with all 240 time buttons and their respective Arena block info.
 window.arenaBlocks = []
 
 
@@ -23,7 +23,7 @@ let fetchJson = (url, callback, pageResponses = []) => {
 		.then((json) => {
 			pageResponses.push(json)
 
-			let nextPage = json.meta && json.meta.next_page
+			let nextPage = json.meta ? json.meta.next_page : null
 			if (nextPage) {
 				requestUrl.searchParams.set('page', String(nextPage))
 				fetchJson(requestUrl.toString(), callback, pageResponses)
