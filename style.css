@@ -45,6 +45,7 @@
 	--fontTime12: "Manrope", sans-serif;
 	--fontTime13: "DM Sans", sans-serif;
 	
+	/* As I was sleuthing through the class site's Inspect console, I noticed you wrote the h1 font size variable as --size--h1: clamp(2rem, 4.75vw, 3rem);, so I assumed this is the best responsive way to fluidly style large texts like my h1 is. So I wanted to use that for my site here.  */
 	--fontSizeH1: clamp(2.5rem, 5vw + 1rem, 6.25rem);
 	--fontSizeTime: clamp(1.75rem, 5vw, 3.25rem);
 	--fontSizeUI: .75rem;
@@ -126,7 +127,7 @@ body {
 }
 
 /* ---------------- Countdown ---------------- */
-#countdownTime {
+time {
 	position: fixed;
 	inset: 0;
 	z-index: 10000;
