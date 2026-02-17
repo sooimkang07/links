@@ -271,21 +271,21 @@ let shuffleGrid = () => { // Extracted helper — shared by toggleChaos and the 
 	buttons.forEach((btn) => timeGrid.appendChild(btn))
 }
 
-let toggleChaos = () => {
-	isChaosMode = !isChaosMode
-	chaosToggle.dataset.chaos = isChaosMode // CSS reads this attribute to swap the label.
+// let toggleChaos = () => {
+// 	isChaosMode = !isChaosMode
+// 	chaosToggle.dataset.chaos = isChaosMode // CSS reads this attribute to swap the label.
 
-	if (isChaosMode) {
-		shuffleGrid()
-	} 
-		else {
-			timeGrid.innerHTML = ''
-			originalOrder.forEach((btn) => timeGrid.appendChild(btn))
-		}
-}
+// 	if (isChaosMode) {
+// 		shuffleGrid()
+// 	} 
+// 		else {
+// 			timeGrid.innerHTML = ''
+// 			originalOrder.forEach((btn) => timeGrid.appendChild(btn))
+// 		}
+// }
 
-chaosToggle.dataset.chaos = isChaosMode // Set initial state so the CSS label matches JS state on load.
-chaosToggle.addEventListener('click', toggleChaos)
+// chaosToggle.dataset.chaos = isChaosMode // Set initial state so the CSS label matches JS state on load.
+// chaosToggle.addEventListener('click', toggleChaos)
 
 
 // ---- BACK TO TOP BUTTON ----

@@ -588,10 +588,10 @@ main {
 }
 
 /* ---------------- Chaos Toggle Label ---------------- */
-#chaosToggle {
+/* #chaosToggle {
 	&[data-chaos="true"]::after  { content: 'Calm'; }
 	&[data-chaos="false"]::after { content: 'Chaos'; }
-}
+} */
 
 /* ---------------- Active Filters Buttons ---------------- */
 #gridFilters .filter-btn.active {
