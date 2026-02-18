@@ -81,7 +81,7 @@ let getBlockType = (blockData) => {
 
 // ---- RENDER BLOCKS ----
 // Then our big function for specific-block-type rendering, adapted from the class demo's renderBlock function. Instead of inserting into a list, this targets the modal figure directly because I have 240 buttons that all open the same dialog so something has to remember which button was clicked and go get that block's data to fill it in.
-// I Googled "how to insert html string into element javascript" and the Google AI Overview mentioned "insertAdjacentHTML", so I looked that up on MDN. I also saw Michael's Slack note about how Are.na stores audio files to pull the src from attachment.url:
+// I Googled "how to insert html string into element javascript" and the Google AI Overview mentioned "insertAdjacentHTML", so I looked that up on MDN. I also saw Michael's Slack note about how Are.na stores audio files to pull the src from attachment.url and fixed the PDF iframe safari issue. I confirmed my function write up with Claude:
 	// https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML
 	// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
 	// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
@@ -224,7 +224,8 @@ document.addEventListener('click', (event) => {
 
 
 // ---- FILTER BUTTONS ----
-// I wanted to handle filter button clicks to show/hide time buttons based on which filters are active. I Googled "javascript set add remove selected item" and the Google AI Overview mentioned "has/add/delete methods", so I looked those up on MDN:
+// I wanted to handle filter button clicks to show/hide time buttons based on which filters are active. 
+// I Googled "javascript set add remove selected item" and the Google AI Overview mentioned "has/add/delete methods", so I looked those up on MDN and then confirmed my function write up with Claude:
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 // From my understanding, this tracks which filters are active in a Set, clears it and adds 'all' if All is clicked, otherwise toggles that filter on or off, then updates the active class on filter buttons and shows or hides time buttons to match. applyFilter is an extra function not in the class demo, but it's needed because the grid has four content-type filters (Remember/See/Hear/Read) that need to show/hide buttons.
 let applyFilter = (filterType) => {
