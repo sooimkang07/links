@@ -125,7 +125,9 @@ let renderBlock = (blockData) => {
 		// Uploaded PDFs!
 		else if (attachmentType.includes('pdf')) {
 			detailMedia.insertAdjacentHTML('beforeend',
-				`<iframe src="${ attachmentUrl }"></iframe>`)
+				`<img alt="${ blockData.title }" src="${ imageSrc }">`)
+			detailLearnMore.href = attachmentUrl
+			detailLearnMore.classList.remove('hidden')
 		}
 
 		// Uploaded audio!
@@ -296,7 +298,10 @@ let shuffleGrid = () => { // Extracted helper — shared by toggleChaos and the 
 let sectionObserver = new IntersectionObserver(([entry]) => {
 	// When it is intersecting, remove the class; otherwise, apply it.
 	backToTopBtn.classList.toggle('visible', !entry.isIntersecting)
-}, { root: scrollContainer }) // Pass `main` as the root so it watches scroll within that container.
+}, 
+	{ 
+		root: scrollContainer 
+	}) // Pass `main` as the root so it watches scroll within that container.
 sectionObserver.observe(headerSection) // Watch for it!
 
 
