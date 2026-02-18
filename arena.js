@@ -41,13 +41,22 @@ let siteFooter      = document.querySelector('footer')
 
 
 // ---- COUNTDOWN ----
-// I referenced the adding/removing a class section of the class site to learn how to target the countdown element and add a class after a delay. I wanted the countdown to fade out after 7 seconds, then be removed from the layout after the fade completes at 7.1 seconds, so I used two setTimeouts to add .hidden and then .gone.
-// JS only adds .hidden (fade out) and .gone (remove from layout) after the full 7s sequence ends. 5 frames × 1s each + 1.5s pulse on the last frame = 7ish seconds total.
+// I referenced the adding/removing a class section of the class site to learn how to target the countdown element and add a class after a delay. Instead of relying on CSS animation-delay (which iOS Safari handles inconsistently which I slacked Michael about, causing all frames to show at once), I drive the sequence entirely with JS setTimeouts (one per frame) adding .active to show each p and removing it before the next one appears. CSS just handles the visible state via the .active class.
 if (countdownTime) {
+	let frames = Array.from(countdownTime.querySelectorAll('p'))
+
+	frames.forEach((frame, index) => {
+		setTimeout(() => {
+			frames.forEach((f) => f.classList.remove('active')) // Hide all frames.
+			frame.classList.add('active') // Show just this one.
+		}, index * 1000)
+	})
+
+	// Hide the overlay after all frames have played + pulse duration on the last frame.
 	setTimeout(() => {
 		countdownTime.classList.add('hidden')
-		setTimeout(() => countdownTime.classList.add('gone'), 100) // Remove from layout after fade.
-	}, 5000)
+		setTimeout(() => countdownTime.classList.add('gone'), 200) // Remove from layout after fade.
+	}, frames.length * 1000 + 1500)
 }
 
 
