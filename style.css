@@ -362,7 +362,7 @@ main {
 		gap: var(--spaceXs);
 		justify-content: flex-start;
 		position: sticky;
-		inset-block-start: -2rem;
+		inset-block-start: -2.5rem;
 		z-index: 50;
 		padding-block: .75rem;
 		overflow-x: auto;
@@ -716,7 +716,6 @@ dialog {
 		flex: 1;
 		overflow: auto;
 		text-align: center;
-		padding-block-end: 6rem;
 		
 		h2 {
 			margin: 0;
