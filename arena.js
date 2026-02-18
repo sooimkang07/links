@@ -183,14 +183,11 @@ let renderBlock = (blockData) => {
 	// https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal
 	// https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/close
 // From my understanding, openDetail gets the block data from arenaBlocks using the blockId, fills the modal's time/title/text/media fields with that content, then opens the modal using showModal(). The close button listener calls close(). openDetail is an extra function not in the class demo, but it's needed because 240 time buttons all share one dialog, so something has to look up which block was clicked and fill the modal before calling showModal().
-let openDetail = (blockId) => { // The thing we're clicking into.
+let openDetail = (blockId, timeLabel) => {
 	let block = arenaBlocks.find((entry) => String(entry.id) == String(blockId))
-	
 	if (!block) return
-
 	let blockData = block.data
-
-	detailTime.textContent       = block.time
+	detailTime.textContent       = timeLabel || block.time
 	detailTime.dataset.fontIndex = block.fontIndex
 
 	// Text blocks show their content in the text field instead of a title + media.
@@ -415,7 +412,7 @@ fetchJson(`https://api.are.na/v3/channels/${ channelSlug }/contents?per=100`, (j
 
 	// Loop through the list, doing this `forEach` for each one.
 	document.querySelectorAll('.time').forEach((btn) => {
-		btn.addEventListener('click', () => openDetail(btn.dataset.block))
+		btn.addEventListener('click', () => openDetail(btn.dataset.block, btn.dataset.time))
 	})
 
 	filterButtons.forEach((btn) => {
