@@ -840,7 +840,7 @@ dialog {
 /* ---------------- Back to Top Button ---------------- */
 #backToTop {
 	position: fixed;
-	inset-block-end: calc(var(--spaceLg) + var(--spaceSm));
+	inset-block-end: var(--spaceSm);
 	inset-inline-end: var(--spaceSm);
 	z-index: 70;
 	display: none;
@@ -879,6 +879,7 @@ dialog {
 	@media (width >= 770px) {
 		display: flex;
 		inset-inline-end: var(--spaceMd);
+		inset-block-end: 4rem;
 	}
 }
 
