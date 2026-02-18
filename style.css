@@ -121,7 +121,7 @@ body {
 	margin: 0;
 	font-family: var(--fontBase);
 	color: var(--colorText);
-	/* overflow: hidden; */
+	overflow: hidden;
 	background-color: var(--colorBg);
 	background-image: var(--colorGradient1), var(--colorGradient2), var(--colorGradient3), var(--colorGradient4);
 }
@@ -157,7 +157,7 @@ time {
 
 		&:last-child.active {
 			animation-name: countdownPulse;
-			animation-duration: 1.5s;
+			animation-duration: 1s;
 			animation-fill-mode: both;
 		}
 	}
@@ -344,7 +344,7 @@ main {
 	inset: 0;
 	display: block;
 	padding: var(--spaceLg) var(--spaceSm);
-	overflow-x: hidden;
+	/* overflow-x: hidden; */
 	overflow-y: auto;
 	scroll-behavior: smooth;
 	
@@ -356,13 +356,57 @@ main {
 		padding: var(--spaceLg);
 	}
 	
+	nav {
+		display: flex;
+		flex-wrap: nowrap;
+		gap: var(--spaceXs);
+		justify-content: flex-start;
+		position: sticky;
+		inset-block-start: -2rem;
+		z-index: 50;
+		padding-block: .75rem;
+		overflow-x: auto;
+		overflow-y: visible;
+		background-color: transparent;
+		margin-block-end: var(--spaceLg);
+		margin-inline: calc(var(--spaceSm) * -1);
+		padding-inline: var(--spaceSm);
+
+		@media (width >= 770px) {
+			margin-inline: calc(var(--spaceMd) * -1);
+			padding-inline: var(--spaceMd);
+		}
+
+		@media (width >= 1025px) {
+			margin-inline: calc(var(--spaceLg) * -1);
+			padding-inline: var(--spaceLg);
+		}
+		
+		.filter-btn {
+			white-space: nowrap;
+			flex-shrink: 0;
+			
+			&.active {
+				border-color: var(--colorTime);
+				background-color: rgba(117, 190, 176, .08);
+				color: var(--colorTime);
+				
+				&:hover {
+					border-color: var(--colorTime);
+					background-color: rgba(117, 190, 176, .12);
+					color: var(--colorTime);
+				}
+			}
+		}
+	}
+	
 	section {
 		&:first-of-type {
 			display: flex;
 			flex-direction: column;
 			align-items: start;
 			gap: var(--spaceMd);
-			margin-block-end: var(--spaceLg);
+			margin-block-end: var(--spaceMd);
 			text-align: center;
 			
 			h1 {
@@ -393,41 +437,6 @@ main {
 				
 				@media (width >= 770px) {
 					max-inline-size: 50rem;
-				}
-			}
-			
-			nav {
-				align-self: stretch;
-				display: flex;
-				flex-wrap: nowrap;
-				gap: var(--spaceXs);
-				justify-content: flex-start;
-				position: sticky;
-				inset-block-start: var(--spaceMd);
-				z-index: 50;
-				margin: 0;
-				padding-block: .75rem;
-				overflow-x: auto;
-				overflow-y: visible;
-				background-color: transparent;
-				margin-inline: calc(var(--spaceSm) * -1);
-				padding-inline: var(--spaceSm);
-				
-				.filter-btn {
-					white-space: nowrap;
-					flex-shrink: 0;
-					
-					&.active {
-						border-color: var(--colorTime);
-						background-color: rgba(117, 190, 176, .08);
-						color: var(--colorTime);
-						
-						&:hover {
-							border-color: var(--colorTime);
-							background-color: rgba(117, 190, 176, .12);
-							color: var(--colorTime);
-						}
-					}
 				}
 			}
 		}

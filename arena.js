@@ -56,7 +56,7 @@ if (countdownTime) {
 	setTimeout(() => {
 		countdownTime.classList.add('hidden')
 		setTimeout(() => countdownTime.classList.add('gone'), 200) // Remove from layout after fade.
-	}, frames.length * 1000 + 1500)
+	}, frames.length * 1000 + 200)
 }
 
 
@@ -315,15 +315,15 @@ sectionObserver.observe(headerSection) // Watch for it!
 
 
 // ---- HIDE HEADER + FOOTER WHEN FILTERS LEAVE VIEWPORT ----
-// I wanted the header and footer to slide out of view once the gridFilters nav scrolls out of view, so they don't cover the time grid.
+// I wanted the header and footer to slide out of view once the site description scrolls out of view, so they don't cover the time grid.
 // I referenced the class site's section about "Watching for Scrolling".
-// From my understanding, this creates an IntersectionObserver that watches #gridFilters, so when it's intersecting (visible), remove the hide classes; otherwise, add them. CSS handles the actual transition, and @media (width >= 770px) undoes the effect on desktop so the header and footer stay fixed as normal there.
+// From my understanding, this creates an IntersectionObserver that watches the p in the first section of main, so when it's intersecting (visible), remove the hide classes; otherwise, add them. CSS handles the actual transition, and @media (width >= 770px) undoes the effect on desktop so the header and footer stay fixed as normal there.
 let gridObserver = new IntersectionObserver(([entry]) => {
 	// When it is intersecting, remove the class; otherwise, apply it.
 	siteHeader.classList.toggle('hidden-up', !entry.isIntersecting)
 	siteFooter.classList.toggle('hidden-down', !entry.isIntersecting)
 }, { root: scrollContainer })
-gridObserver.observe(document.querySelector('#gridFilters')) // Watch for it!
+gridObserver.observe(document.querySelector('main > section:first-of-type p')) // Watch for it!
 
 
 // ---- FETCH HELPER ----
