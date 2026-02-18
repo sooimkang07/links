@@ -881,3 +881,32 @@ dialog {
 		inset-inline-end: var(--spaceMd);
 	}
 }
+
+/* ---------------- Accessibility ---------------- */
+@media (prefers-reduced-motion: reduce) {
+	* {
+		animation: none;
+		transition-duration: 0.01ms;
+	}
+
+	:root {
+		scroll-behavior: auto;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--colorBg: #f1f1ef;
+		--colorText: #1a1a1a;
+	}
+}
+
+@media (prefers-contrast: more) {
+	:root {
+		--opacityBorder: .8;
+		--opacityText: 1;
+		--opacityTextAlt: 1;
+		--timeGlowSoft: none;
+		--timeGlowStrong: none;
+	}
+}
