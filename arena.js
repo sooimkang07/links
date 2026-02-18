@@ -6,14 +6,11 @@ let myUsername  = 'sooim-kang-07' // For linking to your profile.
 // From my understanding, arenaBlocks starts as an empty array [] and gets filled up later with all 240 time buttons and their respective Are.na block info.
 let arenaBlocks = []
 
-// I wanted to track which filters are active and whether chaos mode is on.
-// I first thought about using arrays for activeFilters and isChaosMode and referenced the class recording, but then I asked Google if that was the right way to track those things and the Google AI Overview mentioned using a Set for tracking unique items and a boolean for toggling true/false instead, so I looked those up on MDN:
+// I wanted to track which filters are active.
+// I first thought about using arrays for activeFilters and referenced the class recording, but then I asked Google if that was the right way to track those things and the Google AI Overview mentioned using a Set for tracking unique items instead, so I looked that up on MDN:
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean	
-// From my understanding, a Set lets me add/remove/check filter names without duplicates, and isChaosMode just flips between true and false when the toggle is clicked.
+// From my understanding, a Set lets me add/remove/check filter names without duplicates.
 let activeFilters = new Set(['all'])
-let isChaosMode   = true
-let originalOrder = []
 
 
 // ---- VARIABLES ----
@@ -22,9 +19,7 @@ let originalOrder = []
 // From my understanding, querySelector grabs single elements by ID or class, querySelectorAll grabs multiple elements as a NodeList, and storing them in variables lets me reuse them throughout the script without searching the DOM every time.
 let timeGrid        = document.querySelector('#timeGrid')
 let filterButtons   = document.querySelectorAll('#gridFilters .filter-btn[data-filter]')
-let chaosToggle     = document.querySelector('#chaosToggle')
-let modalButton     = document.querySelector('#gridDetail') // The thing we're clicking into.
-let modalDialog     = document.querySelector('#gridDetail') // Now one for our `dialog`.
+let modalDialog     = document.querySelector('#gridDetail')
 let closeButton     = modalDialog.querySelector('button')   // Only looking within `modalDialog`.
 let detailTime      = document.querySelector('#detailTime')
 let detailTitle     = document.querySelector('#detailTitle')
@@ -85,7 +80,7 @@ let getBlockType = (blockData) => {
 
 
 // ---- RENDER BLOCKS ----
-// Then our big function for specific-block-type rendering, adapted from the class demo's renderBlock function. Instead of inserting into a list, this targets the modal figure directly  because I have 240 buttons that all open the same dialog so something has to remember which button was clicked and go get that block's data to fill it in.
+// Then our big function for specific-block-type rendering, adapted from the class demo's renderBlock function. Instead of inserting into a list, this targets the modal figure directly because I have 240 buttons that all open the same dialog so something has to remember which button was clicked and go get that block's data to fill it in.
 // I Googled "how to insert html string into element javascript" and the Google AI Overview mentioned "insertAdjacentHTML", so I looked that up on MDN. I also saw Michael's Slack note about how Are.na stores audio files to pull the src from attachment.url:
 	// https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML
 	// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
@@ -187,6 +182,7 @@ let openDetail = (blockId, timeLabel) => {
 	let block = arenaBlocks.find((entry) => String(entry.id) == String(blockId))
 	if (!block) return
 	let blockData = block.data
+
 	detailTime.textContent       = timeLabel || block.time
 	detailTime.dataset.fontIndex = block.fontIndex
 
@@ -262,38 +258,17 @@ let applyFilter = (filterType) => {
 }
 
 
-// ---- CHAOS/CALM TOGGLE BUTTON ----
-// I wanted to let users toggle between chaos mode (shuffled random order) and calm mode (chronological 12:00–3:59 order). 
+// ---- SHUFFLE GRID ----
+// I wanted to randomize the display order of the time buttons on load so the grid feels different every visit.
 // I first referenced the class site's section about arrays and loops. Then, I Googled "how to shuffle array javascript" and the Google AI Overview mentioned "sort with Math.random", so I looked that up on MDN:
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-// From my understanding, this flips between chaos and calm mode, then either scrambles all the time buttons into a random order or puts them back in chronological order.
-// Note: instead of reassigning textContent in JS, the button label is driven by CSS reading a data-chaos attribute, so JS just flips the attribute value and CSS handles what the user reads: 
-	// [data-chaos="true"]  ::after { content: 'Calm' } 
-	// [data-chaos="false"] ::after { content: 'Chaos' }
-	// https://developer.mozilla.org/en-US/docs/Web/CSS/content
-// toggleChaos and shuffleGrid are extra functions not in the class demo, but they're needed because the grid has a chaos/calm toggle that reorders 240 buttons based on the concept of the site.
-let shuffleGrid = () => { // Extracted helper — shared by toggleChaos and the initial load shuffle.
+// From my understanding, this grabs all current buttons as an array, sorts them in a random order, clears the grid, then re-appends them in that new order.
+let shuffleGrid = () => {
 	let buttons = Array.from(timeGrid.children).sort(() => Math.random() - 0.5)
 	timeGrid.innerHTML = ''
 	buttons.forEach((btn) => timeGrid.appendChild(btn))
 }
-
-// let toggleChaos = () => {
-// 	isChaosMode = !isChaosMode
-// 	chaosToggle.dataset.chaos = isChaosMode // CSS reads this attribute to swap the label.
-
-// 	if (isChaosMode) {
-// 		shuffleGrid()
-// 	} 
-// 		else {
-// 			timeGrid.innerHTML = ''
-// 			originalOrder.forEach((btn) => timeGrid.appendChild(btn))
-// 		}
-// }
-
-// chaosToggle.dataset.chaos = isChaosMode // Set initial state so the CSS label matches JS state on load.
-// chaosToggle.addEventListener('click', toggleChaos)
 
 
 // ---- BACK TO TOP BUTTON ----
@@ -311,7 +286,7 @@ let sectionObserver = new IntersectionObserver(([entry]) => {
 sectionObserver.observe(headerSection) // Watch for it!
 
 
-// ---- HIDE HEADER + FOOTER WHEN FILTERS LEAVE VIEWPORT ----
+// ---- HIDE HEADER + FOOTER WHEN DESCRIPTION LEAVES VIEWPORT ----
 // I wanted the header and footer to slide out of view once the site description scrolls out of view, so they don't cover the time grid.
 // I referenced the class site's section about "Watching for Scrolling".
 // From my understanding, this creates an IntersectionObserver that watches the p in the first section of main, so when it's intersecting (visible), remove the hide classes; otherwise, add them. CSS handles the actual transition, and @media (width >= 770px) undoes the effect on desktop so the header and footer stay fixed as normal there.
@@ -420,9 +395,5 @@ fetchJson(`https://api.are.na/v3/channels/${ channelSlug }/contents?per=100`, (j
 	})
 
 	applyFilter('all') // Show all buttons initially.
-
-	// Do the initial chaos shuffle now that buttons are in the DOM.
-	// Reuses shuffleGrid() — the same function toggleChaos calls — so there's no duplicated logic.
-	originalOrder = Array.from(timeGrid.children)
-	shuffleGrid()
+	shuffleGrid()      // Randomize the grid order on load.
 })
