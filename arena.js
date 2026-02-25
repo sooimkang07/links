@@ -367,6 +367,20 @@ fetchJson(`https://api.are.na/v3/channels/${ channelSlug }/contents?per=100`, (j
 		let fontIndex = Math.floor(Math.random() * 13) + 1
 		let blockType  = getBlockType(blockData)
 
+		// I wanted to randomize the order of blocks so the same block doesn't always appear at the same time when I reload the page.
+		// I used the same shuffle method as before for consistency, but this time it's shuffling the blocks as they're being rendered into buttons, so the time-block pairings stay the same but their position in the grid changes on each load. I wanted it to look more scattered than assigning every X numver of blocks a larger span, so I asked Claude how to calculate that which got me the numbers part of this:
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+		// From my understanding, this creates a copy of the blocks array and calls sort with a comparator function that returns Math.random() - 0.5, which randomly returns positive or negative numbers to shuffle the array order. So basically it randomly assigns some cells a larger span so the grid looks scattered but still structured with this math: ~12% col span, ~10% row span, ~5% both — keeps it varied without overwhelming the layout.
+		let r = Math.random()
+		let span = r < 0.05 ? 'both' : r < 0.17 ? 'col' : r < 0.27 ? 'row' : ''
+		let spanAttr = span ? `data-span="${ span }"` : ''
+
+		// This occasionally inserts an empty placeholder cell before this button for scattered spacing (~8% chance), and it's aria-hidden better semantically which Michael told me to look more into last project because it's implying it should be ignored by screen readers which is true, as it's just pure aesthetic space.
+		if (Math.random() < 0.08) {
+			timeGrid.insertAdjacentHTML('beforeend', `<span aria-hidden="true"></span>`)
+		}
+
 		// Declares a "template literal" of the dynamic HTML we want.
 		let timeButton =
 			`
@@ -374,7 +388,8 @@ fetchJson(`https://api.are.na/v3/channels/${ channelSlug }/contents?per=100`, (j
 				data-block="${ blockData.id }"
 				data-time="${ timeString }"
 				data-font-index="${ fontIndex }"
-				data-type="${ blockType }">
+				data-type="${ blockType }"
+				${ spanAttr }>
 				${ timeString }
 			</button>
 			`

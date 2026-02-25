@@ -13,7 +13,7 @@
 	--colorGradient3: radial-gradient(circle at 80% 20%, rgba(230, 120, 60, .15) 0%, transparent 50%);
 	--colorGradient4: radial-gradient(circle at 50% 80%, rgba(120, 90, 210, .15) 0%, transparent 50%);
 
-	@media (width >= 770px) and (width < 1025px) {
+	@media (width >= 770px) {
 		--colorGradient1: radial-gradient(circle at 70% 85%, rgba(215, 190, 120, .12) 0%, transparent 45%);
 		--colorGradient2: radial-gradient(circle at 25% 35%, rgba(90, 160, 210, .18) 0%, transparent 45%);
 		--colorGradient3: radial-gradient(circle at 75% 25%, rgba(230, 120, 60, .15) 0%, transparent 45%);
@@ -460,6 +460,27 @@ main {
 				grid-template-columns: repeat(4, 1fr);
 			}
 			
+			button {
+				&[data-span="row"] { 
+					grid-row: span 2; 
+				}
+				
+				@media (width >= 350px) {
+					&[data-span="col"] { 
+						grid-column: span 2; 
+					}
+					&[data-span="both"] { 
+						grid-column: span 2; 
+						grid-row: span 2; 
+					}
+				}
+			}
+			
+			[aria-hidden="true"] {
+				grid-column: span 1;
+				pointer-events: none;
+			}
+
 			button {
 				position: static;
 				appearance: none;
