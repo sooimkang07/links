@@ -115,6 +115,7 @@
 html,
 body {
 	block-size: 100%;
+	overflow-x: hidden;
 }
 
 body {
@@ -341,6 +342,7 @@ main {
 	display: block;
 	padding: var(--spaceLg) var(--spaceSm);
 	overflow-y: auto;
+	overflow-x: hidden;
 	scroll-behavior: smooth;
 	
 	@media (width >= 770px) {
