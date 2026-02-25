@@ -51,7 +51,7 @@
 	--fontSizeUI: .75rem;
 	--fontSizeFooter: .75rem;
 	--fontSizeDescription: clamp(1rem, 1vw + .5rem, 1.25rem);
-	--fontSizeTextblock: clamp(1.25rem, 1.25vw + .5rem, 1.25rem);
+	--fontSizeTextblock: clamp(1rem, 1.25vw + .5rem, 1.25rem);
 	
 	/* ----- Spacing ----- */
 	--spaceXs: .5rem;
