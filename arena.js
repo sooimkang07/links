@@ -364,7 +364,7 @@ fetchJson(`https://api.are.na/v3/channels/${ channelSlug }/contents?per=100`, (j
 	// Loop through all 240 time slots and match each one with a block, creating a button for each pairing.
 	allMinutes.forEach((timeString, index) => {
 		let blockData  = shuffledBlocks[index % shuffledBlocks.length] // Modulo wraps around if fewer than 240 blocks.
-		let fontIndex  = (index % 13) + 1
+		let fontIndex = Math.floor(Math.random() * 13) + 1
 		let blockType  = getBlockType(blockData)
 
 		// Declares a "template literal" of the dynamic HTML we want.
