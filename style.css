@@ -406,7 +406,7 @@ main {
 			flex-direction: column;
 			align-items: start;
 			gap: var(--spaceMd);
-			margin-block-end: var(--spaceMd);
+			margin-block-end: var(--spaceXl);
 			text-align: center;
 			
 			h1 {
@@ -814,6 +814,7 @@ dialog {
 					flex: 1;
 				}
 			}
+		}
 		
 		figure {
 			inline-size: 100%;
