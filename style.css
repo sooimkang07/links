@@ -775,7 +775,7 @@ dialog {
 			position: relative;
 			z-index: 10;
 			display: flex;
-			flex-direction: row;
+			flex-direction: column;
 			gap: var(--spaceSm);
 			padding: var(--spaceSm);
 			border-block-start-width: var(--borderThin);
@@ -785,6 +785,12 @@ dialog {
 			flex-shrink: 0;
 			backdrop-filter: blur(var(--blurLarge)) saturate(150%);
 			-webkit-backdrop-filter: blur(var(--blurLarge)) saturate(150%);
+
+			@media (width >= 770px) {
+				flex-direction: row;
+				justify-content: center;
+				gap: var(--spaceSm);
+			}
 			
 			a {
 				flex: 1;
