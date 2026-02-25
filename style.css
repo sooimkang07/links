@@ -47,11 +47,12 @@
 	
 	/* As I was sleuthing through the class site's Inspect console, I noticed you wrote the h1 font size variable as --size--h1: clamp(2rem, 4.75vw, 3rem);, so I assumed this is the best responsive way to fluidly style large texts like my h1 is. So I wanted to use that for my site here.  */
 	--fontSizeH1: clamp(2.5rem, 5vw + 1rem, 6.25rem);
-	--fontSizeTime: clamp(1.75rem, 5vw, 3.25rem);
+	--fontSizeTime: clamp(2rem, 5vw, 3.25rem);
 	--fontSizeUI: .75rem;
 	--fontSizeFooter: .75rem;
 	--fontSizeDescription: clamp(1rem, 1vw + .5rem, 1.25rem);
 	--fontSizeTextblock: clamp(1rem, 1.25vw + .5rem, 1.25rem);
+	--fontSizeTextblockSmall: clamp(.8rem, 1vw + .4rem, 1rem);
 	
 	/* ----- Spacing ----- */
 	--spaceXs: .5rem;
@@ -365,7 +366,7 @@ main {
 		overflow-x: auto;
 		overflow-y: visible;
 		background-color: transparent;
-		margin-block-end: var(--spaceLg);
+		margin-block-end: var(--spaceMd);
 		margin-inline: calc(var(--spaceSm) * -1);
 		padding-inline: var(--spaceSm);
 
@@ -405,6 +406,11 @@ main {
 			gap: var(--spaceMd);
 			margin-block-end: var(--spaceXl);
 			text-align: center;
+			margin-block-start: var(--spaceSm);
+
+			@media (width >= 770px) {
+				margin-block-start: 0;
+			}
 			
 			h1 {
 				margin: 0;
@@ -766,6 +772,10 @@ dialog {
 				color: rgba(241, 241, 239, var(--opacityTextAlt));
 				text-align: center;
 				text-wrap: balance;
+			}
+
+			&.text-block.is-long {
+				font-size: var(--fontSizeTextblockSmall);
 			}
 			
 			&.hidden {
