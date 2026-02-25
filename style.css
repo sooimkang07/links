@@ -70,7 +70,7 @@
 	--opacityBorder: .35;
 	--opacityBorderHover: .85;
 	--opacityText: .75;
-	--opacityTextAlt: .82;
+	--opacityTextAlt: .8;
 	--opacityOverlay: .7;
 	
 	/* ----- Transitions ----- */
@@ -222,10 +222,6 @@ footer {
 			border-block-end-color: rgba(241, 241, 239, var(--opacityText));
 		}
 	}
-	
-	/* @media (width >= 770px) {
-		block-size: var(--spaceLg);
-	} */
 }
 
 /* ---------------- Header ---------------- */
@@ -344,7 +340,6 @@ main {
 	inset: 0;
 	display: block;
 	padding: var(--spaceLg) var(--spaceSm);
-	/* overflow-x: hidden; */
 	overflow-y: auto;
 	scroll-behavior: smooth;
 	
@@ -602,12 +597,6 @@ main {
 .is-pulsing:nth-child(6n) { 
 	animation-delay: 1.8s;
 }
-
-/* ---------------- Chaos Toggle Label ---------------- */
-/* #chaosToggle {
-	&[data-chaos="true"]::after  { content: 'Calm'; }
-	&[data-chaos="false"]::after { content: 'Chaos'; }
-} */
 
 /* ---------------- Active Filters Buttons ---------------- */
 #gridFilters .filter-btn.active {
