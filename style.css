@@ -612,7 +612,7 @@ dialog {
 	border-color: rgba(255, 255, 255, .12);
 	border-radius: var(--radiusPanel);
 	background-color: rgba(30, 30, 30, var(--opacityOverlay));
-	overflow: auto;
+	overflow: hidden;
 	backdrop-filter: blur(var(--blurXlarge)) saturate(180%);
 	-webkit-backdrop-filter: blur(var(--blurXlarge)) saturate(180%);
 	box-shadow: 0 .5rem 2rem rgba(0, 0, 0, .4), inset 0 var(--borderThin) 0 rgba(255, 255, 255, .1);
@@ -625,6 +625,7 @@ dialog {
 	&[open] {
 		display: flex;
 		flex-direction: column;
+		position: relative;
 		transform: translate(-50%, -50%) scale(1);
 		opacity: 1;
 	}
@@ -648,7 +649,7 @@ dialog {
 	}
 	
 	header {
-		position: sticky;
+		position: relative;
 		inset-block-start: 0;
 		inset-inline: auto;
 		z-index: 10;
@@ -660,11 +661,11 @@ dialog {
 		padding-inline: var(--spaceSm);
 		border-block-end-width: var(--borderThin);
 		border-block-end-style: solid;
-		border-block-end-color: rgba(241, 241, 239, .1);
-		background-color: rgba(40, 40, 40, .3);
+		border-block-end-color: rgba(255, 255, 255, .08);
+		background-color: rgba(30, 30, 30, .8);
 		flex-shrink: 0;
-		backdrop-filter: blur(var(--blurMedium));
-		-webkit-backdrop-filter: blur(var(--blurMedium));
+		backdrop-filter: blur(var(--blurLarge)) saturate(150%);
+		-webkit-backdrop-filter: blur(var(--blurLarge)) saturate(150%);
 		
 		h3 {
 			margin: 0;
@@ -729,53 +730,26 @@ dialog {
 	}
 	
 	article {
+		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: var(--spaceSm);
-		padding: var(--spaceSm);
 		block-size: 0;
 		flex: 1;
-		overflow: auto;
-		text-align: center;
-		
-		h2 {
-			margin: 0;
-			font-family: var(--fontP);
-			font-size: 1rem;
-			letter-spacing: .03em;
-			text-transform: uppercase;
-			text-wrap: balance;
-			flex-shrink: 0;
-			
-			&.hidden {
-				display: none;
-			}
-		}
+		overflow: hidden;
 		
 		p {
-			margin: 0;
-			font-family: var(--fontP);
-			font-size: var(--fontSizeDescription);
-			line-height: 1.3;
-			text-wrap: balance;
-			color: rgba(241, 241, 239, var(--opacityTextAlt));
-			flex-shrink: 1;
-			
-			a {
-				display: inline;
-				padding-block: .1rem;
-				padding-inline: .2rem;
-			}
-			
-			&:not(.text-block) {
-				font-size: clamp(.625rem, .5vw + .5rem, .75rem);
-				line-height: 1.2;
-			}
-			
 			&.text-block {
-				font-size: var(--fontSizeTextblock);
-				text-align: center;
 				flex: 1;
+				min-block-size: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding-inline: var(--spaceMd);
+				font-family: var(--fontP);
+				font-size: var(--fontSizeTextblock);
+				color: rgba(241, 241, 239, var(--opacityTextAlt));
+				text-align: center;
+				text-wrap: balance;
 			}
 			
 			&.hidden {
@@ -784,59 +758,56 @@ dialog {
 		}
 		
 		nav {
-			position: absolute;
-			inset-block-end: 0;
-			inset-inline: 0;
+			position: relative;
+			z-index: 10;
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
 			gap: var(--spaceSm);
 			padding: var(--spaceSm);
 			border-block-start-width: var(--borderThin);
 			border-block-start-style: solid;
 			border-block-start-color: rgba(255, 255, 255, .08);
-			background-color: rgba(30, 30, 30, .85);
+			background-color: rgba(30, 30, 30, .8);
 			flex-shrink: 0;
 			backdrop-filter: blur(var(--blurLarge)) saturate(150%);
 			-webkit-backdrop-filter: blur(var(--blurLarge)) saturate(150%);
-
-			@media (width >= 770px) {
-				flex-direction: row;
-				justify-content: center;
-				gap: var(--spaceXs);
-			}
 			
 			a {
+				flex: 1;
+				
 				&.hidden {
 					display: none;
-				}
-
-				@media (width >= 770px) {
-					flex: 1;
 				}
 			}
 		}
 		
 		figure {
-			inline-size: 100%;
+			position: relative;
+			flex: 1;
+			min-block-size: 0;
 			margin: 0;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			gap: var(--spaceSm);
-			flex-shrink: 0;
+			justify-content: center;
+			overflow: hidden;
+			
+			&:empty {
+				display: none;
+			}
 			
 			img,
 			video {
 				display: block;
 				inline-size: 100%;
-				block-size: 50vh;
-				object-fit: contain;
-				border-radius: var(--radiusMedia);
+				block-size: 100%;
+				object-fit: cover;
+				border-radius: 0;
 			}
 			
 			> div {
 				inline-size: 100%;
-				block-size: 50vh;
+				block-size: 100%;
 				
 				iframe {
 					inline-size: 100%;
@@ -847,21 +818,24 @@ dialog {
 			iframe {
 				display: block;
 				inline-size: 100%;
-				min-block-size: 50vh;
-				object-fit: contain;
+				block-size: 100%;
 				border-width: 0;
 				border-style: none;
-				border-radius: var(--radiusMedia);
+				border-radius: 0;
 			}
 			
 			audio {
-				inline-size: 100%;
-				margin-block-start: var(--spaceSm);
+				position: absolute;
+				inset-block-start: 50%;
+				inset-inline-start: 50%;
+				transform: translate(-50%, -50%);
+				inline-size: calc(100% - var(--spaceMd) * 2);
+				z-index: 2;
 			}
 			
 			&.has-audio-cover {
 				img {
-					max-block-size: 44vh;
+					object-fit: cover;
 				}
 			}
 		}

@@ -22,7 +22,6 @@ let filterButtons   = document.querySelectorAll('#gridFilters .filter-btn[data-f
 let modalDialog     = document.querySelector('#gridDetail')
 let closeButton     = modalDialog.querySelector('button')   // Only looking within `modalDialog`.
 let detailTime      = document.querySelector('#detailTime')
-let detailTitle     = document.querySelector('#detailTitle')
 let detailText      = document.querySelector('#detailText')
 let detailLink      = document.querySelector('#detailLink')
 let detailLearnMore = document.querySelector('#detailLearnMore')
@@ -186,17 +185,13 @@ let openDetail = (blockId, timeLabel) => {
 	detailTime.textContent       = timeLabel || block.time
 	detailTime.dataset.fontIndex = block.fontIndex
 
-	// Text blocks show their content in the text field instead of a title + media.
-	// CSS reads data-type on the dialog to swap layout classes.
-	// From my understanding, toggle(class, bool) adds the class when true, removes when false so this one line replaces a full if/else:
+	// Text blocks show content in the text field, all other types show media.
 	let isText = blockData.type == 'Text'
-	detailTitle.classList.toggle('hidden', isText)
 	detailText.classList.toggle('text-block', isText)
 	detailText.classList.toggle('hidden', !isText)
 
 	if (!isText) {
-		detailTitle.textContent = blockData.title || blockData.generated_title || 'Untitled'
-		detailText.innerHTML    = ''
+		detailText.innerHTML = ''
 	}
 
 	// Only show "Learn More" for Link blocks that have a source URL.
