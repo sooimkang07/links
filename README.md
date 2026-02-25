@@ -35,9 +35,11 @@ MAIN TRIUMPHS:
 * Responding to feedback about rigidity without abandoning the grid
 * Pulling back on JS overdesign and focusing on structure
 * Actually sticking to mobile-first
+* Actually made more commits!! (yayy but def still need to make more)
 
-MAIN CHALLENGERS:
+MAIN CHALLENGES:
 * I definitely jumped the gun with JS at first and relied too much on AI logic I did not fully understand
+* Actually understanding at least the JS functions we learned in class
 * After Michael pointed that out, I stripped everything down to what I actually need vs. what’s just cool in theory
 * Mentally structured it as 70 percent core, 25 percent refinement, 5 percent experimentation
 * Making the grid feel less static without losing clarity
@@ -53,6 +55,7 @@ WHAT I WOULD CONTINUE TO WORK ON:
 * Exploring more subtle time-based interactions
 * Possibly experimenting with different kinds of filtering like a slider??
 * Testing scrollable content with scroll-based animations and intersectionObserver??
+* More commits!!
 
 QUESTIONS I STILL HAVE:
 * How far can I push the time motif without breaking structure?
