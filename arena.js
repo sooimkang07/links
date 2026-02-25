@@ -203,17 +203,6 @@ let openDetail = (blockId, timeLabel) => {
 
 	renderBlock(blockData)
 	modalDialog.showModal() // This opens it up.
-	
-	// After modal opens, check if text overflows
-		if (isText) {
-			requestAnimationFrame(() => {
-				if (detailText.scrollHeight > detailText.clientHeight) {
-					detailText.classList.add('is-long')
-				} else {
-					detailText.classList.remove('is-long')
-				}
-			})
-		}
 }
 
 closeButton.addEventListener('click', () => {

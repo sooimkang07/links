@@ -51,8 +51,7 @@
 	--fontSizeUI: .75rem;
 	--fontSizeFooter: .75rem;
 	--fontSizeDescription: clamp(1rem, 1vw + .5rem, 1.25rem);
-	--fontSizeTextblock: clamp(1.25rem, 1.25vw + .5rem, 1.3rem);
-	--fontSizeTextblockSmall: clamp(.8rem, 1vw + .4rem, 1rem);
+	--fontSizeTextblock: clamp(1rem, 1.25vw + .5rem, 1.25rem);
 	
 	/* ----- Spacing ----- */
 	--spaceXs: .5rem;
@@ -763,21 +762,18 @@ dialog {
 			&.text-block {
 				flex: 1;
 				min-block-size: 0;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				padding-inline: var(--spaceMd);
+				display: grid;
+				place-content: center;
+				padding-inline: var(--spaceSm);
+				overflow-y: auto;
 				font-family: var(--fontP);
 				font-size: var(--fontSizeTextblock);
+				line-height: 1.35;
 				color: rgba(241, 241, 239, var(--opacityTextAlt));
 				text-align: center;
 				text-wrap: balance;
 			}
 
-			&.text-block.is-long {
-				font-size: var(--fontSizeTextblockSmall);
-			}
-			
 			&.hidden {
 				display: none;
 			}
